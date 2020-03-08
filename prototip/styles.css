@@ -1,3 +1,4 @@
+/*Petar Radicevic i Nikola Tatomirovic*/
 body {
 	font-family: Arial, Helvetica, sans-serif;
 	background-color: white;
@@ -9,6 +10,7 @@ td {
 a:link {	color: black; }
 a:visited {	color: black; }
 a:active {	color: black; }
+a:hover{text-decoration: none;}
 .tiny { font-size: 8pt; }
 .small { font-size: .8em; }
 .nounder { text-decoration: none; }
