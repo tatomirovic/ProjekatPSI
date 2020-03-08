@@ -1,0 +1,127 @@
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	background-color: white;
+	color: black;
+}
+td {
+	font-family: Arial, Helvetica, sans-serif;
+}
+a:link {	color: black; }
+a:visited {	color: black; }
+a:active {	color: black; }
+.tiny { font-size: 8pt; }
+.small { font-size: .8em; }
+.nounder { text-decoration: none; }
+input.text, textarea {
+	border: 1px black solid;
+	font-family: Arial, Helvetica,  sans-serif;
+	font-size: 10pt;
+}
+input.button {
+	border: 2px black solid;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10pt;
+	font-weight: bold;
+	background-color: #FFFFFF;
+	color: #000000;
+	-webkit-appearance: none;
+	-webkit-border-radius: 0;
+	border-radius: 0;
+}
+input.button:active { background-color: #ccc; }
+input.button[disabled="true"], input.button[disabled="disabled"], input.button.disabled, input.disabled { background-color: #ccc; }
+
+div.rcm {
+	position: absolute;
+	font-family: Arial;
+	font-size: 10pt;
+	border: 1px solid black;
+	background: white;
+	display: none;
+}
+
+.logobar
+{
+	font-family: Arial;
+	font-size: 16pt;
+	border-width: 4;
+	border-bottom: black;
+	border-style: solid;
+	border-left:none;
+	border-right:none;
+	border-top:none;
+}
+
+p.rcm {
+   cursor: pointer;
+   background-color: white;
+   margin: 0px;
+   padding: 0px 2px;
+}
+
+p.rcm:hover {
+   background-color: #ccccff;
+}
+img.hand {
+   cursor: pointer;
+/*
+   cursor: hand;
+*/
+   border: 0px;
+   height: 30px;
+   width: 30px;
+}
+.black,.red {
+   font-weight: bold;
+   color: black;
+   font-size: smaller;
+}
+.red {
+   color: red;
+}
+.redbold {
+	color: red;
+   font-weight: bold;
+}
+img.item {
+   border: 0px;
+   height: 30px;
+   width: 30px;
+   vertical-align: middle;
+}
+div.effect td.effect { font-size: 8pt; }
+
+img { border: 0px; }
+.pp > div { display: inline-block; }
+
+.textarea
+{
+	width:100%;
+	height:300px;
+	resize: none;
+	text-align: left;
+	margin:0;
+	padding:0;
+}
+
+.chatinput
+{
+	width:100%;
+}
+
+.max
+{
+	max-width: 300px;
+}
+.chatbtn
+{
+	float:left;
+	width:100%;
+}
+
+.chat
+{
+	font-size:32px;
+	text-align:center;
+	font-weight: bold;
+}

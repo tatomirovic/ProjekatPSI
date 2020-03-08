@@ -1,0 +1,31 @@
+<htmL>
+<head>
+    <title>Map</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div><h2 class = "logobar"><img style="vertical-align: middle;"src="img/logo.png" height=70 width=70 alt="Logo"><b>NikolicaPrikolica123<a href="login.html" style="float:right">Logout</a></b></h2></div>
+    <div class="container">
+        <div class='row'>
+        <div class='col-sm-12'>
+            <img src="img/Map.jpg" usemap="#mapica">
+            <map name='mapica'>
+                <area shape="rect" coords="120,120,200,190" href="city.html">
+                <area shape="rect" coords="800,150,880,220" href="enemycity.html"  target="popup" 
+                onclick="window.open('enemy.html','popup','width=250,height=250');">
+            </map>
+        </div>
+        </div>
+        <div class='row'>
+            <div class='col-sm-12'>
+                <a href="chat.html"  target="popup" 
+                onclick="window.open('chat.html','popup','width=400,height=400');" class='chat'>
+                Chat
+                <img src='img/letter.jpg' width='32px' height='32px'>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</htmL>
