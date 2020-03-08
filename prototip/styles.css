@@ -144,6 +144,12 @@ img { border: 0px; }
 	border-width: 3px;
 }
 
+
+.bgtrans
+{
+	background-image: url(img/bgtrans.jpg);
+	background-size: cover;
+}
 .background
 {
 	background-image: url(img/bg.jpg);
