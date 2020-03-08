@@ -125,3 +125,27 @@ img { border: 0px; }
 	text-align:center;
 	font-weight: bold;
 }
+
+.msg
+{
+	border:solid;
+	border-right:none;
+	border-left:none;
+	border-top:none;
+	border-width: 1px;
+}
+
+.msghd
+{
+	border:solid;
+	border-right:none;
+	border-left:none;
+	border-top:none;
+	border-width: 3px;
+}
+
+.background
+{
+	background-image: url(img/bg.jpg);
+	background-size: cover;
+}
