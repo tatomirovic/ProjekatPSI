@@ -53,6 +53,8 @@ div.rcm {
 	border-left:none;
 	border-right:none;
 	border-top:none;
+	background-image: url(img/bgtrans.jpg);
+	background-size:cover;
 }
 
 p.rcm {
@@ -152,6 +154,7 @@ img { border: 0px; }
 {
 	background-image: url(img/bgtrans.jpg);
 	background-size: cover;
+	background-attachment: fixed;
 }
 .background
 {
