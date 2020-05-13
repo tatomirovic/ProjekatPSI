@@ -1,0 +1,95 @@
+.background
+{
+	background-image: url('/static/img/bg.jpg');
+	background-size: cover;
+}
+
+
+
+.login-button {
+	box-shadow: 5px 3px 9px rgba(0,0,0,.80);
+	background:linear-gradient(to bottom, #74ad5a 5%, #68a54b 100%);
+	background-color:#74ad5a;
+	border:1px solid #3b6e22;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-size:14px;
+	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+	font-weight:bold;
+	padding:6px 12px;
+	width:20%;
+	min-width:180px;
+	text-decoration:none;
+}
+.login-button:hover {
+	background:linear-gradient(to bottom, #68a54b 5%, #74ad5a 100%);
+	background-color:#68a54b;
+}
+.login-button:active {
+	position:relative;
+	top:1px;
+}
+
+.register-button {
+	box-shadow: 5px 3px 9px rgba(0,0,0,.80);
+	background:linear-gradient(to bottom, #637aad 5%, #5972a7 100%);
+	background-color:#637aad;
+	border:1px solid #314179;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-size:14px;
+	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+	font-weight:bold;
+	width:20%;
+	min-width:180px;
+	padding:6px 12px;
+	text-decoration:none;
+}
+.register-button:hover {
+	background:linear-gradient(to bottom, #5972a7 5%, #637aad 100%);
+	background-color:#5972a7;
+}
+.register-button:active {
+	position:relative;
+	top:1px;
+}
+
+.login-form
+{
+	font-family: Arial;
+}
+
+.login-input {
+	padding: 5px;
+	font-size: 16px;
+	border-width: 2px;
+	border-color: #CCCCCC;
+	background-color: #FFFFFF;
+	color: #000000;
+	border-style: solid;
+	width:15%;
+	min-width:140px;
+	height:30px;
+	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+	border-radius: 0px;
+	box-shadow: 5px 3px 9px rgba(0,0,0,.80);
+	text-shadow: 0px 0px 0px rgba(66,66,66,.100);
+}
+.login-input:focus {
+	outline:none;
+}
+
+.myFont {
+	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+	font-size: 20px;
+	letter-spacing: 2px;
+	word-spacing: 1px;
+	color: #000000;
+	font-weight: normal;
+	text-decoration: none solid rgb(68, 68, 68);
+	font-style: normal;
+	font-variant: small-caps;
+	text-transform: none;
+	}

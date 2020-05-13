@@ -1,0 +1,29 @@
+{% extends 'loginbase.html'%}
+
+{% block head %}
+<title>Kavijar</title>
+{% endblock %}
+
+
+{% block body %}
+<div class="row">
+    <div class="col-sm-12 text-center">
+        <form class = 'login-form' name = 'login' method = 'GET'>
+            <p><b>Korisničko ime:</b><br><input type="text" class='login-input' id='loginusername'></p>
+            <p><b>Šifra:</b><br><input type="password" class='login-input' id='loginpwd'></p>
+            <br>
+            <input type='submit' class='login-button' value='Prijavi se' name='loginuser' formaction="">
+            <br>
+            <br>
+            <input type='submit' class='login-button' value='Prijavi se kao moderator' name='loginmod'>
+            <br>
+            <br>
+            <input type='submit' class='login-button' value='Prijavi se kao admin' name='loginadmin'>
+            <br>
+            <br>
+            <input type='submit' class='register-button' value='Registruj se' name='register'>
+            <br>
+        </form>
+    </div>
+</div>
+{% endblock %}
