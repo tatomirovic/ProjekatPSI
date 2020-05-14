@@ -17,11 +17,6 @@ def login():
         error = None
         username = request.form['username']
         password = request.form['password']
-        rolePageDict = {
-            'I': url_for('index'),
-            'M': url_for('mod'),
-            'A': url_for('admin')
-        }
 
         if (request.form['loginuser'] != 'Registruj se'):
             user = User.query.filter_by(username=username).first()
@@ -32,6 +27,11 @@ def login():
             if error is None:
                 session.clear()
                 session['user_id'] = user.idUser;
+                rolePageDict = {
+                    'I': url_for('index'),
+                    'M': url_for('mod'),
+                    'A': url_for('admin')
+                }
                 return redirect(rolePageDict[user.role])
         else:
             error = None
