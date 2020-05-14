@@ -13,3 +13,5 @@ set FLASK_ENV=development
 flask run
 
 Aplikacija se nalazi na http://127.0.0.1:5000/
+
+Login je na http://127.0.0.1:5000/auth/login
