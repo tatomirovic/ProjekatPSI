@@ -48,8 +48,7 @@ def login():
                 db.session.add(new_user)
                 db.session.commit()
                 return redirect(url_for('auth.login'))
-
-            flash(error)
+        flash(error)
 
     return render_template('auth/login.html')
 
