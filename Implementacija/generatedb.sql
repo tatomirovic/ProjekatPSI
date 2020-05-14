@@ -41,7 +41,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- Table `kavijardb`.`city`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `kavijardb`.`city` (
-  `idCity` INT(11) NOT NULL,
+  `idCity` INT(11) NOT NULL AUTO_INCREMENT,
   `idOwner` INT(11) NOT NULL,
   `name` VARCHAR(30) NOT NULL,
   `xCoord` INT(11) NOT NULL,
@@ -67,7 +67,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- Table `kavijardb`.`army`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `kavijardb`.`army` (
-  `idArmy` INT(11) NOT NULL,
+  `idArmy` INT(11) NOT NULL AUTO_INCREMENT,
   `idCityFrom` INT(11) NOT NULL,
   `idCityTo` INT(11) NOT NULL,
   `status` CHAR(1) NOT NULL,
@@ -116,7 +116,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- Table `kavijardb`.`chatmsg`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `kavijardb`.`chatmsg` (
-  `idChat` INT(11) NOT NULL,
+  `idChat` INT(11) NOT NULL AUTO_INCREMENT,
   `idSender` INT(11) NOT NULL,
   `time` DATETIME NOT NULL,
   `content` VARCHAR(128) NOT NULL,
