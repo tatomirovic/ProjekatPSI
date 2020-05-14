@@ -1,6 +1,6 @@
 UPUTSTVO:
 
-U konzoli, cd-ovati do direktorijuma u kom se nalazi ovaj fajl.
+U konzoli, cd-ovati do direktorijuma kavijar-project/
 
 Uraditi sledece komande (pretpostavljajuci Windows):
 
