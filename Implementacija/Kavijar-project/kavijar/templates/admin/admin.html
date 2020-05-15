@@ -1,4 +1,4 @@
-{% extends 'loginbase.html'%}
+{% extends 'userbasebase.html'%}
 
 {% block head %}
 <title>Kavijar</title>
@@ -8,16 +8,14 @@
 {% block body %}
 <div class="row">
     <div class="col-sm-12 text-center">
-        <form class = 'login-form' name = 'login' method = 'POST'>
-            <p><b>Korisničko ime:</b><br><input type="text" name="username" class='login-input' id='loginusername' required></p>
-            <p><b>Šifra:</b><br><input type="password" name="password" class='login-input' id='loginpwd' required></p>
-            <br>
-            <input type='submit' class='login-button' value='Prijavi se' name='loginuser' formaction="">
-            <br>
-            <br>
-            <input type='submit' class='register-button' value='Registruj se' name='loginuser'>
-            <br>
-        </form>
+        {% for user in user_list %}
+        {% if user.role == 'M' %}
+        <b>Moderator</b>
+        {% endif %}
+        <b>{{user.username}}<button class='btn btn-dark' style="float:right"> <img src='img/banhammer.png' width='40px' height='30px'></button>
+            <a href='newmsgadmin.html'><button class='btn btn-light' style="float:right"> <img src='img/letter.png' width='40px' height='35px'></button></a>
+    </b><hr>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}
