@@ -12,8 +12,8 @@
         {% if user.role == 'M' %}
         <b>Moderator</b>
         {% endif %}
-        <b>{{user.username}}<button class='btn btn-dark' style="float:right"> <img src='img/banhammer.png' width='40px' height='30px'></button>
-            <a href='newmsgadmin.html'><button class='btn btn-light' style="float:right"> <img src='img/letter.png' width='40px' height='35px'></button></a>
+        <b>{{user.username}}<button class='btn btn-dark' style="float:right"> <img src='{{ url_for("static",filename="img/banhammer.png") }}' width='40px' height='30px'></button>
+            <a href='newmsgadmin.html'><button class='btn btn-light' style="float:right"> <img src='{{ url_for("static",filename="img/letter.png") }}' width='40px' height='35px'></button></a>
     </b><hr>
         {% endfor %}
     </div>
