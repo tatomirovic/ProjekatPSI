@@ -1,6 +1,7 @@
 UPUTSTVO:
 
 U MySQLu, napraviti bazu kavijardb pod konekcijom username: root, password: root
+
 Importovati .sql fajl na gitu
 
 U konzoli, cd-ovati do direktorijuma kavijar-project/
