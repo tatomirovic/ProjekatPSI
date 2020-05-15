@@ -1,0 +1,27 @@
+{% extends 'loginbase.html'%}
+
+{% block head %}
+<title>Kavijar</title>
+{% endblock %}
+
+
+{% block body %}
+<div class="row">
+    <div class="col-sm-12 text-center">
+        <form class = 'register-form' name = 'register' method = 'POST'>
+            <p><b>Korisničko ime:</b><br><input type="text" name="username" class='login-input' id='registerusername' required></p>
+            <p><b>Šifra:</b><br><input type="password" name="password" class='login-input' id='registerpwd' required></p>
+            <p><b>Ime grada:</b><br><input type="password" name="password" class='login-input' id='cityname' required></p>
+            <br>
+            <input type='submit' class='login-button' value='Potvrdi' name='registeruser' formaction="">
+            <br>
+            <br>
+
+        </form>
+        <br>
+        {% for message in get_flashed_messages() %}
+        <button class="error-msg" disabled>{{ message }}</button>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

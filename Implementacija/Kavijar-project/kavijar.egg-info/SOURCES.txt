@@ -56,3 +56,4 @@ kavijar/templates/adminbase.html
 kavijar/templates/loginbase.html
 kavijar/templates/admin/admin.html
 kavijar/templates/auth/login.html
+kavijar/templates/auth/register.html

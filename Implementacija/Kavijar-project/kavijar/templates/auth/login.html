@@ -14,10 +14,14 @@
             <br>
             <input type='submit' class='login-button' value='Prijavi se' name='loginuser' formaction="">
             <br>
-            <br>
-            <input type='submit' class='register-button' value='Registruj se' name='loginuser'>
-            <br>
         </form>
+		<br>
+		<a href='register'> <input type='submit' class='register-button' value='Registruj se' name='loginuser' href='register'> </a>
+		<br>
+		<br>
+        {% for message in get_flashed_messages() %}
+        <button class="error-msg" disabled>{{ message }}</button>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}
