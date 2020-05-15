@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 import functools
 import click
 
@@ -134,9 +135,9 @@ def add_admin(username, password):
                          caviar=0, statusUpdate=0, dateUnban=None, dateCharLift=None)
         db.session.add(new_admin)
         db.session.commit()
-        return f"Admin sa username: {username}, password: {password} je uspesno kreiran"
+        return f"Admin sa username: {username}, password: {password} je uspešno kreiran"
     else:
-        return f"User sa username: {username} vec postoji"
+        return f"User sa username: {username} već postoji"
 
 
 @click.command('add-admin')

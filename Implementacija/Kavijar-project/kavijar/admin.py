@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
@@ -20,9 +21,9 @@ def banuser(id):
         if not user:
             error = 'Korisnik ne postoji!'
         elif user.dateUnban:
-            error = 'Korisnik je vec banovan!'
+            error = 'Korisnik je već banovan!'
         elif user.role == 'A':
-            error = 'Nije moguce banovati admina!'
+            error = 'Nije moguće banovati admina!'
 
         if error is not None:
             flash(error)
