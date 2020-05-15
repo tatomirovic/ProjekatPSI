@@ -1,0 +1,3 @@
+graft kavijar/static
+graft kavijar/templates
+global-exclude *.pyc
