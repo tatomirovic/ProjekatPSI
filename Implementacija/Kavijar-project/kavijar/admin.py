@@ -44,4 +44,4 @@ def banuser(id):
 @admin_required
 def admin_main():
     user_list = User.query.filter(User.idUser != g.user.idUser).all()
-    return render_template('admin/admin.html', user_list=user_list, admin_name=g.user.username)
+    return render_template('admin/admin.html', user_list=user_list)
