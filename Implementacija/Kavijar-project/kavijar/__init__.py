@@ -14,7 +14,9 @@ def create_app():
         db.create_all()  # Create database tables for our data models
         from . import auth
         app.register_blueprint(auth.bp)
+        from . import admin
+        app.register_blueprint(admin.bp)
         app.add_url_rule('/', endpoint='index')
         app.add_url_rule('/', endpoint='mod')
-        app.add_url_rule('/', endpoint='admin')
+        auth.init_app(app);
         return app
