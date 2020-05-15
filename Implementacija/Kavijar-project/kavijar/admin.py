@@ -3,6 +3,7 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
 from werkzeug.exceptions import abort
+from werkzeug.security import generate_password_hash
 
 from kavijar.auth import admin_required, check_ban
 import datetime;
@@ -13,7 +14,7 @@ bp = Blueprint('admin', __name__, url_prefix='/admin')
 
 @bp.route('/<int:id>/ban', methods=('GET', 'POST'))
 @admin_required
-def banuser(id):
+def ban_user(id):
     if request.method == 'POST':
         error = None
         user = User.query.filter_by(idUser=id).first()
@@ -40,8 +41,31 @@ def banuser(id):
 
 
 @bp.route('/', methods=('GET', 'POST'))
-@check_ban
 @admin_required
 def admin_main():
     user_list = User.query.filter(User.idUser != g.user.idUser).all()
     return render_template('admin/admin.html', user_list=user_list)
+
+
+@bp.route('/create_mod', methods=('GET', 'POST'))
+@admin_required
+def create_mod():
+    if request.method == 'POST':
+        error = None
+        username = request.form['username']
+        password = request.form['password']
+        error = None
+        if not username:
+            error = 'Korisničko ime ne sme biti prazno.'
+        elif not password:
+            error = 'Lozinka ne sme biti prazna.'
+        elif User.query.filter_by(username=username).first():
+            error = 'Korisnik sa tim imenom već postoji.'
+
+        if error is None:
+            new_user = User(username=username, password=generate_password_hash(password), role='M',
+                            caviar=0, statusUpdate=0, dateUnban=None, dateCharLift=None)
+            db.session.add(new_user)
+            db.session.commit()
+            flash(f"Mod sa username {username} je kreiran")
+        return redirect(url_for('admin.admin_main'))

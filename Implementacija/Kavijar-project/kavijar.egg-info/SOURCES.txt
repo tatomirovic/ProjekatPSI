@@ -52,8 +52,8 @@ kavijar/static/img/trade.png
 kavijar/static/img/trebuchet.png
 kavijar/static/img/vojnik.png
 kavijar/static/img/zlato.png
-kavijar/templates/adminbase.html
 kavijar/templates/loginbase.html
+kavijar/templates/userbase.html
 kavijar/templates/admin/admin.html
 kavijar/templates/auth/login.html
 kavijar/templates/auth/register.html
