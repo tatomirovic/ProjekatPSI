@@ -46,4 +46,4 @@ def adminmain():
     if request.method == 'POST':
         modlist = User.query.filter_by(role='M').all()
 
-    return render_template('admin/admin.html', modlist=modlist)
+    return render_template('admin/admin.html', modlist=modlist, admin_name=g.user.username)
