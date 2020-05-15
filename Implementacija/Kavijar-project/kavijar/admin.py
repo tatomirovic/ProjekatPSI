@@ -54,6 +54,7 @@ def create_mod():
         error = None
         username = request.form['username']
         password = request.form['password']
+        # Metoda se zove nakon sto se popuni formular - slicno stranici register
         error = None
         if not username:
             error = 'Korisničko ime ne sme biti prazno.'
