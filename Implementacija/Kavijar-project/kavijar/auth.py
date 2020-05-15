@@ -28,6 +28,12 @@ def login():
             error = 'Pogrešno korisničko ime.'
         elif not check_password_hash(user.password, password):
             error = 'Pogrešna lozinka.'
+        elif user.dateUnban is not None:
+            if g.user.dateUnban > datetime.datetime.now():
+                error = 'Banovani ste!'
+            else:
+                g.user.dateUnban = None
+                db.session.commit()
         if error is None:
             session.clear()
             session['user_id'] = user.idUser;
