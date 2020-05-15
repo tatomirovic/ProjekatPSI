@@ -34,7 +34,7 @@ def login():
             rolePageDict = {
                 'I': url_for('index'),
                 'M': url_for('mod'),
-                'A': url_for('admin.adminmain')
+                'A': url_for('admin.admin_main')
             }
             return redirect(rolePageDict[user.role])
         flash(error)
@@ -45,7 +45,6 @@ def login():
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
     if request.method == 'POST':
-        error = None
         username = request.form['username']
         password = request.form['password']
         error = None

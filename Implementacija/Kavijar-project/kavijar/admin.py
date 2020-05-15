@@ -36,15 +36,12 @@ def banuser(id):
             db.session.commit()
             flash(f"User {user.username} je banovan do {bandate}")
 
-    return render_template('admin/admin.html')
+    return redirect(url_for('admin.admin_main'))
 
 
 @bp.route('/', methods=('GET', 'POST'))
 @check_ban
 @admin_required
-def adminmain():
-    modlist = []
-    if request.method == 'POST':
-        modlist = User.query.filter_by(role='M').all()
-
-    return render_template('admin/admin.html', modlist=modlist, admin_name=g.user.username)
+def admin_main():
+    user_list = User.query.filter(User.idUser != g.user.idUser).all()
+    return render_template('admin/admin.html', user_list=user_list, admin_name=g.user.username)
