@@ -17,7 +17,7 @@ bp = Blueprint('mail', __name__, url_prefix='/mail')
 @check_ban
 def msg_main():
     g.user.statusUpdate=0
-    msg_list = Mailmsg.query.filter(idTo=g.user.idUser).all()
+    msg_list = Mailmsg.query.filter_by(idTo=g.user.idUser).all()
     return render_template('mail/mail.html')
 
 
@@ -40,4 +40,4 @@ def send_msg():
                                   time=msgtime, content=msgbody, readFlag=0)
             db.session.add(new_message)
             db.session.commit()
-        return render_template('mail/sendmsg.html')
+    return render_template('mail/sendmsg.html')
