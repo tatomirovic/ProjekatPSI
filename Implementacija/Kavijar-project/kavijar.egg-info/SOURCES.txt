@@ -3,7 +3,10 @@ setup.py
 kavijar/__init__.py
 kavijar/admin.py
 kavijar/auth.py
+kavijar/chat.py
 kavijar/game.py
+kavijar/mail.py
+kavijar/mod.py
 kavijar/models.py
 kavijar.egg-info/PKG-INFO
 kavijar.egg-info/SOURCES.txt

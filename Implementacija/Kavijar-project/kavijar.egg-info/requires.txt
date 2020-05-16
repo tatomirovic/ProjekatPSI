@@ -4,3 +4,4 @@ pymysql
 cryptography
 flask_sqlalchemy
 markupsafe
+flask-socketio
