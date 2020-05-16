@@ -6,8 +6,8 @@
 
 
 {% block body %}
-<div class="row">
-    <div class="col-sm-12 text-center">
+<div class="row ">
+    <div class="col-sm-4 offset-sm-4 text-center myBorder">
         <form class = 'login-form' name = 'login' method = 'POST'>
             <p><b>Korisničko ime:</b><br><input type="text" name="username" class='input login-input' id='loginusername' required></p>
             <p><b>Šifra:</b><br><input type="password" name="password" class='input login-input' id='loginpwd' required></p>
@@ -16,7 +16,7 @@
             <br>
         </form>
 		<br>
-		<a href='register'> <input type='submit' class='def-button login-button' value='Registruj se' name='loginuser' href='register'> </a>
+		<a href='{{ url_for("auth.register") }}'> <input type='submit' class='def-button login-button' value='Registruj se' name='registeruser' href='{{ url_for("auth.register") }}'> </a>
 		<br>
 		<br>
         {% for message in get_flashed_messages() %}

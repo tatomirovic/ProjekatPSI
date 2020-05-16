@@ -9,27 +9,33 @@
 </head>
 
 <body class='background myFont'>
-        
-    <div><h2 class = "logobar"><span class='logobartxt'>KAVIJAR      </span>
-        {% if g.user.role == 'A' %}
-        [Admin]
-        {% endif %}
-        <b>{{g.user.username}}</b>
-        <a  href='{{ url_for("auth.logout") }}'> <button type='button' class = 'def-button logo-button'>
-            Izloguj se
-        </button> </a>
-        <a><button type='button' class = 'def-button logo-button'> Pošta {% if g.user.statusUpdate>0 %}<span class='badge'>{{ g.user.statusUpdate }}</span> {% endif %} </button>
+    <div class="container-fluid">
+    <div class='row'>
+        <div class="col-sm-12">
+                <h2 class = "logobar"><span class='logobartxt'>KAVIJAR      </span>
+                {% if g.user.role == 'A' %}
+                [Admin]
+                {% endif %}
+                {% if g.user.role == 'M' %}
+                [Moderator]
+                {% endif %}
+                <b>{{g.user.username}}</b>
+                <div style='float:right;'>
+                <a  href='{{ url_for("auth.logout") }}'> <button type='button' class = 'def-button logo-button'>
+                    Izloguj se
+                </button> </a>
+                <a href='{{ url_for("mail.msg_main") }}'><button type='button' class = 'def-button logo-button'> Pošta {% if g.user.statusUpdate>0 %}<span class='badge'>{{ g.user.statusUpdate }}</span> {% endif %} </button>
 
-        </a>
+                </a>
 
-       <a><button type='button' class = 'def-button logo-button'> Čet </button></a>
- 
-        </h2>
+            <a><button type='button' class = 'def-button logo-button'> Čet </button></a>
+            </div>
+            </h2>
+        </div>
     </div>
         {% block body %}
         {% endblock %}
-    
-
+    </div> 
 </body>
 </html>
 

@@ -1,0 +1,55 @@
+{% extends 'userbase.html'%}
+
+{% block head %}
+<title>Kavijar</title>
+{% endblock %}
+
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-3 col-md-12  list myBorder">
+            <h4><b>Spisak korisnika</b></h4>
+            {% for user in user_list %}
+            {% if user.role == 'M' %}
+            [Moderator]
+            {% endif %}
+            {% if user.role == 'A' %}
+            [Admin]
+            {% endif %}
+            {{user.username}}<br>
+            {% endfor %}
+        </div>
+        <div class="col-lg-8 col-md-12 text-center">
+            <hr>
+            <form method='POST' action='mute' class='myBorder' width=100%>
+                <table cellpadding=15px style='margin:0 auto'>
+                    <tr>
+                        <td>
+                            Korisničko ime:
+                        </td>
+                        <td>
+                            <input type = 'text' name='muteUsername' class='input'>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Rok bana:
+                        </td>
+                        <td>
+                            <input type = 'datetime-local' name='muteDate' class='input'>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan=2>
+                            <input type='submit' class='def-button' value='Blokiraj igrača'>
+                    </tr>
+                </table>
+            </form>
+            <hr>
+            {% for message in get_flashed_messages() %}
+            <button class="error-msg" disabled>{{ message }}</button>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}
