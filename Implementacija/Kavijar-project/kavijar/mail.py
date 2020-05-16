@@ -21,6 +21,7 @@ def msg_main():
     return render_template('mail/mail.html',msg_list=msg_list)
 
 
+
 @bp.route('/send_msg', methods=('GET', 'POST'))
 @login_required
 @check_ban
@@ -40,4 +41,4 @@ def send_msg():
                                   time=msgtime, content=msgbody, readFlag=0)
             db.session.add(new_message)
             db.session.commit()
-        return render_template('mail/sendmsg.html')
+    return render_template('mail/sendmsg.html')

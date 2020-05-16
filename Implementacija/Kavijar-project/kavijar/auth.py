@@ -29,7 +29,7 @@ def login():
         elif not check_password_hash(user.password, password):
             error = 'Pogrešna lozinka.'
         elif user.dateUnban is not None:
-            if g.user.dateUnban > datetime.datetime.now():
+            if user.dateUnban > datetime.datetime.now():
                 error = 'Banovani ste!'
             else:
                 g.user.dateUnban = None
