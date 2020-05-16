@@ -41,4 +41,4 @@ def send_msg():
                                   time=msgtime, content=msgbody, readFlag=0)
             db.session.add(new_message)
             db.session.commit()
-    return render_template('mail/sendmsg.html')
+    return render_template('mail/send_msg.html')
