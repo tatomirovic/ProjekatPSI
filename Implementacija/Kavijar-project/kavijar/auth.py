@@ -83,7 +83,6 @@ def load_logged_in_user():
 
 @bp.route('/logout')
 def logout():
-    click.echo("Usao sam u logout!")
     session.clear()
     return redirect(url_for('auth.login'))
 
@@ -107,6 +106,16 @@ def check_ban(view):
 
 
 def login_required(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if g.user is None:
+            return redirect(url_for('auth.login'))
+        return view(**kwargs)
+
+    return wrapped_view
+
+
+def player_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
         if g.user is None or g.user.role != 'I':
