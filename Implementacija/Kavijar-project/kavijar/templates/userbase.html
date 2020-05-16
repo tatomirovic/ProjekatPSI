@@ -8,16 +8,22 @@
     {% block head %} {% endblock %}
 </head>
 
-<body class='backgroundtrans myFont'>
+<body class='background myFont'>
         
-    <div><h2 class = "logobar"><img style="vertical-align: middle;"src='{{ url_for("static",filename="img/logo.png") }}'>
+    <div><h2 class = "logobar"><span class='logobartxt'>KAVIJAR      </span>
         {% if g.user.role == 'A' %}
         [Admin]
         {% endif %}
         <b>{{g.user.username}}</b>
-        <button class = 'logout-btn' action = '/logout'>
+        <a  href='{{ url_for("auth.logout") }}'> <button type='button' class = 'def-button logo-button'>
             Izloguj se
-        </button>
+        </button> </a>
+        <a><button type='button' class = 'def-button logo-button'> Pošta {% if g.user.statusUpdate>0 %}<span class='badge'>{{ g.user.statusUpdate }}</span> {% endif %} </button>
+
+        </a>
+
+       <a><button type='button' class = 'def-button logo-button'> Čet </button></a>
+ 
         </h2>
     </div>
         {% block body %}

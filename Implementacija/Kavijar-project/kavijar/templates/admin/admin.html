@@ -6,16 +6,77 @@
 
 
 {% block body %}
-<div class="row">
-    <div class="col-sm-12 text-center">
-        {% for user in user_list %}
-        {% if user.role == 'M' %}
-        <b>Moderator</b>
-        {% endif %}
-        <b>{{user.username}}<button class='btn btn-dark' style="float:right"> <img src='{{ url_for("static",filename="img/banhammer.png") }}' width='40px' height='30px'></button>
-            <a href='newmsgadmin.html'><button class='btn btn-light' style="float:right"> <img src='{{ url_for("static",filename="img/letter.png") }}' width='40px' height='35px'></button></a>
-    </b><hr>
-        {% endfor %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4  list">
+            <h4><b>Spisak korisnika</b></h4>
+            {% for user in user_list %}
+            {% if user.role == 'M' %}
+            [Moderator]
+            {% endif %}
+            {% if user.role == 'A' %}
+            [Admin]
+            {% endif %}
+            {{user.username}}<br>
+            {% endfor %}
+        </div>
+        <div class="col-sm-7 text-center">
+            <form method='POST' action='create_mod'>
+                <table cellpadding=15px>
+                    <tr>
+                        <td>
+                            Korisničko ime:
+                        </td>
+                        <td>
+                            <input type = 'text' name='username' class='input'>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Šifra:
+                        </td>
+                        <td>
+                            <input type = 'password' name='password' class='input'>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan=2>
+                            <input type='submit'class='def-button' value='Kreiraj moderatora'>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <hr>
+            <form method='POST' action='ban'>
+                <table cellpadding=15px>
+                    <tr>
+                        <td>
+                            Korisničko ime:
+                        </td>
+                        <td>
+                            <input type = 'text' name='banUsername' class='input'>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Rok bana:
+                        </td>
+                        <td>
+                            <input type = 'date' name='banDate' class='input'>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan=2>
+                            <input type='submit' class='def-button' value='Banuj igrača'>
+                    </tr>
+                </table>
+            </form>
+            <hr>
+            {% for message in get_flashed_messages() %}
+            <button class="error-msg" disabled>{{ message }}</button>
+            {% endfor %}
+        </div>
     </div>
 </div>
+
 {% endblock %}
