@@ -10,7 +10,7 @@ from flask.cli import with_appcontext
 import datetime;
 
 from . import db;
-from .models import User;
+from .models import User, City
 
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
@@ -36,7 +36,7 @@ def login():
                 db.session.commit()
         if error is None:
             session.clear()
-            session['user_id'] = user.idUser;
+            session['user_id'] = user.idUser
             rolePageDict = {
                 'I': url_for('index'),
                 'M': url_for('mod.mod_main'),
@@ -53,6 +53,7 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        cityname = request.form['cityname']
         error = None
         if not username:
             error = 'Korisničko ime ne sme biti prazno.'
@@ -65,6 +66,10 @@ def register():
             new_user = User(username=username, password=generate_password_hash(password), role='I',
                             caviar=0, statusUpdate=0, dateUnban=None, dateCharLift=None)
             db.session.add(new_user)
+            idUser = User.query.filter_by(username=username).first().idUser
+            new_city = City(idOwner=idUser, name=cityname, xCoord=69, yCoord=420, population=0,
+                woodworkers=0, stoneworkers=0, civilians=0, gold=0, wood=0, stone=0, lastUpdate=datetime.datetime.now())
+            db.session.add(new_city)
             db.session.commit()
             return redirect(url_for('auth.login'))
         flash(error)

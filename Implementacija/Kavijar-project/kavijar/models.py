@@ -45,7 +45,8 @@ class City(Base):
     gold = Column(INTEGER(11), nullable=False)
     wood = Column(INTEGER(11), nullable=False)
     stone = Column(INTEGER(11), nullable=False)
-
+    lastUpdate = Column(DateTime, nullable=False)
+    
     user = relationship(u'User')
 
 

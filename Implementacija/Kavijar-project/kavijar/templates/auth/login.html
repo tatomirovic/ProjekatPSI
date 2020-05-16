@@ -19,9 +19,9 @@
 		<a href='{{ url_for("auth.register") }}'> <input type='submit' class='def-button login-button' value='Registruj se' name='registeruser' href='{{ url_for("auth.register") }}'> </a>
 		<br>
 		<br>
-        {% for message in get_flashed_messages() %}
-        <button class="error-msg" disabled>{{ message }}</button>
-        {% endfor %}
+        
     </div>
+
+    
 </div>
 {% endblock %}

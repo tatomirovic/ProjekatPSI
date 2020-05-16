@@ -9,6 +9,9 @@
 	background-size:cover;
 }
 
+ 
+
+
 ::-webkit-datetime-edit-fields-wrapper { background:rgb(19, 19, 19); }
 ::-webkit-datetime-edit-text { color: rgb(233, 171, 0);  }
 ::-webkit-datetime-edit-month-field { color: rgb(233, 171, 0); }
@@ -17,6 +20,8 @@
 ::-webkit-inner-spin-button { display: none; }
 ::-webkit-calendar-picker-indicator { background:rgb(19, 19, 19); }
 ::-webkit-clear-button {background: rgb(233, 171, 0); }
+
+
 
 @font-face { font-family: Anglodavek; src: url('fonts/Anglodavek.otf'); } 
 @font-face { font-family: Anglodavek; font-weight: bold; src: url('fonts/Anglodavek\ Bold.otf');}
@@ -29,6 +34,11 @@
 	width:20%;
 	min-width:180px;
 }
+
+.login-button:hover {
+	cursor: url('/static/img/cursor.png'), auto;
+}
+
 
 
 .myBorder
@@ -108,8 +118,20 @@
 	background-size:cover;
 }
 
+*
+{
+	cursor: url('/static/img/cursor.png'), auto !important;
+}
 
+*:hover
+{
+	cursor: url('/static/img/cursor.png'), auto;
+}
 
+*:active
+{
+	cursor: url('/static/img/cursor.png'), auto;
+}
 
 
 .badge {
@@ -163,15 +185,21 @@
 	letter-spacing: 2px;
 	text-decoration:none;
 	display:inline-block;
-	cursor:pointer;
 	font-style: normal;
 	font-weight: bold;
 	font-variant: small-caps;
+
+}
+
+a:hover
+{
+	cursor: url('/static/img/cursor.png'), auto;
 }
 
 .def-button:hover
 {
-	opacity:80%;
+	opacity:70%;
+	cursor: url('/static/img/cursor.png'), auto;
 }
 .def-button:focus
 {
