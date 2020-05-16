@@ -16,7 +16,7 @@ bp = Blueprint('mail', __name__, url_prefix='/mail')
 @login_required
 @check_ban
 def msg_main():
-    g.user.statusUpdate=0
+    g.user.statusUpdate = 0
     msg_list = Mailmsg.query.filter_by(idTo=g.user.idUser).all()
     return render_template('mail/mail.html', msg_list)
 
@@ -27,7 +27,7 @@ def msg_main():
 def send_msg():
     if request.method == 'POST':
         sender = g.user
-        recipient = User.query.filter_by(username=request.form['recipient'])
+        recipient = User.query.filter_by(username=request.form['recipient']).first()
         msgbody = request.form['body']
         msgtime = datetime.datetime.now()
         error = None
@@ -38,6 +38,7 @@ def send_msg():
         if error is None:
             new_message = Mailmsg(idFrom=sender.idUser, idTo=recipient.idUser,
                                   time=msgtime, content=msgbody, readFlag=0)
+            recipient.statusUpdate += 1
             db.session.add(new_message)
             db.session.commit()
     return render_template('mail/send_msg.html')
