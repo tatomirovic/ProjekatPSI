@@ -11,13 +11,13 @@ from .models import User;
 bp = Blueprint('mod', __name__, url_prefix='/mod')
 
 
-@bp.route('/<int:id>/mute', methods=('GET', 'POST'))
+@bp.route('/<string:username>/ban', methods=('GET', 'POST'))
 @check_ban
 @mod_required
-def mute_user(id):
+def mute_user(username):
     if request.method == 'POST':
         error = None
-        user = User.query.filter_by(idUser=id).first()
+        user = User.query.filter_by(username=username).first()
 
         if not user:
             error = 'Korisnik ne postoji!'

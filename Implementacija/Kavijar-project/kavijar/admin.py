@@ -12,12 +12,12 @@ from .models import User;
 bp = Blueprint('admin', __name__, url_prefix='/admin')
 
 
-@bp.route('/<int:id>/ban', methods=('GET', 'POST'))
+@bp.route('/<string:username>/ban', methods=('GET', 'POST'))
 @admin_required
-def ban_user(id):
+def ban_user(username):
     if request.method == 'POST':
         error = None
-        user = User.query.filter_by(idUser=id).first()
+        user = User.query.filter_by(username=username).first()
 
         if not user:
             error = 'Korisnik ne postoji!'
