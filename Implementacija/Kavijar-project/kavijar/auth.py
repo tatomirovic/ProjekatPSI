@@ -39,7 +39,7 @@ def login():
             session['user_id'] = user.idUser;
             rolePageDict = {
                 'I': url_for('index'),
-                'M': url_for('mod'),
+                'M': url_for('mod.mod_main'),
                 'A': url_for('admin.admin_main')
             }
             return redirect(rolePageDict[user.role])
@@ -106,7 +106,7 @@ def check_ban(view):
     return wrapped_view
 
 
-def login_required(view):
+def player_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
         if g.user is None or g.user.role != 'I':
@@ -116,7 +116,7 @@ def login_required(view):
     return wrapped_view
 
 
-def player_required(view):
+def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
         if g.user is None:

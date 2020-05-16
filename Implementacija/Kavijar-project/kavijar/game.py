@@ -8,6 +8,7 @@ from . import db;
 
 bp = Blueprint('game', __name__)
 
+
 @bp.route('/')
 def index():
-    pass
+    return render_template('game/main_map.html')

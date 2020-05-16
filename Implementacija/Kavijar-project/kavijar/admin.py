@@ -1,4 +1,5 @@
 # -*- coding: UTF-8 -*-
+import click
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
@@ -30,7 +31,9 @@ def ban_user():
         if error is not None:
             flash(error)
         else:
-            bandate = request.form['banDate']
+            banDateStr = request.form['banDate']
+            bandate = datetime.datetime.strptime(banDateStr, '%Y-%m-%d')
+            #click.echo(f"The bandate is: {bandate}")
             if bandate is None or bandate < datetime.datetime.now():
                 bandate = datetime.datetime.now() + datetime.timedelta(days=1)
                 # Podrazumevana duzina bana je jedan dan
