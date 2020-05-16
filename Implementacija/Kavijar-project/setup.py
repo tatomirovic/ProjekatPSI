@@ -7,6 +7,6 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'flask', 'python-dotenv', 'pymysql', 'cryptography', 'flask_sqlalchemy', 'markupsafe', 'flask-socketio'
+        'flask', 'python-dotenv', 'pymysql', 'cryptography', 'flask_sqlalchemy', 'markupsafe', 'flask-socketio', 'eventlet'
     ],
 )

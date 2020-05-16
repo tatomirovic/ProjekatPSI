@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-
+import click
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
@@ -19,14 +19,15 @@ def sessions():
 
 def message_received(methods=['GET', 'POST']):
     #print('message was received!!!')
-
+    #click.echo(f'User name is: {g.user.username}')
     pass
 
 
 @socketio.on('my event')
 def handle_my_custom_event(json, methods=['GET', 'POST']):
-    #print('received my event: ' + str(json))
-    socketio.emit('my response', json, callback=message_received)
+    print('received my event: ' + str(json))
+    if session['user_id']:
+        socketio.emit('my response', json, callback=message_received)
 
 
 

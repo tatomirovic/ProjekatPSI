@@ -5,3 +5,4 @@ cryptography
 flask_sqlalchemy
 markupsafe
 flask-socketio
+eventlet
