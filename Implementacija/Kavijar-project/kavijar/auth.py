@@ -39,7 +39,7 @@ def login():
             session['user_id'] = user.idUser;
             rolePageDict = {
                 'I': url_for('index'),
-                'M': url_for('mod'),
+                'M': url_for('mod.mod_main'),
                 'A': url_for('admin.admin_main')
             }
             return redirect(rolePageDict[user.role])

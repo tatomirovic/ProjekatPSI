@@ -30,7 +30,8 @@ def mute_user():
         if error is not None:
             flash(error)
         else:
-            mutedate = request.form['muteDate']
+            muteDateStr = request.form['banDate']
+            mutedate = datetime.datetime.strptime(muteDateStr, '%Y-%m-%d')
             if mutedate is None or mutedate < datetime.datetime.now():
                 mutedate = datetime.datetime.now() + datetime.timedelta(hours=1)
                 # Podrazumevana duzina čet-bana je jedan sat

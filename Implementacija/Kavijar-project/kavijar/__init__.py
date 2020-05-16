@@ -22,6 +22,8 @@ def create_app():
         app.register_blueprint(mod.bp)
         from . import mail
         app.register_blueprint(mail.bp)
+        from . import game
+        app.register_blueprint(game.bp)
         app.add_url_rule('/', endpoint='index')
         auth.init_app(app);
         socketio.run(app, debug=True)
