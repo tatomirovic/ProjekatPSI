@@ -8,13 +8,22 @@
     {% block head %} {% endblock %}
 </head>
 
-<body class='background myFont'>
+<body class='backgroundtrans myFont'>
+        
     <div><h2 class = "logobar"><img style="vertical-align: middle;"src='{{ url_for("static",filename="img/logo.png") }}'>
-        {{g.user.username}}
-        </div>
+        {% if g.user.role == 'A' %}
+        [Admin]
+        {% endif %}
+        <b>{{g.user.username}}</b>
+        <button class = 'logout-btn' action = '/logout'>
+            Izloguj se
+        </button>
+        </h2>
+    </div>
         {% block body %}
         {% endblock %}
-    </div>
+    
 
 </body>
 </html>
+

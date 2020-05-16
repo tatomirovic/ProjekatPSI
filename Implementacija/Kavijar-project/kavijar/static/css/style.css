@@ -3,7 +3,11 @@
 	background-image: url('/static/img/bg.jpg');
 	background-size: cover;
 }
-
+.backgroundtrans
+{
+	background-image: url('/static/img/bgtrans.jpg');
+	background-size: cover;
+}
 
 
 .login-button {
@@ -113,12 +117,51 @@
 
 .logobar
 {
-	border-width: 4;
+	background-size: cover;
 	border-bottom: black;
 	border-style: solid;
 	border-left:none;
+	border-width: 1px;
+	font-size: 20px;
 	border-right:none;
+	height:80px;
 	border-top:none;
 	background-image: url('/static/img/bgtrans.jpg');
 	background-size:cover;
+}
+
+.logobar img
+{
+	height:80%;
+	margin:10px;
+}
+
+
+.logout-btn{
+	box-shadow:inset 0px 1px 0px 0px #cf866c;
+	background:linear-gradient(to bottom, #91280b 5%, #a81f03 100%);
+	background-color:#91280b;
+	border-radius:3px;
+	border:1px solid #942911;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-size:14px;
+	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+	font-weight:bold;
+	float:right;
+	height:60%;
+	margin:15px;
+	vertical-align: center;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #854629;
+}
+.logout-btn:hover {
+	background:linear-gradient(to bottom, #a81f03 5%, #91280b 100%);
+	background-color:#a81f03;
+}
+.logout-btn:active {
+	position:relative;
+	top:1px;
 }
