@@ -18,7 +18,7 @@ bp = Blueprint('mail', __name__, url_prefix='/mail')
 def msg_main():
     g.user.statusUpdate=0
     msg_list = Mailmsg.query.filter_by(idTo=g.user.idUser).all()
-    return render_template('mail/mail.html')
+    return render_template('mail/mail.html', msg_list)
 
 
 @bp.route('/send_msg', methods=('GET', 'POST'))
@@ -40,4 +40,4 @@ def send_msg():
                                   time=msgtime, content=msgbody, readFlag=0)
             db.session.add(new_message)
             db.session.commit()
-    return render_template('mail/sendmsg.html')
+    return render_template('mail/send_msg.html')
