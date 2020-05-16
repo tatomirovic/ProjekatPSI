@@ -14,7 +14,7 @@ bp = Blueprint('admin', __name__, url_prefix='/admin')
 
 @bp.route('/ban', methods=('GET', 'POST'))
 @admin_required
-def ban_user(username):
+def ban_user():
     if request.method == 'POST':
         error = None
         username = request.form['banUsername']

@@ -14,7 +14,7 @@ bp = Blueprint('mod', __name__, url_prefix='/mod')
 @bp.route('/mute', methods=('GET', 'POST'))
 @check_ban
 @mod_required
-def mute_user(username):
+def mute_user():
     if request.method == 'POST':
         error = None
         username = request.form['muteUsername']
