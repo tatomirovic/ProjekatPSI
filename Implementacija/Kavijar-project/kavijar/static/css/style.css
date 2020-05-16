@@ -1,98 +1,60 @@
 .background
 {
-	background-image: url('/static/img/bg.jpg');
-	background-size: cover;
+	background-image: url('/static/img/bgdark.jpg');
+	background-size:cover;
 }
 .backgroundtrans
 {
 	background-image: url('/static/img/bgtrans.jpg');
-	background-size: cover;
+	background-size:cover;
 }
 
+@font-face { font-family: Anglodavek; src: url('fonts/Anglodavek.otf'); } 
+@font-face { font-family: Anglodavek; font-weight: bold; src: url('fonts/Anglodavek\ Bold.otf');}
+
+@font-face { font-family: Elder; src: url('fonts/eldermagic.ttf'); } 
+
+@font-face { font-family: Immortal; src: url('fonts/IMMORTAL.ttf'); } 
 
 .login-button {
-	box-shadow: 5px 3px 9px rgba(0,0,0,.80);
-	background:linear-gradient(to bottom, #74ad5a 5%, #68a54b 100%);
-	background-color:#74ad5a;
-	border:1px solid #3b6e22;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-size:14px;
-	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
-	font-weight:bold;
-	padding:6px 12px;
 	width:20%;
 	min-width:180px;
-	text-decoration:none;
-}
-.login-button:hover {
-	background:linear-gradient(to bottom, #68a54b 5%, #74ad5a 100%);
-	background-color:#68a54b;
-}
-.login-button:active {
-	position:relative;
-	top:1px;
 }
 
-.register-button {
-	box-shadow: 5px 3px 9px rgba(0,0,0,.80);
-	background:linear-gradient(to bottom, #637aad 5%, #5972a7 100%);
-	background-color:#637aad;
-	border:1px solid #314179;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-size:14px;
-	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
-	font-weight:bold;
-	width:20%;
-	min-width:180px;
-	padding:6px 12px;
-	text-decoration:none;
-}
-.register-button:hover {
-	background:linear-gradient(to bottom, #5972a7 5%, #637aad 100%);
-	background-color:#5972a7;
-}
-.register-button:active {
-	position:relative;
-	top:1px;
-}
 
-.login-form
+
+.login-input
 {
-	font-family: Arial;
-}
-
-.login-input {
-	padding: 5px;
-	font-size: 16px;
-	border-width: 2px;
-	border-color: #CCCCCC;
-	background-color: #FFFFFF;
-	color: #000000;
-	border-style: solid;
 	width:15%;
 	min-width:140px;
 	height:30px;
-	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+
+.input {
+	padding: 5px;
+	font-size: 20px;
+	font-family: Immortal;
+	color:rgb(233, 171, 0);
+	border-width: 1px;
+	border-color:rgb(233, 171, 0);
+	background-color: rgb(19, 19, 19);
+	border-style: solid;
 	border-radius: 0px;
 	box-shadow: 5px 3px 9px rgba(0,0,0,.80);
 	text-shadow: 0px 0px 0px rgba(66,66,66,.100);
 }
-.login-input:focus {
+.input:focus {
 	outline:none;
 }
 
 .myFont 
 {
-	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
-	font-size: 20px;
 	letter-spacing: 2px;
 	word-spacing: 1px;
-	color: #000000;
-	font-weight: normal;
+	font-size: 20px;
+	font-family: Immortal;
+	color:rgb(233, 171, 0);
+	font-weight: bold;
 	text-decoration: none solid rgb(68, 68, 68);
 	font-style: normal;
 	font-variant: small-caps;
@@ -118,17 +80,21 @@
 .logobar
 {
 	background-size: cover;
-	border-bottom: black;
-	border-style: solid;
-	border-left:none;
-	border-width: 1px;
+	border: 10px solid transparent;
+	border-image: url('/static/img/border.png') 30 round;
 	font-size: 20px;
+	font-family: Immortal;
+	color:rgb(233, 171, 0);
 	border-right:none;
+	border-left:none;
+	font-weight:bold;
 	height:80px;
 	border-top:none;
-	background-image: url('/static/img/bgtrans.jpg');
+	background-image: url('/static/img/bgdark.jpg');
 	background-size:cover;
 }
+
+
 
 .logobar img
 {
@@ -137,31 +103,81 @@
 }
 
 
-.logout-btn{
-	box-shadow:inset 0px 1px 0px 0px #cf866c;
-	background:linear-gradient(to bottom, #91280b 5%, #a81f03 100%);
-	background-color:#91280b;
-	border-radius:3px;
-	border:1px solid #942911;
+.badge {
+	position: relative;
+	top: 0px;
+	right: 0px;
+	padding: 5px 10px;
+	border-radius: 50%;
+	background: rgb(233, 171, 0);
+	color: black;
+  }
+
+ .list
+{
+	font-size: 16px;
+	letter-spacing: 2px;
+	word-spacing: 1px;
+	margin:2px;
+	padding:2px;
+	text-decoration: none solid rgb(68, 68, 68);
+	font-style: normal;
+	font-variant: small-caps;
+	text-transform: none;
+}
+
+
+
+.logo-button {
+	
+	height:50%;
+	margin:10px;
+	margin-top:18px;
+	vertical-align: center;
+	float:right;
+}
+
+.def-button
+{
+	font-size: 20px;
+	font-family: Immortal;
+	color:rgb(233, 171, 0);
+	border-radius:0px;
+	border:0px;
+	background-image: url('/static/img/btnbg.jpg');
+	background-repeat: no-repeat;
+	background-size:100% 100%;
+	padding:4px 20px;
+	text-decoration:none;
 	display:inline-block;
 	cursor:pointer;
-	color:#ffffff;
-	font-size:14px;
-	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
-	font-weight:bold;
-	float:right;
-	height:60%;
-	margin:15px;
+
+	font-style: normal;
+	font-weight: bold;
+	font-variant: small-caps;
+}
+
+.def-button:hover
+{
+	opacity:80%;
+}
+.def-button:focus
+{
+	outline-color:rgb(233, 171, 0) ;
+}
+.def-button:active
+{
+	outline-color:rgb(233, 171, 0) ;
+}
+.logotext
+{
+	font-size: 96px;
+	margin:20px;
+	padding:20px;
+}
+
+.logobartxt
+{
 	vertical-align: center;
-	padding:6px 24px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #854629;
-}
-.logout-btn:hover {
-	background:linear-gradient(to bottom, #a81f03 5%, #91280b 100%);
-	background-color:#a81f03;
-}
-.logout-btn:active {
-	position:relative;
-	top:1px;
+	font-size: 42px;
 }

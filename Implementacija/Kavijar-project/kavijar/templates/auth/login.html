@@ -9,14 +9,14 @@
 <div class="row">
     <div class="col-sm-12 text-center">
         <form class = 'login-form' name = 'login' method = 'POST'>
-            <p><b>Korisničko ime:</b><br><input type="text" name="username" class='login-input' id='loginusername' required></p>
-            <p><b>Šifra:</b><br><input type="password" name="password" class='login-input' id='loginpwd' required></p>
+            <p><b>Korisničko ime:</b><br><input type="text" name="username" class='input login-input' id='loginusername' required></p>
+            <p><b>Šifra:</b><br><input type="password" name="password" class='input login-input' id='loginpwd' required></p>
             <br>
-            <input type='submit' class='login-button' value='Prijavi se' name='loginuser' formaction="">
+            <input type='submit' class='def-button login-button' value='Prijavi se' name='loginuser' formaction="">
             <br>
         </form>
 		<br>
-		<a href='register'> <input type='submit' class='register-button' value='Registruj se' name='loginuser' href='register'> </a>
+		<a href='register'> <input type='submit' class='def-button login-button' value='Registruj se' name='loginuser' href='register'> </a>
 		<br>
 		<br>
         {% for message in get_flashed_messages() %}
