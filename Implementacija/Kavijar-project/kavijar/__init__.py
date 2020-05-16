@@ -16,7 +16,10 @@ def create_app():
         app.register_blueprint(auth.bp)
         from . import admin
         app.register_blueprint(admin.bp)
+        from . import mod
+        app.register_blueprint(mod.bp)
+        from . import mail
+        app.register_blueprint(mail.bp)
         app.add_url_rule('/', endpoint='index')
-        app.add_url_rule('/', endpoint='mod')
         auth.init_app(app);
         return app
