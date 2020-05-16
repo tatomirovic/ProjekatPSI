@@ -29,7 +29,7 @@ def mute_user(username):
         if error is not None:
             flash(error)
         else:
-            bandate = request.args.get('bandate')
+            bandate = request.form['banDate']
             if bandate is None or bandate < datetime.datetime.now():
                 bandate = datetime.datetime.now() + datetime.timedelta(hours=1)
                 # Podrazumevana duzina čet-bana je jedan sat
