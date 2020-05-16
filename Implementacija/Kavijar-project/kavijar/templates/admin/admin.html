@@ -6,9 +6,8 @@
 
 
 {% block body %}
-<div class="container">
     <div class="row">
-        <div class="col-sm-4  list">
+        <div class="col-lg-3 col-md-12 list myBorder">
             <h4><b>Spisak korisnika</b></h4>
             {% for user in user_list %}
             {% if user.role == 'M' %}
@@ -20,9 +19,10 @@
             {{user.username}}<br>
             {% endfor %}
         </div>
-        <div class="col-sm-7 text-center">
-            <form method='POST' action='create_mod'>
-                <table cellpadding=15px>
+        <div class="col-lg-8 col-md-12 text-center" >
+            <hr>
+            <form method='POST' action='create_mod' class='myBorder' style='width:100%'>
+                <table cellpadding=15px style='margin:0 auto'>
                     <tr>
                         <td>
                             Korisničko ime:
@@ -40,15 +40,15 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan=2>
+                        <td colspan=2 class='text-center'>
                             <input type='submit'class='def-button' value='Kreiraj moderatora'>
                         </td>
                     </tr>
                 </table>
             </form>
             <hr>
-            <form method='POST' action='ban'>
-                <table cellpadding=15px>
+            <form method='POST' action='ban' class='myBorder' style='width:100%'>
+                <table cellpadding=15px style='margin:0 auto'>
                     <tr>
                         <td>
                             Korisničko ime:
@@ -66,8 +66,9 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan=2>
+                        <td colspan=2 class='text-center'>
                             <input type='submit' class='def-button' value='Banuj igrača'>
+                        </td>
                     </tr>
                 </table>
             </form>
@@ -77,6 +78,5 @@
             {% endfor %}
         </div>
     </div>
-</div>
 
 {% endblock %}

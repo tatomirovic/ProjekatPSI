@@ -9,6 +9,15 @@
 	background-size:cover;
 }
 
+::-webkit-datetime-edit-fields-wrapper { background:rgb(19, 19, 19); }
+::-webkit-datetime-edit-text { color: rgb(233, 171, 0);  }
+::-webkit-datetime-edit-month-field { color: rgb(233, 171, 0); }
+::-webkit-datetime-edit-day-field { color: rgb(233, 171, 0); }
+::-webkit-datetime-edit-year-field { color: rgb(233, 171, 0); }
+::-webkit-inner-spin-button { display: none; }
+::-webkit-calendar-picker-indicator { background:rgb(19, 19, 19); }
+::-webkit-clear-button {background: rgb(233, 171, 0); }
+
 @font-face { font-family: Anglodavek; src: url('fonts/Anglodavek.otf'); } 
 @font-face { font-family: Anglodavek; font-weight: bold; src: url('fonts/Anglodavek\ Bold.otf');}
 
@@ -22,10 +31,16 @@
 }
 
 
-
+.myBorder
+{
+	border: 5px solid transparent;
+	border-image: url('/static/img/border.png') 30 round;
+	background-image: url('/static/img/formbg.jpg');
+	background-size:cover;
+}
 .login-input
 {
-	width:15%;
+	width:45%;
 	min-width:140px;
 	height:30px;
 }
@@ -65,13 +80,15 @@
 .error-msg {
 	padding: 15px;
 	font-size: 16px;
-	border-width: 1px;
-	background:linear-gradient(to bottom, #880000 5%, #a80000 100%);
-	border-color: #8f0000;
-	background-color: #880000;
-	color: #ffffff;
-	border-style: solid;
-	border-radius: 4px;
+	border-width: 0px;
+	letter-spacing: 2px;
+	word-spacing: 1px;
+	font-size: 20px;
+	font-family: Immortal;
+	background-color:rgb(233, 171, 0);
+	color: black;
+	width:100%;
+	border-radius: 3px;
 	box-shadow: 0px 0px 6px rgba(66,66,66,.85);
 	text-shadow: 6px 2px 7px rgba(66,66,66,.75);
 }
@@ -85,22 +102,14 @@
 	font-size: 20px;
 	font-family: Immortal;
 	color:rgb(233, 171, 0);
-	border-right:none;
-	border-left:none;
 	font-weight:bold;
 	height:80px;
-	border-top:none;
-	background-image: url('/static/img/bgdark.jpg');
+	background-image: url('/static/img/formbg.jpg');
 	background-size:cover;
 }
 
 
 
-.logobar img
-{
-	height:80%;
-	margin:10px;
-}
 
 
 .badge {
@@ -116,9 +125,12 @@
  .list
 {
 	font-size: 16px;
+	border: 5px solid transparent;
+	border-image: url('/static/img/border.png') 30 round;
 	letter-spacing: 2px;
 	word-spacing: 1px;
 	margin:2px;
+	margin-left:50px;
 	padding:2px;
 	text-decoration: none solid rgb(68, 68, 68);
 	font-style: normal;
@@ -148,10 +160,10 @@
 	background-repeat: no-repeat;
 	background-size:100% 100%;
 	padding:4px 20px;
+	letter-spacing: 2px;
 	text-decoration:none;
 	display:inline-block;
 	cursor:pointer;
-
 	font-style: normal;
 	font-weight: bold;
 	font-variant: small-caps;
@@ -180,4 +192,5 @@
 {
 	vertical-align: center;
 	font-size: 42px;
+	margin:15px;
 }

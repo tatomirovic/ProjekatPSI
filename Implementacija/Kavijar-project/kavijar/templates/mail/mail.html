@@ -1,0 +1,17 @@
+{% extends 'userbase.html'%}
+
+{% block head %}
+<title>Kavijar</title>
+{% endblock %}
+
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-12 list myBorder">
+            {% for msg in msg_lsit %}
+                <p>{{msg.user.username}}</p>
+            {% endfor %}
+         </div>
+    </div>
+
+{% endblock %}
