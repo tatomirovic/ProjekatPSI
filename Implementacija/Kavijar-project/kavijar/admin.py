@@ -12,11 +12,12 @@ from .models import User;
 bp = Blueprint('admin', __name__, url_prefix='/admin')
 
 
-@bp.route('/<string:username>/ban', methods=('GET', 'POST'))
+@bp.route('/ban', methods=('GET', 'POST'))
 @admin_required
 def ban_user(username):
     if request.method == 'POST':
         error = None
+        username = request.form['banUsername']
         user = User.query.filter_by(username=username).first()
 
         if not user:

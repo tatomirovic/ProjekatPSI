@@ -11,12 +11,13 @@ from .models import User;
 bp = Blueprint('mod', __name__, url_prefix='/mod')
 
 
-@bp.route('/<string:username>/ban', methods=('GET', 'POST'))
+@bp.route('/mute', methods=('GET', 'POST'))
 @check_ban
 @mod_required
 def mute_user(username):
     if request.method == 'POST':
         error = None
+        username = request.form['muteUsername']
         user = User.query.filter_by(username=username).first()
 
         if not user:
@@ -29,13 +30,13 @@ def mute_user(username):
         if error is not None:
             flash(error)
         else:
-            bandate = request.form['banDate']
-            if bandate is None or bandate < datetime.datetime.now():
-                bandate = datetime.datetime.now() + datetime.timedelta(hours=1)
+            mutedate = request.form['muteDate']
+            if mutedate is None or mutedate < datetime.datetime.now():
+                mutedate = datetime.datetime.now() + datetime.timedelta(hours=1)
                 # Podrazumevana duzina čet-bana je jedan sat
-            user.dateCharLift = bandate
+            user.dateCharLift = mutedate
             db.session.commit()
-            flash(f"User {user.username} je banovan sa četa do {bandate}")
+            flash(f"User {user.username} je banovan sa četa do {mutedate}")
 
     return redirect(url_for('mod.mod_main'))
 
