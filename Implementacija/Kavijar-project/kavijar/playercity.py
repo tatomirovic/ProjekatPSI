@@ -108,6 +108,8 @@ def player_city(b_type):
         gold = costs['gold']
         wood = costs['wood']
         stone = costs['stone']
+        if error is None and (gold > city.gold or wood > city.wood or stone > city.stone):
+            error = 'Nedovoljno resursa!'
         if error is None:
             finishTime = datetime.datetime.now() + datetime.timedelta(minutes=game_rules.build_time(1, b_type))
             existing_building.level += 1
