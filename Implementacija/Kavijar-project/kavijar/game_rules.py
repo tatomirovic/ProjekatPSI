@@ -13,7 +13,7 @@ startingWood = 400
 startingStone = 400
 
 building_types = {
-    'GU': 'Gradska uprava',
+    'TH': 'Gradska uprava',
     'PI': 'Pilana',
     'KL': 'Kamenolom',
     'TS': 'Trgovinska stanica',
@@ -42,15 +42,25 @@ building_costs = {
     'B8': {'gold': 1000, 'wood': 300, 'stone': 50}
 }
 
-building_costs_scaling = {
-    1: 1,
-    2: 3,
-    3: 10,
-    4: 20,
-    5: 100,
+resource_caps = {
+    1: 1000,
+    2: 3000,
+    3: 10000,
+    4: 50000,
+    5: 150000
 }
 
+building_costs_scaling = {
+    1: -1,
+    2: -3,
+    3: -10,
+    4: -20,
+    5: -100,
+}
+# Koristimo - jer se pri izgradnji GUBE resursi
+
 refund_mult = -0.5
+building_max_level = 5
 
 
 def build_cost(type, level):
@@ -62,20 +72,29 @@ def build_time(level, b_type):
     return buildTime[level]
 
 
-def adjust_resources(player, gold, wood, stone, pop, kavijar):
+# BITNO - POZVATI db.session.commit() POSLE OVE FUNKCIJE, NE POZIVA GA SAMA
+# POZIVATI OVU F-JU PRE SVAKOG AZURIRANJA RESURSA
+def adjust_resources(player, gold=0, wood=0, stone=0, pop=0, kavijar=0):
     city = City.query.filter_by(idOwner=player.idUser).first()
     if city is None:
         return
-    city.gold -= gold
-    city.wood -= wood
-    city.stone -= stone
-    city.pop -= pop
-    player.kavijar -= kavijar
-    db.session.commit()
+    city.gold += gold
+    city.wood += wood
+    city.stone += stone
+    city.pop += pop
+    player.kavijar += kavijar
+    th_level = Building.query.filter_by(idCity=city.idCity, type="TH").first().level
+    rcap = resource_caps[th_level]
+    if city.gold > rcap:
+        city.gold = rcap
+    if city.wood > rcap:
+        city.gold = rcap
+    if city.stone > rcap:
+        city.gold = rcap
 
 
 def createTownHall(idCity):
-    db.session.add(Building(idCity=idCity, type="TH", status="A", level=0, finishTime=datetime.datetime.now()))
+    db.session.add(Building(idCity=idCity, type="TH", status="A", level=1, finishTime=datetime.datetime.now()))
     db.session.commit()
 
 

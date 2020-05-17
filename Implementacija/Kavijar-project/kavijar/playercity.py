@@ -31,7 +31,7 @@ def player_city():
 @check_ban
 @updateWrappers.update_resources
 @bp.route('/create_building/<string:type>', methods=('GET', 'POST'))
-def player_city(b_type):
+def create_building(b_type):
     if request.method == 'POST':
         city = City.query.filter_by(idOwner=g.user.idUser).first()
         existing_building = Building.query.filter_by(idCity=city.idCity, type=request.json.type).first()
@@ -48,9 +48,10 @@ def player_city(b_type):
             error = 'Nedovoljno resursa!'
         if error is None:
             finishTime = datetime.datetime.now() + datetime.timedelta(minutes=game_rules.build_time(1, b_type))
-            new_building = Building(idOwner=city.idCity, type=b_type, level=1, finishTime=finishTime)
-            game_rules.adjust_resources(g.user, gold, wood, stone, 0, 0)
+            new_building = Building(idOwner=city.idCity, type=b_type, level=1, finishTime=finishTime, status='A')
+            game_rules.adjust_resources(player=g.user, gold=gold, wood=wood, stone=stone)
             db.session.commit()
+            flash(f"Uspešno je pokrenuta konstrukcija zgrade : {game_rules.building_types[b_type]}")
         else:
             flash(error)
 
@@ -61,7 +62,7 @@ def player_city(b_type):
 @check_ban
 @updateWrappers.update_resources
 @bp.route('/halt_building/<string:type>', methods=('GET', 'POST'))
-def player_city(b_type):
+def halt_building(b_type):
     if request.method == 'POST':
         city = City.query.filter_by(idOwner=g.user.idUser).first()
         existing_building = Building.query.filter_by(idCity=city.idCity, type=request.json.type).first()
@@ -81,8 +82,9 @@ def player_city(b_type):
                 existing_building.level -= 1
             else:
                 db.session.delete(existing_building)
-            game_rules.adjust_resources(g.user, gold, wood, stone, 0, 0)
+            game_rules.adjust_resources(player=g.user, gold=gold, wood=wood, stone=stone)
             db.session.commit()
+            flash(f"Uspešno ste obustavili rad na zgradi : {game_rules.building_types[b_type]}")
         else:
             flash(error)
 
@@ -93,7 +95,7 @@ def player_city(b_type):
 @check_ban
 @updateWrappers.update_resources
 @bp.route('/upgrade_building/<string:type>', methods=('GET', 'POST'))
-def player_city(b_type):
+def upgrade_building(b_type):
     if request.method == 'POST':
         city = City.query.filter_by(idOwner=g.user.idUser).first()
         existing_building = Building.query.filter_by(idCity=city.idCity, type=request.json.type).first()
@@ -104,6 +106,8 @@ def player_city(b_type):
             error = 'Gradjevina ne postoji!'
         elif existing_building.finishTime is not None:
             error = 'Već ste pokrenuli izgradnju!'
+        elif existing_building.level >= game_rules.building_max_level:
+            error = 'Gradjevina je maksimalnog nivoa!'
         costs = game_rules.build_cost(b_type, 1)
         gold = costs['gold']
         wood = costs['wood']
@@ -114,8 +118,9 @@ def player_city(b_type):
             finishTime = datetime.datetime.now() + datetime.timedelta(minutes=game_rules.build_time(1, b_type))
             existing_building.level += 1
             existing_building.finishTime = finishTime
-            game_rules.adjust_resources(g.user, gold, wood, stone, 0, 0)
+            game_rules.adjust_resources(player=g.user, gold=gold, wood=wood, stone=stone)
             db.session.commit()
+            flash(f"Uspešno je pokrenuto unapredjenje zgrade : {game_rules.building_types[b_type]}")
         else:
             flash(error)
 
