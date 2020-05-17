@@ -71,9 +71,9 @@ def register():
             idUser = User.query.filter_by(username=username).first().idUser
             gr.createCity(idUser, cityname)
 
+            flash(f"Igrač {username} je uspešno registrovan!")
             return redirect(url_for('auth.login'))
         flash(error)
-    flash(f"Igrač {username} je uspešno registrovan!")
     return render_template('auth/register.html')
 
 
