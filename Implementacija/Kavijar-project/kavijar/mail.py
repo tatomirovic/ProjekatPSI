@@ -20,7 +20,7 @@ bp = Blueprint('mail', __name__, url_prefix='/mail')
 def msg_main():
     g.user.statusUpdate = 0
     uid = g.user.idUser
-    msg_list = Mailmsg.query.filter.filter(or_(Mailmsg.idTo == uid, Mailmsg.idFrom == uid)) \
+    msg_list = Mailmsg.query.filter(or_(Mailmsg.idTo == uid, Mailmsg.idFrom == uid)) \
         .order_by(desc(Mailmsg.time)).all()
     return render_template('mail/mail.html', msg_list=msg_list)
 
