@@ -16,10 +16,9 @@ bp = Blueprint('mail', __name__, url_prefix='/mail')
 @login_required
 @check_ban
 def msg_main():
-    g.user.statusUpdate=0
+    g.user.statusUpdate = 0
     msg_list = Mailmsg.query.filter_by(idTo=g.user.idUser).all()
-    return render_template('mail/mail.html',msg_list=msg_list)
-
+    return render_template('mail/mail.html', msg_list=msg_list)
 
 
 @bp.route('/send_msg', methods=('GET', 'POST'))
@@ -42,3 +41,13 @@ def send_msg():
             db.session.add(new_message)
             db.session.commit()
     return render_template('mail/send_msg.html')
+
+
+@bp.route('/view_msg/<int:id>')
+@login_required
+@check_ban
+def view_msg(id):
+    curr_msg = Mailmsg.query.filter_by(idMail=id).first()
+    if curr_msg is not None and curr_msg.idTo != g.user.idUser:
+        curr_msg = None
+    return render_template('mail/view_msg.html', curr_msg=curr_msg)
