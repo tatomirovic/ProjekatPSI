@@ -26,6 +26,8 @@ def create_app():
         app.register_blueprint(game.bp)
         from . import chat
         app.register_blueprint(chat.bp)
+        from . import redirect
+        app.register_blueprint(redirect.bp)
         app.add_url_rule('/', endpoint='index')
         auth.init_app(app)
         socketio.run(app, debug=True)
