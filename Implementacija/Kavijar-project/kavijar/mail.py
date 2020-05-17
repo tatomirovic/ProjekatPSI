@@ -31,7 +31,7 @@ def msg_main():
 def send_msg():
     if request.method == 'POST':
         sender = g.user
-        recipient = User.query.filter_by(username=request.form['recipient'])
+        recipient = User.query.filter_by(username=request.form['recipient']).first()
         msgbody = request.form['body']
         msgtime = datetime.datetime.now()
         error = None
@@ -44,6 +44,8 @@ def send_msg():
                                   time=msgtime, content=msgbody, readFlag=0)
             db.session.add(new_message)
             db.session.commit()
+        else:
+            flash(error)
     return render_template('mail/send_msg.html')
 
 
