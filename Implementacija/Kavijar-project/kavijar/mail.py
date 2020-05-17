@@ -5,7 +5,7 @@ from flask import (
 )
 import datetime
 
-from sqlalchemy import desc
+from sqlalchemy import desc, or_
 
 from kavijar.auth import login_required, check_ban
 from kavijar.models import User, Mailmsg
@@ -19,7 +19,8 @@ bp = Blueprint('mail', __name__, url_prefix='/mail')
 @check_ban
 def msg_main():
     g.user.statusUpdate = 0
-    msg_list = Mailmsg.query.filter(Mailmsg.idTo == g.user.idUser or Mailmsg.idFrom == g.user.idUser)\
+    uid = g.user.idUser
+    msg_list = Mailmsg.query.filter.filter(or_(Mailmsg.idTo == uid, Mailmsg.idFrom == uid)) \
         .order_by(desc(Mailmsg.time)).all()
     return render_template('mail/mail.html', msg_list=msg_list)
 
