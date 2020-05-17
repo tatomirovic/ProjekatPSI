@@ -4,7 +4,7 @@ from flask import (
 from werkzeug.exceptions import abort
 
 from kavijar.auth import login_required, player_required, check_ban
-from . import db
+from . import db, game_rules
 
 from .models import City, Building, Army
 import functools, datetime
@@ -30,6 +30,95 @@ def player_city():
 @player_required
 @check_ban
 @updateWrappers.update_resources
-@bp.route('/create_building', methods=('GET', 'POST'))
-def player_city():
+@bp.route('/create_building/<string:type>', methods=('GET', 'POST'))
+def player_city(b_type):
+    if request.method == 'POST':
+        city = City.query.filter_by(idOwner=g.user.idUser).first()
+        existing_building = Building.query.filter_by(idCity=city.idCity, type=request.json.type).first()
+        error = None
+        if city is None:
+            error = 'Grad ne postoji!'
+        elif existing_building is not None:
+            error = 'Gradjevina već postoji!'
+        costs = game_rules.build_cost(b_type, 1)
+        gold = costs['gold']
+        wood = costs['wood']
+        stone = costs['stone']
+        if error is None and (gold > city.gold or wood > city.wood or stone > city.stone):
+            error = 'Nedovoljno resursa!'
+        if error is None:
+            finishTime = datetime.datetime.now() + datetime.timedelta(minutes=game_rules.build_time(1, b_type))
+            new_building = Building(idOwner=city.idCity, type=b_type, level=1, finishTime=finishTime)
+            game_rules.adjust_resources(g.user, gold, wood, stone, 0, 0)
+            db.session.commit()
+        else:
+            flash(error)
+
     return redirect(url_for('playercity.player_city'))
+
+
+@player_required
+@check_ban
+@updateWrappers.update_resources
+@bp.route('/halt_building/<string:type>', methods=('GET', 'POST'))
+def player_city(b_type):
+    if request.method == 'POST':
+        city = City.query.filter_by(idOwner=g.user.idUser).first()
+        existing_building = Building.query.filter_by(idCity=city.idCity, type=request.json.type).first()
+        error = None
+        if city is None:
+            error = 'Grad ne postoji!'
+        elif existing_building is None:
+            error = 'Gradjevina ne postoji!'
+        elif existing_building.finishTime is None:
+            error = 'Ne možete obustaviti izgradnju koja se ne dešava!'
+        costs = game_rules.build_cost(b_type, 1)
+        gold = costs['gold'] * game_rules.refund_mult
+        wood = costs['wood'] * game_rules.refund_mult
+        stone = costs['stone'] * game_rules.refund_mult
+        if error is None:
+            if existing_building.level > 1:
+                existing_building.level -= 1
+            else:
+                db.session.delete(existing_building)
+            game_rules.adjust_resources(g.user, gold, wood, stone, 0, 0)
+            db.session.commit()
+        else:
+            flash(error)
+
+    return redirect(url_for('playercity.player_city'))
+
+
+@player_required
+@check_ban
+@updateWrappers.update_resources
+@bp.route('/upgrade_building/<string:type>', methods=('GET', 'POST'))
+def player_city(b_type):
+    if request.method == 'POST':
+        city = City.query.filter_by(idOwner=g.user.idUser).first()
+        existing_building = Building.query.filter_by(idCity=city.idCity, type=request.json.type).first()
+        error = None
+        if city is None:
+            error = 'Grad ne postoji!'
+        elif existing_building is None:
+            error = 'Gradjevina ne postoji!'
+        elif existing_building.finishTime is not None:
+            error = 'Već ste pokrenuli izgradnju!'
+        costs = game_rules.build_cost(b_type, 1)
+        gold = costs['gold']
+        wood = costs['wood']
+        stone = costs['stone']
+        if error is None:
+            finishTime = datetime.datetime.now() + datetime.timedelta(minutes=game_rules.build_time(1, b_type))
+            existing_building.level += 1
+            existing_building.finishTime = finishTime
+            game_rules.adjust_resources(g.user, gold, wood, stone, 0, 0)
+            db.session.commit()
+        else:
+            flash(error)
+
+    return redirect(url_for('playercity.player_city'))
+
+
+
+

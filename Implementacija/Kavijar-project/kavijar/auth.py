@@ -10,7 +10,7 @@ from flask.cli import with_appcontext
 import datetime
 
 from . import db
-from .models import User
+from .models import User, City
 from . import game_rules as gr
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
