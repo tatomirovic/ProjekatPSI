@@ -49,7 +49,7 @@ def send_msg():
 @check_ban
 def view_msg(id):
     curr_msg = Mailmsg.query.filter_by(idMail=id).first()
-    if curr_msg is not None and curr_msg.idTo != g.user.idUser:
+    if curr_msg is not None and curr_msg.idTo != g.user.idUser and curr_msg.idFrom != g.user.idUser:
         curr_msg = None
     if curr_msg is not None:
         curr_msg.readFlag = 1
