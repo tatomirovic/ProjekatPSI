@@ -50,4 +50,7 @@ def view_msg(id):
     curr_msg = Mailmsg.query.filter_by(idMail=id).first()
     if curr_msg is not None and curr_msg.idTo != g.user.idUser:
         curr_msg = None
+    if curr_msg is not None:
+        curr_msg.readFlag = 1
+        db.session.commit()
     return render_template('mail/view_msg.html', curr_msg=curr_msg)
