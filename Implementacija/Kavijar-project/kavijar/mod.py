@@ -5,9 +5,9 @@ from flask import (
 from werkzeug.exceptions import abort
 
 from kavijar.auth import admin_required, check_ban, mod_required
-import datetime;
-from . import db;
-from .models import User;
+import datetime
+from . import db
+from .models import User
 bp = Blueprint('mod', __name__, url_prefix='/mod')
 
 

@@ -3,7 +3,7 @@
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
-import datetime;
+import datetime
 from flask_socketio import SocketIO
 
 from kavijar.auth import login_required, check_ban

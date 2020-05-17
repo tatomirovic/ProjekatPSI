@@ -7,9 +7,9 @@ from werkzeug.exceptions import abort
 from werkzeug.security import generate_password_hash
 
 from kavijar.auth import admin_required, check_ban
-import datetime;
-from . import db;
-from .models import User;
+import datetime
+from . import db
+from .models import User
 bp = Blueprint('admin', __name__, url_prefix='/admin')
 
 

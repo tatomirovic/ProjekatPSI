@@ -7,9 +7,9 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask.cli import with_appcontext
-import datetime;
+import datetime
 
-from . import db;
+from . import db
 from .models import User
 from . import game_rules as gr
 

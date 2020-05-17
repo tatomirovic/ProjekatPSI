@@ -25,6 +25,6 @@ def create_app():
         from . import game
         app.register_blueprint(game.bp)
         app.add_url_rule('/', endpoint='index')
-        auth.init_app(app);
+        auth.init_app(app)
         socketio.run(app, debug=True)
         return app

@@ -3,8 +3,8 @@ from sqlalchemy import CHAR, Column, DateTime, ForeignKey, String
 from sqlalchemy.dialects.mysql import BIT, INTEGER
 from sqlalchemy.orm import relationship
 
-from . import db;
-Base = db.Model;
+from . import db
+Base = db.Model
 
 class User(Base):
     __tablename__ = 'user'

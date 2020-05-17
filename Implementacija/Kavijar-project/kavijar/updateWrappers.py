@@ -4,7 +4,7 @@ from flask import (
 
 from werkzeug.exceptions import abort
 
-from . import db;
+from . import db
 
 from .models import City, Building
 import functools, datetime
