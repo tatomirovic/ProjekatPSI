@@ -64,12 +64,10 @@ kavijar/static/img/trade.png
 kavijar/static/img/trebuchet.png
 kavijar/static/img/vojnik.png
 kavijar/static/img/zlato.png
-kavijar/templates/adminbase.html
 kavijar/templates/gamebase.html
 kavijar/templates/loginbase.html
 kavijar/templates/userbase.html
 kavijar/templates/admin/admin.html
-kavijar/templates/auth/Simke.html
 kavijar/templates/auth/login.html
 kavijar/templates/auth/register.html
 kavijar/templates/game/city.html

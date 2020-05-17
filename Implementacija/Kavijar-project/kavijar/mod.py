@@ -5,9 +5,9 @@ from flask import (
 from werkzeug.exceptions import abort
 
 from kavijar.auth import admin_required, check_ban, mod_required
-import datetime;
-from . import db;
-from .models import User;
+import datetime
+from . import db
+from .models import User
 bp = Blueprint('mod', __name__, url_prefix='/mod')
 
 
@@ -30,8 +30,8 @@ def mute_user():
         if error is not None:
             flash(error)
         else:
-            muteDateStr = request.form['banDate']
-            mutedate = datetime.datetime.strptime(muteDateStr, '%Y-%m-%d %H:%M')
+            muteDateStr = request.form['muteDate']
+            mutedate = datetime.datetime.strptime(muteDateStr, '%Y-%m-%dT%H:%M')
             if mutedate is None or mutedate < datetime.datetime.now():
                 mutedate = datetime.datetime.now() + datetime.timedelta(hours=1)
                 # Podrazumevana duzina čet-bana je jedan sat

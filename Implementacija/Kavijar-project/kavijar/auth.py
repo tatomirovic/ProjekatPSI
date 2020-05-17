@@ -7,11 +7,11 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask.cli import with_appcontext
-import datetime;
+import datetime
 
-from . import db;
-from .models import User;
-
+from . import db
+from .models import User
+from . import game_rules as gr
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -29,14 +29,14 @@ def login():
         elif not check_password_hash(user.password, password):
             error = 'Pogrešna lozinka.'
         elif user.dateUnban is not None:
-            if g.user.dateUnban > datetime.datetime.now():
+            if user.dateUnban > datetime.datetime.now():
                 error = 'Banovani ste!'
             else:
                 g.user.dateUnban = None
                 db.session.commit()
         if error is None:
             session.clear()
-            session['user_id'] = user.idUser;
+            session['user_id'] = user.idUser
             rolePageDict = {
                 'I': url_for('index'),
                 'M': url_for('mod.mod_main'),
@@ -53,6 +53,7 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        cityname = request.form['cityname']
         error = None
         if not username:
             error = 'Korisničko ime ne sme biti prazno.'
@@ -66,9 +67,13 @@ def register():
                             caviar=0, statusUpdate=0, dateUnban=None, dateCharLift=None)
             db.session.add(new_user)
             db.session.commit()
+
+            idUser = User.query.filter_by(username=username).first().idUser
+            gr.createCity(idUser, cityname)
+
+            flash(f"Igrač {username} je uspešno registrovan!")
             return redirect(url_for('auth.login'))
         flash(error)
-
     return render_template('auth/register.html')
 
 
