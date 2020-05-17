@@ -17,8 +17,9 @@ bp = Blueprint('mail', __name__, url_prefix='/mail')
 @check_ban
 def msg_main():
     g.user.statusUpdate = 0
-    msg_list = Mailmsg.query.filter_by(idTo=g.user.idUser).all()
-    return render_template('mail/mail.html', msg_list=msg_list)
+    received_msg_list = Mailmsg.query.filter_by(idTo=g.user.idUser).all()
+    sent_msg_list = Mailmsg.query.filter_by(idFrom=g.user.idUser).all()
+    return render_template('mail/mail.html', received_msg_list=received_msg_list, sent_msg_list=sent_msg_list)
 
 
 @bp.route('/send_msg', methods=('GET', 'POST'))
