@@ -18,6 +18,7 @@
         {% endblock %}
         <div class="row">
             <div class="col-sm-4 offset-sm-4">
+                <hr>
                 {% for message in get_flashed_messages() %}
                 <button class="error-msg" disabled>{{ message }}</button>
                 {% endfor %}

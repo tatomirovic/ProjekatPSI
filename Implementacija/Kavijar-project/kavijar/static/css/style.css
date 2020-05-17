@@ -23,6 +23,12 @@
 
 
 
+::-webkit-scrollbar{width:10px}
+::-webkit-scrollbar-track{backgroundrgb(19, 19, 19);border-radius:4px}
+::-webkit-scrollbar-thumb{background:rgb(233, 171, 0);;border-radius:4px}
+
+
+
 @font-face { font-family: Anglodavek; src: url('fonts/Anglodavek.otf'); } 
 @font-face { font-family: Anglodavek; font-weight: bold; src: url('fonts/Anglodavek\ Bold.otf');}
 
@@ -158,6 +164,8 @@
 	font-style: normal;
 	font-variant: small-caps;
 	text-transform: none;
+	max-height:300px;
+	overflow:auto;
 }
 
 
