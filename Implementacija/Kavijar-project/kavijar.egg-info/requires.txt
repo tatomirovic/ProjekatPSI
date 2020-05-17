@@ -1,7 +1,0 @@
-flask
-python-dotenv
-pymysql
-cryptography
-flask_sqlalchemy
-markupsafe
-flask-socketio
