@@ -7,11 +7,11 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask.cli import with_appcontext
-import datetime
+import datetime;
 
-from . import db
-from .models import User
-from . import game_rules as gr
+from . import db;
+from .models import User, City
+
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -66,14 +66,14 @@ def register():
             new_user = User(username=username, password=generate_password_hash(password), role='I',
                             caviar=0, statusUpdate=0, dateUnban=None, dateCharLift=None)
             db.session.add(new_user)
-            db.session.commit()
-
             idUser = User.query.filter_by(username=username).first().idUser
-            gr.createCity(idUser, cityname)
-
-            flash(f"Igrač {username} je uspešno registrovan!")
+            new_city = City(idOwner=idUser, name=cityname, xCoord=69, yCoord=420, population=0,
+                woodworkers=0, stoneworkers=0, civilians=0, gold=0, wood=0, stone=0, lastUpdate=datetime.datetime.now())
+            db.session.add(new_city)
+            db.session.commit()
             return redirect(url_for('auth.login'))
         flash(error)
+
     return render_template('auth/register.html')
 
 
