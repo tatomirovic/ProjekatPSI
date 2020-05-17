@@ -73,7 +73,7 @@ def register():
 
             return redirect(url_for('auth.login'))
         flash(error)
-
+    flash(f"Igrač {username} je uspešno registrovan!")
     return render_template('auth/register.html')
 
 

@@ -73,4 +73,6 @@ def create_mod():
             db.session.add(new_user)
             db.session.commit()
             flash(f"Mod sa username {username} je kreiran")
+        else:
+            flash(error)
         return redirect(url_for('admin.admin_main'))
