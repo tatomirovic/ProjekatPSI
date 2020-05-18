@@ -37,12 +37,7 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user.idUser
-            rolePageDict = {
-                'I': url_for('index'),
-                'M': url_for('mod.mod_main'),
-                'A': url_for('admin.admin_main')
-            }
-            return redirect(rolePageDict[user.role])
+            return redirect('/redirect')
         flash(error)
 
     return render_template('auth/login.html')

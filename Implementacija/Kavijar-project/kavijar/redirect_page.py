@@ -6,7 +6,7 @@ from flask import (
 
 from kavijar.auth import login_required
 
-bp = Blueprint('redirect', __name__, url_prefix='/redirect')
+bp = Blueprint('redirect_page', __name__, url_prefix='/redirect')
 
 
 @login_required
