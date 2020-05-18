@@ -82,7 +82,7 @@ def adjust_resources(player, gold=0, wood=0, stone=0, pop=0, kavijar=0):
     city.wood += wood
     city.stone += stone
     city.population += pop
-    player.kavijar += kavijar
+    player.caviar += kavijar
     th_level = Building.query.filter_by(idCity=city.idCity, type="TH").first().level
     rcap = resource_caps[th_level]
     if city.gold > rcap:
