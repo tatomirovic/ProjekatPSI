@@ -40,6 +40,7 @@ def send_msg():
         elif len(msgbody) > 256 or len(msgbody) == 0:
             error = "Losa duzina poruke!"
         if error is None:
+            recipient.statusUpdate += 1
             new_message = Mailmsg(idFrom=sender.idUser, idTo=recipient.idUser,
                                   time=msgtime, content=msgbody, readFlag=0)
             db.session.add(new_message)
