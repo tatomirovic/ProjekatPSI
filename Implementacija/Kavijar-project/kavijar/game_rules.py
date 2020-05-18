@@ -43,6 +43,7 @@ building_costs = {
 }
 
 resource_caps = {
+    0: 0,
     1: 1000,
     2: 3000,
     3: 10000,
@@ -51,6 +52,7 @@ resource_caps = {
 }
 
 building_costs_scaling = {
+    0: 0,
     1: -1,
     2: -3,
     3: -10,
