@@ -100,7 +100,7 @@ def adjust_resources(player, gold=0, wood=0, stone=0, pop=0, kavijar=0):
     if city.stone < 0:
         city.stone < 0
     if city.population < startingPopulation:
-        city.population = city.population
+        city.population = startingPopulation
 
 
 def createTownHall(idCity):
