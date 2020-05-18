@@ -131,3 +131,41 @@ def upgrade_building(b_type):
             flash(error)
 
     return redirect(url_for('playercity.player_city'))
+
+
+@player_required
+@check_ban
+@updateWrappers.update_resources
+@bp.route('/reassign_workers/<int:ww>/<int:sw>', methods=('GET', 'POST'))
+def reassign_workers(ww, sw):
+    if request.method == 'POST':
+        city = City.query.filter_by(idOwner=g.user.idUser).first()
+        Pilana = Building.query.filter_by(idCity=city.idCity, type="PI").first()
+        Kamenolom = Building.query.filter_by(idCity=city.idCity, type="KL").first()
+        pilana_level = 0
+        kamenolom_level = 0
+        if Pilana is not None:
+            pilana_level = Pilana.level
+        if Kamenolom is not None:
+            kamenolom_level = Kamenolom.level
+        wwlimit = gr.resource_allocation_limit[pilana_level]
+        swlimit = gr.resource_allocation_limit[kamenolom_level]
+        if (ww > wwlimit):
+            ww = wwlimit
+        if (sw > swlimit):
+            sw = swlimit
+        if (ww < 0):
+            ww = 0
+        if (sw < 0):
+            sw = 0
+        error = None
+        if ww + sw > city.population:
+            error = 'Nedovoljno populacije!'
+        if error is None:
+            civ = city.population - ww - sw
+            city.woodworkers = ww
+            city.stoneworkers = sw
+            city.civilians = civ
+        else:
+            flash(error)
+    return redirect(url_for('playercity.player_city'))

@@ -17,14 +17,10 @@ building_types = {
     'PI': 'Pilana',
     'KL': 'Kamenolom',
     'TS': 'Trgovinska stanica',
-    'B1': 'Baraka za laku pešadiju',
-    'B2': 'Baraka za tešku pešadiju',
-    'B3': 'Baraka za laku konjicu',
-    'B4': 'Baraka za tešku konjicu',
-    'B5': 'Baraka za strelce',
-    'B6': 'Baraka za samostrelce',
-    'B7': 'Radionica katapulteva',
-    'B8': 'Radionica trebušea'
+    'BP': 'Baraka za pešadiju',
+    'BK': 'Baraka za konjicu',
+    'BS': 'Baraka za strelce',
+    'BO': 'Radionica opsadnog oružja',
 }
 
 building_costs = {
@@ -32,14 +28,10 @@ building_costs = {
     'PI': {'gold': 130, 'wood': 0, 'stone': 250},
     'KL': {'gold': 30, 'wood': 100, 'stone': 250},
     'TS': {'gold': 200, 'wood': 200, 'stone': 200},
-    'B1': {'gold': 70, 'wood': 100, 'stone': 150},
-    'B2': {'gold': 150, 'wood': 100, 'stone': 150},
-    'B3': {'gold': 300, 'wood': 100, 'stone': 150},
-    'B4': {'gold': 600, 'wood': 100, 'stone': 150},
-    'B5': {'gold': 100, 'wood': 100, 'stone': 150},
-    'B6': {'gold': 180, 'wood': 100, 'stone': 150},
-    'B7': {'gold': 150, 'wood': 600, 'stone': 100},
-    'B8': {'gold': 1000, 'wood': 300, 'stone': 50}
+    'BP': {'gold': 70, 'wood': 100, 'stone': 150},
+    'BK': {'gold': 150, 'wood': 100, 'stone': 150},
+    'BS': {'gold': 100, 'wood': 100, 'stone': 150},
+    'BI': {'gold': 300, 'wood': 500, 'stone': 150},
 }
 
 resource_caps = {
@@ -49,6 +41,15 @@ resource_caps = {
     3: 10000,
     4: 50000,
     5: 150000
+}
+
+resource_allocation_limit = {
+    0: 50,
+    1: 1000,
+    2: 10000,
+    3: 50000,
+    4: 250000,
+    5: 1000000
 }
 
 building_costs_scaling = {
