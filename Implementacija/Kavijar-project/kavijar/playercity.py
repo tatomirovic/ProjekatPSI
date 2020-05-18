@@ -56,6 +56,7 @@ def create_building(b_type):
             finishTime = datetime.datetime.now() + datetime.timedelta(minutes=gr.build_time(1, b_type))
             new_building = Building(idOwner=city.idCity, type=b_type, level=1, finishTime=finishTime, status='A')
             gr.adjust_resources(player=g.user, gold=gold, wood=wood, stone=stone)
+            db.session.add(new_building)
             db.session.commit()
             flash(f"Uspešno je pokrenuta konstrukcija zgrade : {gr.building_types[b_type]}")
         else:
@@ -121,7 +122,8 @@ def upgrade_building(b_type):
         if error is None and (gold > city.gold or wood > city.wood or stone > city.stone):
             error = 'Nedovoljno resursa!'
         if error is None:
-            finishTime = datetime.datetime.now() + datetime.timedelta(minutes=gr.build_time(existing_building.level+1, b_type))
+            finishTime = datetime.datetime.now() \
+                         + datetime.timedelta(minutes=gr.build_time(existing_building.level+1, b_type))
             existing_building.level += 1
             existing_building.finishTime = finishTime
             gr.adjust_resources(player=g.user, gold=gold, wood=wood, stone=stone)
