@@ -33,7 +33,7 @@ def update_resources(view):
                             gold=gr.goldPerHour * city.civilians * dt,
                             wood=gr.woodPerHour * city.woodworkers * dt,
                             stone=gr.stonePerHour * city.stoneworkers * dt,
-                            pop=gr.growth(city.population, dt, lvl))
+                            pop=gr.growth(city.population, dt, lvl) - city.population)
         city.civilians = city.population - city.woodworkers - city.stoneworkers
 
         db.session.commit()
