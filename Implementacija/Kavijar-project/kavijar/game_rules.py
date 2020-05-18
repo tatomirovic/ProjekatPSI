@@ -90,9 +90,9 @@ def adjust_resources(player, gold=0, wood=0, stone=0, pop=0, kavijar=0):
     if city.gold > rcap:
         city.gold = rcap
     if city.wood > rcap:
-        city.gold = rcap
+        city.wood = rcap
     if city.stone > rcap:
-        city.gold = rcap
+        city.stone = rcap
 
 
 def createTownHall(idCity):
