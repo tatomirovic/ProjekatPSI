@@ -4,7 +4,7 @@ from flask import (
 from werkzeug.exceptions import abort
 
 from kavijar.auth import login_required, player_required, check_ban
-from . import db, game_rules
+from . import db, game_rules as gr
 
 from .models import City, Building, Army
 import functools, datetime
@@ -24,7 +24,12 @@ def player_city():
     if city is not None:
         buildings = Building.query.filter_by(idCity=city.idCity).all()
         armies = Army.query.filter_by(idCityFrom=city.idCity).all()
-    return render_template('playercity/city.html', city=city, buildings=buildings, armies=armies)
+        building_costs = {}
+        for bt in gr.building_types.keys:
+            building_costs[bt] = gr.build_cost(bt, 1)
+        for b in buildings:
+            building_costs[b.type] = gr.build_cost(b.type, b.level+1)
+    return render_template('playercity/city.html', city=city, buildings=buildings, armies=armies, building_costs=building_costs)
 
 
 @player_required
@@ -40,18 +45,18 @@ def create_building(b_type):
             error = 'Grad ne postoji!'
         elif existing_building is not None:
             error = 'Gradjevina već postoji!'
-        costs = game_rules.build_cost(b_type, 1)
+        costs = gr.build_cost(b_type, 1)
         gold = costs['gold']
         wood = costs['wood']
         stone = costs['stone']
         if error is None and (gold > city.gold or wood > city.wood or stone > city.stone):
             error = 'Nedovoljno resursa!'
         if error is None:
-            finishTime = datetime.datetime.now() + datetime.timedelta(minutes=game_rules.build_time(1, b_type))
+            finishTime = datetime.datetime.now() + datetime.timedelta(minutes=gr.build_time(1, b_type))
             new_building = Building(idOwner=city.idCity, type=b_type, level=1, finishTime=finishTime, status='A')
-            game_rules.adjust_resources(player=g.user, gold=gold, wood=wood, stone=stone)
+            gr.adjust_resources(player=g.user, gold=gold, wood=wood, stone=stone)
             db.session.commit()
-            flash(f"Uspešno je pokrenuta konstrukcija zgrade : {game_rules.building_types[b_type]}")
+            flash(f"Uspešno je pokrenuta konstrukcija zgrade : {gr.building_types[b_type]}")
         else:
             flash(error)
 
@@ -73,18 +78,18 @@ def halt_building(b_type):
             error = 'Gradjevina ne postoji!'
         elif existing_building.finishTime is None:
             error = 'Ne možete obustaviti izgradnju koja se ne dešava!'
-        costs = game_rules.build_cost(b_type, 1)
-        gold = costs['gold'] * game_rules.refund_mult
-        wood = costs['wood'] * game_rules.refund_mult
-        stone = costs['stone'] * game_rules.refund_mult
+        costs = gr.build_cost(b_type, 1)
+        gold = costs['gold'] * gr.refund_mult
+        wood = costs['wood'] * gr.refund_mult
+        stone = costs['stone'] * gr.refund_mult
         if error is None:
             if existing_building.level > 1:
                 existing_building.level -= 1
             else:
                 db.session.delete(existing_building)
-            game_rules.adjust_resources(player=g.user, gold=gold, wood=wood, stone=stone)
+            gr.adjust_resources(player=g.user, gold=gold, wood=wood, stone=stone)
             db.session.commit()
-            flash(f"Uspešno ste obustavili rad na zgradi : {game_rules.building_types[b_type]}")
+            flash(f"Uspešno ste obustavili rad na zgradi : {gr.building_types[b_type]}")
         else:
             flash(error)
 
@@ -106,26 +111,22 @@ def upgrade_building(b_type):
             error = 'Gradjevina ne postoji!'
         elif existing_building.finishTime is not None:
             error = 'Već ste pokrenuli izgradnju!'
-        elif existing_building.level >= game_rules.building_max_level:
+        elif existing_building.level >= gr.building_max_level:
             error = 'Gradjevina je maksimalnog nivoa!'
-        costs = game_rules.build_cost(b_type, 1)
+        costs = gr.build_cost(b_type, existing_building.level+1)
         gold = costs['gold']
         wood = costs['wood']
         stone = costs['stone']
         if error is None and (gold > city.gold or wood > city.wood or stone > city.stone):
             error = 'Nedovoljno resursa!'
         if error is None:
-            finishTime = datetime.datetime.now() + datetime.timedelta(minutes=game_rules.build_time(1, b_type))
+            finishTime = datetime.datetime.now() + datetime.timedelta(minutes=gr.build_time(existing_building.level+1, b_type))
             existing_building.level += 1
             existing_building.finishTime = finishTime
-            game_rules.adjust_resources(player=g.user, gold=gold, wood=wood, stone=stone)
+            gr.adjust_resources(player=g.user, gold=gold, wood=wood, stone=stone)
             db.session.commit()
-            flash(f"Uspešno je pokrenuto unapredjenje zgrade : {game_rules.building_types[b_type]}")
+            flash(f"Uspešno je pokrenuto unapredjenje zgrade : {gr.building_types[b_type]}")
         else:
             flash(error)
 
     return redirect(url_for('playercity.player_city'))
-
-
-
-
