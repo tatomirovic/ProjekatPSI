@@ -16,7 +16,7 @@ bp = Blueprint('chat', __name__, url_prefix='/chat')
 @bp.route('/')
 @login_required
 def sessions():
-    recent_messages = Chatmsg.query.limit(15).order_by(desc(Chatmsg.time)).all()
+    recent_messages = Chatmsg.query.order_by(desc(Chatmsg.time)).limit(15).all().reverse()
     return render_template('chat/chat.html', recent_messages=recent_messages)
 
 
