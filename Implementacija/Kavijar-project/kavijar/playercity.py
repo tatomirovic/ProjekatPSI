@@ -20,16 +20,17 @@ bp = Blueprint('playercity', __name__, url_prefix='/playercity')
 def player_city():
     buildings = []
     armies = []
+    building_costs = {}
     city = City.query.filter_by(idOwner=g.user.idUser).first()
     if city is not None:
         buildings = Building.query.filter_by(idCity=city.idCity).all()
         armies = Army.query.filter_by(idCityFrom=city.idCity).all()
-        building_costs = {}
         for bt in gr.building_types.keys():
             building_costs[bt] = gr.build_cost(bt, 1)
         for b in buildings:
             building_costs[b.type] = gr.build_cost(b.type, b.level+1)
-    return render_template('playercity/city.html', city=city, buildings=buildings, armies=armies, building_costs=building_costs)
+    return render_template('playercity/city.html', city=city, buildings=buildings,
+                           armies=armies, building_costs=building_costs)
 
 
 @player_required
