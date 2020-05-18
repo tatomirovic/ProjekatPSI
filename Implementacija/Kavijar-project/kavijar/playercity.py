@@ -25,7 +25,7 @@ def player_city():
         buildings = Building.query.filter_by(idCity=city.idCity).all()
         armies = Army.query.filter_by(idCityFrom=city.idCity).all()
         building_costs = {}
-        for bt in gr.building_types.keys:
+        for bt in gr.building_types.keys():
             building_costs[bt] = gr.build_cost(bt, 1)
         for b in buildings:
             building_costs[b.type] = gr.build_cost(b.type, b.level+1)
