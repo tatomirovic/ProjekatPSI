@@ -7,7 +7,11 @@
   <body class='myFont background'>
 
     
-    <div class="message_holder myBorder" style='min-height:400px;max-height:400px;max-width:480px;width:480px;'><h3>Nema poruka</h3></div>
+    <div class="message_holder myBorder" style='min-height:400px;max-height:400px;max-width:480px;width:480px;overflow:auto'>
+      {% for msg in recent_messages %}
+      <div><span style="font-size:22px;">{{msg.user.username}} :  </span> {{msg.content}} </div>
+      {% endfor %}
+    </div>
     <form action="" method="POST">
       <label for="chatmsg" id="username"><span style="font-size:22px;">{{g.user.username}}</span> </label>
       <input type="text" class="input message" id="chatmsg" placeholder="Messages"/>
