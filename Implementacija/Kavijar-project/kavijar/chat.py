@@ -16,7 +16,8 @@ bp = Blueprint('chat', __name__, url_prefix='/chat')
 @bp.route('/')
 @login_required
 def sessions():
-    recent_messages = Chatmsg.query.order_by(desc(Chatmsg.time)).limit(15).all().reverse()
+    recent_messages = (Chatmsg.query.order_by(desc(Chatmsg.time)).limit(15).all())[::-1]
+    #print(f"MSG IS {recent_messages[1].content}")
     return render_template('chat/chat.html', recent_messages=recent_messages)
 
 
@@ -38,7 +39,7 @@ def handle_my_custom_event(json, methods=['GET', 'POST']):
         sender.dateCharLift = None
         db.session.commit()
 
-    if sender.dateCharLift is None and len(json['message'])>0:
+    if sender.dateCharLift is None and json['message'] and len(json['message']) > 0:
         # print(f"JSO is: {json}")
         new_msg = Chatmsg(idSender=session['user_id'], time=datetime.datetime.now(), content=json['message'])
         db.session.add(new_msg)
