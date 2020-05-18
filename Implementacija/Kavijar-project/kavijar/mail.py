@@ -19,6 +19,7 @@ bp = Blueprint('mail', __name__, url_prefix='/mail')
 @check_ban
 def msg_main():
     g.user.statusUpdate = 0
+    db.session.commit()
     uid = g.user.idUser
     msg_list = Mailmsg.query.filter(or_(Mailmsg.idTo == uid, Mailmsg.idFrom == uid)) \
         .order_by(desc(Mailmsg.time)).all()
