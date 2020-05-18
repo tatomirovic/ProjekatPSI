@@ -1,0 +1,23 @@
+{% extends 'userbase.html'%}
+
+{% block head %}
+<title>Kavijar</title>
+{% endblock %}
+
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-11 inbox myBorder  text-align:center">
+            <form method='POST' action='send_msg'>
+                Korisnik:<input type='text' name='recipient' class='input'>
+                <br>
+                <h3><b>Sadrzaj</b></h3>
+                
+                <textarea name='body' class='input newmsg' maxlength=256 ></textarea>
+                <br>
+                <input type='submit' class='def-button' value='Posalji'>
+            </form>
+         </div>
+    </div>
+
+{% endblock %}

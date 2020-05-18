@@ -7,10 +7,65 @@
 
 {% block body %}
     <div class="row">
-        <div class="col-md-12 list myBorder">
-            {% for msg in msg_list %}
-                <p>{{msg.user.username}}</p>
-            {% endfor %}
+        <div class="col-md-11 inbox myBorder">
+            <table cellpadding=10px> 
+                <tr>
+                    <th colspan = 2>
+                        Korisnik
+                    </th>
+                    <th colspan=10>
+                        Poruka
+                    </th>
+                    <th>
+                        Datum
+                    </th>
+                </tr>
+                {% for msg in msg_list %}
+                <tr>
+                    
+                    <td width=4%>
+                        {% if msg.user.idUser==g.user.idUser %}
+                        <img src='{{ url_for("static", filename="img/sent.png") }}' class='mailimg'>
+                        {% else %}
+                            {% if msg.readFlag==0 %}
+                            <img src='{{ url_for("static", filename="img/unread.png") }}' class='mailimg'>
+                            {% else %}
+                            <img src='{{ url_for("static", filename="img/read.png") }}' class='mailimg'>
+                            {% endif %}
+                        {% endif %} 
+                    </td>
+                    <td width=16%>
+                        {%if msg.user.idUser!=g.user.idUser %}
+                            {% if msg.user.role == 'A' %}
+                            [Admin]
+                            {% endif %}
+                            {% if msg.user.role == 'M' %}
+                            [Moderator]
+                            {% endif %}
+                            {{msg.user.username}}
+                        {% else %}
+                            {% if msg.user1.role == 'A' %}
+                            [Admin]
+                            {% endif %}
+                            {% if msg.user1.role == 'M' %}
+                            [Moderator]
+                            {% endif %}
+                            {{msg.user1.username}}
+                        {% endif %}
+                    </td>
+                    <td colspan=10 width=60%>
+                        <a class ='yellowlink' href='{{ url_for("mail.view_msg", id=msg.idMail) }}'>
+                       {{msg.content|truncate(50)}}
+                        </a>
+                    </td>
+                    <td width=20%>
+                        {{msg.time}}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            <hr>
+            <a href='{{ url_for("mail.send_msg") }}'><button class='def-button'>Nova poruka</button></a>
          </div>
     </div>
 

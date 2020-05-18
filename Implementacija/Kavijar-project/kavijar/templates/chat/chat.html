@@ -1,18 +1,19 @@
   <!DOCTYPE html>
   <html lang="en">
   <head>
-    <title>Flask_Chat_App</title>
+    <title>Chat</title>
+    <link rel="stylesheet" href='{{ url_for("static",filename="css/style.css") }}'>
   </head>
-  <body>
+  <body class='myFont background'>
 
-    <h3 style='color: #ccc;font-size: 30px;'>No message yet..</h3>
-    <div class="message_holder"></div>
-
+    
+    <div class="message_holder myBorder" style='min-height:400px;max-height:400px;max-width:480px;width:480px;'><h3>Nema poruka</h3></div>
     <form action="" method="POST">
-      <label for="chatmsg" id="username"> {{g.user.username}}</label>
-      <input type="text" class="message" id="chatmsg" placeholder="Messages"/>
-      <input type="submit"/>
+      <label for="chatmsg" id="username"><span style="font-size:22px;">{{g.user.username}}</span> </label>
+      <input type="text" class="input message" id="chatmsg" placeholder="Messages"/>
+      <input type="submit" class='def-button'/>
     </form>
+
 	
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -39,7 +40,7 @@
         console.log( msg )
         if( typeof msg.user_name !== 'undefined' ) {
           $( 'h3' ).remove()
-          $( 'div.message_holder' ).append( '<div><b style="color: #000">'+msg.user_name+'</b> '+msg.message+'</div>' )
+          $( 'div.message_holder' ).append( '<div><span style="font-size:22px;">'+msg.user_name+ ':' + '</span> '+msg.message+'</div>' )
         }
       })
     </script>
