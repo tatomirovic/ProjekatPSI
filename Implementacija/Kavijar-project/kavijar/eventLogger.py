@@ -6,6 +6,12 @@ from .models import City, Army, Trade, User, Building
 from . import db
 from . import game_rules as gr
 
+
+## TODO  svi eventovi koji uticu na dva igraca
+#  morace da imaju dodatan status "obradio jedan"
+#  ovi eventovi ce ostati na bazi da cekaju drugog igraca da ih obradi pre brisanja
+
+
 ## Preface za peru
 ## znam da je nepregledno za svakoga ko nije radio na projektu ali nasminkacu
 ## npr videces da statusi trgovine i armija nigde nisu dokumentovane, sve cu to dodati kad zapravo sve bude radilo
