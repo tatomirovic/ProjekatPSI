@@ -69,7 +69,7 @@ class Army(Base):
 
     idArmy = Column(INTEGER(11), primary_key=True)
     idCityFrom = Column(ForeignKey(u'city.idCity'), nullable=False, index=True)
-    idCityTo = Column(ForeignKey(u'city.idCity'), nullable=False, index=True)
+    idCityTo = Column(ForeignKey(u'city.idCity'), index=True)
     status = Column(CHAR(1), nullable=False)
     timeToArrival = Column(DateTime)
     lakaPesadija = Column(INTEGER(11))
@@ -123,6 +123,7 @@ class Trade(Base):
     gold2 = Column(INTEGER(11), nullable=False)
     wood2 = Column(INTEGER(11), nullable=False)
     stone2 = Column(INTEGER(11), nullable=False)
-
+    timeToArrival = Column(DateTime)
+    
     city = relationship(u'City', primaryjoin='Trade.idCity1 == City.idCity')
     city1 = relationship(u'City', primaryjoin='Trade.idCity2 == City.idCity')
