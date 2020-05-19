@@ -107,7 +107,7 @@ def adjust_resources(player, gold=0, wood=0, stone=0, pop=0, kavijar=0):
 
 
 def createGarrison(idCity):
-    db.session.add(Army(idCityFrom=idCity, status="G"))
+    db.session.add(Army(idCityFrom=idCity, status="G", lakaPesadija=0, teskaPesadija=0, lakaKonjica=0, teskaKonjica=0, strelci=0, samostrelci=0, katapult=0, trebuset=0))
     db.session.commit()
 
 def createTownHall(idCity):
