@@ -13,7 +13,7 @@ def update_resources(view):
         if g.user is None:
             return redirect(url_for('auth.login'))
 
-        eventLogger.logEvents(g.user.idUser)
+        eventLogger.logEvents(g.user)
         
         return view(**kwargs)
 
