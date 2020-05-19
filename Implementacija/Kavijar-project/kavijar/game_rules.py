@@ -1,6 +1,6 @@
-import math, datetime
+import math, datetime, random
 
-from .models import City, Building
+from .models import City, Building, Army
 from . import db
 
 
@@ -106,19 +106,26 @@ def adjust_resources(player, gold=0, wood=0, stone=0, pop=0, kavijar=0):
         city.population = startingPopulation
 
 
+def createGarrison(idCity):
+    db.session.add(Army(idCityFrom=idCity, status="G"))
+    db.session.commit()
+
 def createTownHall(idCity):
     db.session.add(Building(idCity=idCity, type="TH", status="A", level=1, finishTime=datetime.datetime.now()))
     db.session.commit()
 
 
 def createCity(idOwner, name):
-    db.session.add(City(idOwner=idOwner, name=name, xCoord=69, yCoord=420, population=startingPopulation,
+    xCoord = random.randint(0,29) ## placeholder
+    yCoord = random.randint(0,29)
+    db.session.add(City(idOwner=idOwner, name=name, xCoord=xCoord, yCoord=yCoord, population=startingPopulation,
                         woodworkers=0, stoneworkers=0, civilians=startingPopulation, gold=startingGold,
                         wood=startingWood, stone=startingStone, lastUpdate=datetime.datetime.now()))
     db.session.commit()
 
     idCity = City.query.filter_by(idOwner=idOwner, name=name).first().idCity
     createTownHall(idCity)
+    createGarrison(idCity)
 
 
 carry_capacity = [80, 120, 180, 260, 360]

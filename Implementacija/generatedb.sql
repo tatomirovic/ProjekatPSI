@@ -70,7 +70,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 CREATE TABLE IF NOT EXISTS `kavijardb`.`army` (
   `idArmy` INT(11) NOT NULL AUTO_INCREMENT,
   `idCityFrom` INT(11) NOT NULL,
-  `idCityTo` INT(11) NOT NULL,
+  `idCityTo` INT(11) NULL DEFAULT NULL,
   `status` CHAR(1) NOT NULL,
   `timeToArrival` DATETIME NULL DEFAULT NULL,
   `lakaPesadija` INT(11) NULL DEFAULT NULL,
@@ -189,6 +189,7 @@ CREATE TABLE IF NOT EXISTS `kavijardb`.`trade` (
   `gold2` INT(11) NOT NULL,
   `wood2` INT(11) NOT NULL,
   `stone2` INT(11) NOT NULL,
+  `timeToArrival` DATETIME NULL DEFAULT NULL,
   PRIMARY KEY (`idTrade`),
   INDEX `FK_SENDER_idx` (`idCity1` ASC) VISIBLE,
   INDEX `FK_ACCEPTOR_idx` (`idCity2` ASC) VISIBLE,
