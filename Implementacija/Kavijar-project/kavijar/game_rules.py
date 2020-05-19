@@ -3,6 +3,8 @@ import math, datetime
 from .models import City, Building
 from . import db
 
+
+
 goldPerHour = 3
 woodPerHour = 1
 stonePerHour = 1
