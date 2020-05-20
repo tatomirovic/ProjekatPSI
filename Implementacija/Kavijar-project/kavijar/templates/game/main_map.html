@@ -1,8 +1,11 @@
 {% extends 'userbase.html'%}
 
 {% block head %}
-<title>Kavijar</title>
-<link rel="stylesheet" type="text/css" href="static/css/styleMap.css" />
+<title>GAME</title>
+<link rel="stylesheet" href='{{ url_for("static",filename="css/styleMap.css") }}'>
+<style>
+  
+</style>
 {% endblock %}
 
 {% block body %}
@@ -15,52 +18,108 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 
 
-    <div id="ex1" class="modal" style="background-color: grey;" >
-        <p>POP UP INICIJALIZACIJA
-        <br> povlacenje info sa servera o gradu
+    <!--OVO JE POP UP KOJI TREBA DA SE EDIT SA INFO O GRADU-->
+    <div id="ex1" class="modal" style="background-color: grey;" id="editPopUP">
+        <p id="cityName">
         </p>
         <a href="#" rel="modal:close" style="color: yellow;">Close</a>
       </div>
-      
 
-    <div class="container" style="margin-top: 0px;">
-        <div id="ib-main-wrapper" class="ib-main-wrapper" 
-        style="border: 1px solid white;
-        margin-left: auto;
-        margin-right: auto;
-        text-align: center;
-        max-width: 800px;
-        max-height: 800px;
-        background-color: transparent;">
+
+    <div class="container">
+        <div class="row">
+         
+          <div class="col-sm-centered">
+            <div id="ib-main-wrapper" class="ib-main-wrapper"
+            style="
+            margin-top: auto;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 1100px;
+            max-height: 800px;"  >
             <div class="ib-main" id="ibMain">
                 
-                <script>                
-                    for(var i=1;i<=12;i++)
+                <script>      
+                        
+                    for(var i=1;i<=30;i++)
                     {
-
-                        for(var j=1;j<=12;j++)
+                        var city_position = Math.floor(Math.random() * 30);   
+                        for(var j=1;j<=30;j++)
                         {
                         var h  = document.createElement("a");
+                           
+                        var string_source = "static/img/map_images/gridMap/image_"+i.toString()+"_"+j.toString()+".jpeg";
+                        h.setAttribute("style","background: url("+string_source+") no-repeat center center;");
+                        h.setAttribute("id",i.toString()+j.toString());
+                        if(j==city_position)
+                        {
+                            /*
+                            var img = document.createElement("IMG");
+                            img.setAttribute("src","static/img/map_images/cityicon.png");
+                            img.setAttribute("data-largesrc","static/img/map_images/cityicon.png");
+                            img.setAttribute("class","imgB1");
+
                             h.setAttribute("href","#ex1");
                             h.setAttribute("rel","modal:open");
-                        var img = document.createElement("IMG");
-                        var string_source = "static/img/map_images/thumbs/image_"+i.toString()+"_"+j.toString()+".jpeg"
-                        img.setAttribute("src",string_source);
-                        img.setAttribute("data-largesrc",string_source);
-                        h.appendChild(img);
+                            h.appendChild(img);
+                            */
+                        }
+                        
+                       // var img2 = document.createElement("IMG");
+                       // img2.setAttribute("src","static/img/map_images/cityicon.png");
+                        //img2.setAttribute("class","imgB1");
+                       // h.appendChild(img2);
                         document.getElementById("ibMain").appendChild(h);
                         }
                                                
-                    }
+                    }   
                 </script>
                                
                 <div class="clr"></div>
             </div><!-- ib-main -->
-        </div><!-- ib-main-wrapper -->
+            </div><!-- ib-main-wrapper -->
+          </div>
+          
+        </div>
     </div>
     
-  
+    {% for city in city_list %}
+    {{city.xCoord}};
+    {{city.yCoord}};
+    <script>     
+    alert("krac");
+        var x =  {{city.xCoord}};
+        var y =    {{city.yCoord}};
+        var image_id = x.toString()+","+y.toString();
+        var img = document.createElement("img");
+
+        img.setAttribute("src","static/img/map_images/cityicon.png");
+        img.setAttribute("class","imgB1");
+        img.setAttribute("id",image_id)
+        img.setAttribute("onclick","openForeignCity(this)");
+        var a = document.getElementById(x.toString()+y.toString()); 
+        a.setAttribute("href","#ex1");
+        a.setAttribute("rel","modal:open");
+
+        a.appendChild(img);
+        /*
+        img.onclick = function() { 
+            openForeignCity(img);
+        }*/
+    </script>
+   {% endfor %}
+
+
     <script type="text/javascript">
+
+
+    function openForeignCity(a)
+    {
+       //var city_array_json = {{city_list | tojson}};
+       //alert(city_array_json.length);
+     
+
+    }
         $(function() {
         
             var $ibWrapper	= $('#ib-main-wrapper'),
