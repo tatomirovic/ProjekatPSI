@@ -13,6 +13,7 @@ from . import updateWrappers
 
 bp = Blueprint('game', __name__)
 
+
 @bp.route('/')
 @player_required
 @check_ban
@@ -21,3 +22,11 @@ def index():
     city_list = City.query.all()
     return render_template('game/main_map.html', city_list=city_list)
 
+
+@bp.route('/get_tile/<x:int>/<y:int>')
+@player_required
+@check_ban
+@updateWrappers.update_resources
+def get_tile(x, y):
+    city_list = City.query.filter(City.xCoord == x, City.yCoord == y).first()
+    return city_list
