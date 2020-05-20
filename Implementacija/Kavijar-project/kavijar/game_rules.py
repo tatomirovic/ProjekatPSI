@@ -34,7 +34,7 @@ building_costs = {
     'BP': {'gold': 70, 'wood': 100, 'stone': 150},
     'BK': {'gold': 150, 'wood': 100, 'stone': 150},
     'BS': {'gold': 100, 'wood': 100, 'stone': 150},
-    'BI': {'gold': 300, 'wood': 500, 'stone': 150},
+    'BO': {'gold': 300, 'wood': 500, 'stone': 150},
     'ZD': {'gold': 50, 'wood': 100, 'stone': 500}
 }
 
