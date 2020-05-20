@@ -27,7 +27,7 @@ building_types = {
 }
 
 building_costs = {
-    'GU': {'gold': 500, 'wood': 300, 'stone': 600},
+    'TH': {'gold': 500, 'wood': 300, 'stone': 600},
     'PI': {'gold': 130, 'wood': 0, 'stone': 250},
     'KL': {'gold': 30, 'wood': 100, 'stone': 250},
     'TS': {'gold': 200, 'wood': 200, 'stone': 200},
