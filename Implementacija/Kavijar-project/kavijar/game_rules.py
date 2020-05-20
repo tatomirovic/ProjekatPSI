@@ -70,8 +70,8 @@ refund_mult = -0.5
 building_max_level = 5
 
 
-def build_cost(type, level):
-    return building_costs[type] * building_costs_scaling[level]
+def build_cost(bType, level):
+    return building_costs[bType] * building_costs_scaling[level]
 
 
 def build_time(level, b_type):
