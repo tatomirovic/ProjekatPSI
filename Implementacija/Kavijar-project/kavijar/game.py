@@ -24,6 +24,6 @@ def index():
     for city in city_list:
         #print(f'Our city is: {city.serialize()}')
         city_list_json.append(city.serialize())
-    print(f"The dump is: {json.dumps(city_list_json)}")
+    #print(f"The dump is: {json.dumps(city_list_json)}")
     return render_template('game/main_map.html', city_list=city_list_json)
 
