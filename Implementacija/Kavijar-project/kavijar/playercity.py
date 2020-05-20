@@ -30,7 +30,7 @@ def player_city():
         for b in buildings:
             building_costs[b.type] = gr.build_cost(b.type, b.level+1)
     return render_template('playercity/city.html', city=city, buildings=buildings,
-                           armies=armies, building_costs=building_costs)
+                           armies=armies, building_costs=building_costs, buildingnames=gr.building_types)
 
 
 @player_required
