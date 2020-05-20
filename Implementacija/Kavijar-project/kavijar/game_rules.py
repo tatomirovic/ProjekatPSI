@@ -71,7 +71,10 @@ building_max_level = 5
 
 
 def build_cost(bType, level):
-    return building_costs[bType] * building_costs_scaling[level]
+    costdict = {'gold': 0, 'wood': 0, 'stone': 0}
+    for k in costdict.keys():
+        costdict[k] = building_costs[bType][k] * building_costs_scaling[level]
+    return costdict
 
 
 def build_time(level, b_type):
