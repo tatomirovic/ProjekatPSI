@@ -46,6 +46,20 @@ class City(Base):
     wood = Column(INTEGER(11), nullable=False)
     stone = Column(INTEGER(11), nullable=False)
     lastUpdate = Column(DateTime, nullable=False)
+
+    def serialize(self):
+        return {"idCity": self.idCity,
+                "idOwner": self.idOwner,
+                "name": self.name,
+                "xCoord": self.xCoord,
+                "yCoord": self.yCoord,
+                "population": self.population,
+                "woodworkers": self.woodworkers,
+                "stoneworkers": self.stoneworkers,
+                "civilians": self.civilians,
+                "gold": self.gold,
+                "wood": self.wood,
+                "stone": self.stone}
     
     user = relationship(u'User')
 
