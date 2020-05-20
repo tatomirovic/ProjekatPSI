@@ -23,6 +23,7 @@ building_types = {
     'BK': 'Baraka za konjicu',
     'BS': 'Baraka za strelce',
     'BO': 'Radionica opsadnog oružja',
+    'ZD': 'Zidine'
 }
 
 building_costs = {
@@ -34,6 +35,7 @@ building_costs = {
     'BK': {'gold': 150, 'wood': 100, 'stone': 150},
     'BS': {'gold': 100, 'wood': 100, 'stone': 150},
     'BI': {'gold': 300, 'wood': 500, 'stone': 150},
+    'ZD': {'gold': 50, 'wood': 100, 'stone': 500}
 }
 
 resource_caps = {
