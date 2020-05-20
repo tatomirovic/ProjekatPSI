@@ -6,12 +6,6 @@ from .models import City, Army, Trade, User, Building
 from . import db
 from . import game_rules as gr
 
-
-## TODO  svi eventovi koji uticu na dva igraca
-#  morace da imaju dodatan status "obradio jedan"
-#  ovi eventovi ce ostati na bazi da cekaju drugog igraca da ih obradi pre brisanja
-
-
 ## Preface za peru
 ## znam da je nepregledno za svakoga ko nije radio na projektu ali nasminkacu
 ## npr videces da statusi trgovine i armija nigde nisu dokumentovane, sve cu to dodati kad zapravo sve bude radilo
@@ -28,11 +22,44 @@ unitUpkeep = {
     "TR" : 45
 }
 
+# returns upkeep of all armies 
+def armyUpkeepPH(army):
+    return  army.lakaPesadija * unitUpkeep["LP"] + army.teskaPesadija * unitUpkeep["TP"] +\
+            army.strelci * unitUpkeep["ST"] + army.samostrelci * unitUpkeep["SS"] +\
+            army.lakaKonjica * unitUpkeep["LK"] + army.teskaKonjica * unitUpkeep["TK"] +\
+            army.katapult * unitUpkeep["KT"] + army.trebuset * unitUpkeep["TR"]
+
+
+def garrisonArmy(army):
+    garrison = Army.query.filter((Army.idCityFrom == army.idCityFrom) & (Army.status == "G")).first()
+    garrison.lakaPesadija += army.lakaPesadija
+    garrison.teskaPesadija += army.teskaPesadija
+    garrison.lakaKonjica += army.lakaKonjica
+    garrison.teskaKonjica += army.teskaKonjica
+    garrison.strelci += army.strelci
+    garrison.samostrelci += army.samostrelci
+    garrison.katapult += army.katapult
+    garrison.trebuset += army.trebuset
+
+    db.session.delete(army)
+    #db.commit()
+
+
 class cityEvent:
     def __init__(self, time):
         self.time = time
     def execute(self):
         pass
+
+
+class recruitingEvent(cityEvent):
+    def __init__(self, time, army):
+        cityEvent.__init__(self, time)
+        self.army = army
+
+    def execute(self):
+        garrisonArmy(self.army)
+
 
 class battleEvent(cityEvent):
     
@@ -63,6 +90,16 @@ class battleEvent(cityEvent):
 
     def execute(self):
         attacker = self.attacker
+
+        city1 = City.query.filter_by(idCity=attacker.idCityFrom).first()
+        player1 = User.query.filter_by(idUser=city1.idOwner).first()
+        
+        city2 = City.query.filter_by(idCity=attacker.idCityTo).first()
+        player2 = User.query.filter_by(idUser=city2.idOwner).first()
+        
+        logEvents(player1, self.time)
+        logEvents(player2, self.time)
+
         ## pretpostavka je da je garnizovana vojska uvek jedna armija i uvek postoji makar sa 0 jedinica
         ## sto je podrzano spajanjem vojske na kraju ove funkcije
         defender = Army.query.filter((Army.idCityFrom==attacker.idCityTo) & (Army.status=="G")).first()
@@ -84,44 +121,18 @@ class battleEvent(cityEvent):
         defender.katapult *= ALoss; defender.trebuset *= DLoss
 
         if DLoss > battleEvent.victoryRequirement:
-        
-            ## !!PERO predlazem da adjust_resources prihvata grad umesto igraca
-            ## da se ne bi drkao ovako svaki put, player argument koristimo samo za kavijar
-            ## koji ne moze da se plunderuje niti da se tradeuje, tako da mislim
-            ## da bi trebalo da napravimo funkciju samo za dodeljivanje kavijara
-            ## pogotovo zato sto predstavlja v-bucks
-            city1 = City.query.filter_by(idCity=attacker.idCityFrom).first()
-            player1 = User.query.filter_by(idUser=city1.idOwner).first()
-            
-            city2 = City.query.filter_by(idCity=attacker.idCityTo).first()
-            player2 = User.query.filter_by(idUser=city2.idOwner).first()
-            
             plunderCap = battleEvent.plunderCap
             gr.adjust_resources(player1, gold=city2.gold*plunderCap, wood=city2.wood*plunderCap, stone=city2.stone*plunderCap)
             gr.adjust_resources(player2, gold=-city2.gold*plunderCap, wood=-city2.wood*plunderCap, stone=-city2.stone*plunderCap)
-            ## velicina plena i victoryRequirement bi mogli da zavise od drugih faktora
-            ## mogla bi i populacija neuspesno odbranjenog grada da se umanji
-            ## obavestiti igrace
 
-        ## spajanje vojske
+        garrisonArmy(attacker)
 
-        garnizovanaVojskaNapadaca = Army.query.filter((Army.idCityFrom == attacker.idCityFrom) & (Army.status == "G")).first()
-        garnizovanaVojskaNapadaca.lakaPesadija += attacker.lakaPesadija
-        garnizovanaVojskaNapadaca.teskaPesadija += attacker.teskaPesadija
-        garnizovanaVojskaNapadaca.lakaKonjica += attacker.lakaKonjica
-        garnizovanaVojskaNapadaca.teskaKonjica += attacker.teskaKonjica
-        garnizovanaVojskaNapadaca.strelci += attacker.strelci
-        garnizovanaVojskaNapadaca.samostrelci += attacker.samostrelci
-        garnizovanaVojskaNapadaca.katapult += attacker.katapult
-        garnizovanaVojskaNapadaca.trebuset += attacker.trebuset
-
-        ## izbaciti attacker armiju iz baze, valjda ovako
-        db.session.delete(attacker)
 
 class tradeEvent(cityEvent):
     def __init__(self, time, trade):
         cityEvent.__init__(self, time)
         self.trade = trade
+
     def execute(self):
         trade = self.trade
 
@@ -131,43 +142,72 @@ class tradeEvent(cityEvent):
         idPlayer2 = City.query.filter_by(idCity=trade.idCity2).first().idOwner
         player2 = User.query.filter_by(idUser=idPlayer2).first()
 
+        logEvents(player1, self.time)
+        logEvents(player2, self.time)
+        
         gr.adjust_resources(player1, gold=trade.gold2, wood=trade.wood2, stone=trade.stone2)
         gr.adjust_resources(player2, gold=trade.gold1, wood=trade.wood1, stone=trade.stone1)
 
-        trade.status = "S" ## success
         ## obavestiti igrace
         db.session.delete(trade)
-
-# returns upkeep of all armies 
-def armyUpkeepPH(army):
-    return  army.lakaPesadija * unitUpkeep["LP"] + army.teskaPesadija * unitUpkeep["TP"] +\
-            army.strelci * unitUpkeep["ST"] + army.samostrelci * unitUpkeep["SS"] +\
-            army.lakaKonjica * unitUpkeep["LK"] + army.teskaKonjica * unitUpkeep["TK"] +\
-            army.katapult * unitUpkeep["KT"] + army.trebuset * unitUpkeep["TR"]
+        #db.session.commit()
 
 
-def logEvents(player):
+class buildEvent(cityEvent):
+    def __init__(self, time, building):
+        cityEvent.__init__(self, time)
+        self.building = building
+    
+    def execute(self):
+        self.building.level += 1
+        self.building.status = 'A' # active
+        #db.session.commit()
+
+
+def logEvents(player, upTo):
     city = City.query.filter_by(idOwner=player.idUser).first()
     if city is None:
         return
-    
+    if city.lastUpdate == upTo:
+        return
+
     eventList = []
 
-    armies = Army.query.filter((Army.idCityFrom==city.idCity) | (Army.idCityTo==city.idCity)).all()
-    for army in armies:
-        if army.status == "A" and army.timeToArrival > datetime.datetime.now(): ## A : attacking
-            eventList.append(battleEvent(army.timeToArrival, army))
-    
-    trades = Trade.query.filter((Trade.idCity1==city.idCity) | (Trade.idCity2==city.idCity)).all()
-    for trade in trades:
-        if trade.status == "A" and trade.timeToArrival > datetime.datetime.now(): ## A : accepted
-            eventList.append(tradeEvent(trade.timeToArrival, trade))
+    recruitings = Army.query.filter(
+        (Army.idCityFrom==city.idCity) & (Army.status=='R') & (Army.timeToArrival > upTo)
+    ).all()
+    for recruiting in recruitings:
+        eventList.append(recruitingEvent(recruiting.timeToArrival, recruiting))
 
+    battles = Army.query.filter(
+        (Army.status=='A') & (Army.timeToArrival > upTo) &
+        ((Army.idCityFrom==city.idCity) | (Army.idCityTo==city.idCity))
+    ).all()
+    for battle in battles:
+        eventList.append(battleEvent(battle.timeToArrival, battle))
     
+    trades = Trade.query.filter(
+        (Trade.status=='A') & (Trade.timeToArrival > upTo) & 
+        ((Trade.idCity1==city.idCity) | (Trade.idCity2==city.idCity))
+    ).all()
+    for trade in trades:
+        eventList.append(tradeEvent(trade.timeToArrival, trade))
+
+    buildings = Building.query.filter(
+        (Building.status=='U') & (Building.finishTime > upTo)
+    )
+    for building in buildings:
+        eventList.append(buildEvent(building.finishTime, building))
+
+    armies = Army.query.filter(Army.idCityFrom==city.idCity).all()
+
     lvl = Building.query.filter_by(idCity=city.idCity, type='TH').first().level
 
     eventList.sort(key = lambda event: event.time)
     for event in eventList:
+        ## obradi dogadjaje do odredjenog trenutka
+        if event.time >= upTo:
+            break
         t0 = city.lastUpdate
         t1 = city.lastUpdate = event.time
         dt = (t1 - t0).seconds / 3600
@@ -185,7 +225,7 @@ def logEvents(player):
         event.execute()
 
     t0 = city.lastUpdate
-    t1 = city.lastUpdate = datetime.datetime.now()
+    t1 = city.lastUpdate = upTo
     dt = (t1 - t0).seconds / 3600
 
     totalUpkeep = 0

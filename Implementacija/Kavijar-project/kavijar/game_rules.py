@@ -141,3 +141,7 @@ def growth(p0, dt, townHallLevel):
     k = carry_capacity[townHallLevel]
     r = growth_rate
     return k / (1 + (k - p0) / p0 * math.exp(-r * dt))
+
+
+def cityDistance(city1, city2):
+    return ((city1.xCoord - city2.xCoord)**2 + (city1.yCoord - city2.yCoord)**2)**.5
