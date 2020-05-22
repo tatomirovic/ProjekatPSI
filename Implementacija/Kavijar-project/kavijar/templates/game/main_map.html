@@ -18,14 +18,35 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 
 
-    <!--OVO JE POP UP KOJI TREBA DA SE EDIT SA INFO O GRADU-->
-    <div id="ex1" class="modal" style="background-color: grey;" id="editPopUP">
-        <p id="cityName">
-        </p>
-        <a href="#" rel="modal:close" style="color: yellow;">Close</a>
+    <!-- POP UP KOJI TREBA DA SE EDIT SA INFO O GRADU-->
+    <div id="ex1" class="modal" style="background: url(static/img/formbg.jpg);" id="editPopUP">
+        <p id="cityName" class='myFont' style="text-align: center; font-size: 25px; margin-bottom: 25px;"></p>
+        <p class='myFont' style="text-align: center; font-size: 15px;">vlasnik grada</p>
+        <p id="cityOwnerPopUp" class='myFont' style="text-align: center; font-size: 25px; color: wheat;"></p>
+        <div class="d-flex justify-content-center">
+            <img src = "static/img/map_images/player.png" style="margin-left: auto; margin-right: auto;"></img>
+          </div>
+        
+        <div class="container"style ="margin-bottom: 50px;">
+            <div class="row">
+              <div class="col-sm" style="text-align: center;">
+                <button type='button' class = "def-button logo-button" style="height: 50px;">NAPADNI</button>
+              </div>
+              <div class="col-sm">
+               
+              </div>
+              <div class="col-sm" style="text-align: center;">
+                <button type='button' class = "def-button logo-button" style="height: 50px;">TRGUJ</button>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-center">
+            <a href="#" rel="modal:close" style="color: yellow; text-align: center;margin-top: 50px;margin-left: auto; margin-right: auto;">ZATVORI PROZOR</a>
+          </div>
+       
+        
       </div>
-
-
+    <!--SKRIPTA ZA ISCRTAVANJE MAPE -->
     <div class="container">
         <div class="row">
          
@@ -39,40 +60,41 @@
             max-height: 800px;"  >
             <div class="ib-main" id="ibMain">
                 
-                <script>      
-                        
+                <script>    
+                    //ISCRTAVANJE MAPE                    
                     for(var i=1;i<=30;i++)
                     {
                         var city_position = Math.floor(Math.random() * 30);   
                         for(var j=1;j<=30;j++)
                         {
                         var h  = document.createElement("a");
-                           
                         var string_source = "static/img/map_images/gridMap/image_"+i.toString()+"_"+j.toString()+".jpeg";
                         h.setAttribute("style","background: url("+string_source+") no-repeat center center;");
                         h.setAttribute("id",i.toString()+j.toString());
-                        if(j==city_position)
-                        {
-                            /*
-                            var img = document.createElement("IMG");
-                            img.setAttribute("src","static/img/map_images/cityicon.png");
-                            img.setAttribute("data-largesrc","static/img/map_images/cityicon.png");
-                            img.setAttribute("class","imgB1");
-
-                            h.setAttribute("href","#ex1");
-                            h.setAttribute("rel","modal:open");
-                            h.appendChild(img);
-                            */
-                        }
-                        
-                       // var img2 = document.createElement("IMG");
-                       // img2.setAttribute("src","static/img/map_images/cityicon.png");
-                        //img2.setAttribute("class","imgB1");
-                       // h.appendChild(img2);
+                                      
                         document.getElementById("ibMain").appendChild(h);
-                        }
-                                               
+                        }                
                     }   
+                    //ISCRTAVANJE GRADA
+                    var city_array_json = {{city_list | tojson}};
+                    for(var i =0;i<city_array_json.length;i++)
+                    {
+                        var x =  city_array_json[i].xCoord;
+                        var y =  city_array_json[i].yCoord;
+      
+                        var image_id = x.toString()+","+y.toString();
+                        var img = document.createElement("img");
+                        
+                        img.setAttribute("src","static/img/map_images/cityicon.png");
+                        img.setAttribute("class","imgB1");
+                        img.setAttribute("id",image_id);
+
+                        img.setAttribute("onclick","openForeignCity(this)");
+
+                        var a = document.getElementById(x.toString()+y.toString()); 
+                        a.appendChild(img);
+                    }
+                            
                 </script>
                                
                 <div class="clr"></div>
@@ -82,43 +104,52 @@
           
         </div>
     </div>
-    
+
+    <!-- OVA SCRIPTA JE ZA ISCRTAVANJE SVOG GRADA I DODAVANJE HREF-->
     {% for city in city_list %}
-    {{city.xCoord}};
-    {{city.yCoord}};
-    <script>     
-    alert("krac");
-        var x =  {{city.xCoord}};
-        var y =    {{city.yCoord}};
-        var image_id = x.toString()+","+y.toString();
-        var img = document.createElement("img");
+        {% if city.ownerName == g.user.username%}   
+            <script>
+               var x =  {{city.xCoord}};
+               var y =    {{city.yCoord}};
+               var a = document.getElementById(x.toString()+y.toString()); 
+               var image_id = x.toString()+","+y.toString();
+               document.getElementById(image_id).setAttribute("src","static/img/map_images/mycityicon.png");
+               var city_coordinate_combination_for_redirection= city_array_json[i].xCoord.toString()+city_array_json[i].yCoord.toString();
 
-        img.setAttribute("src","static/img/map_images/cityicon.png");
-        img.setAttribute("class","imgB1");
-        img.setAttribute("id",image_id)
-        img.setAttribute("onclick","openForeignCity(this)");
-        var a = document.getElementById(x.toString()+y.toString()); 
-        a.setAttribute("href","#ex1");
-        a.setAttribute("rel","modal:open");
-
-        a.appendChild(img);
-        /*
-        img.onclick = function() { 
-            openForeignCity(img);
-        }*/
-    </script>
+               //OVDE JE POTREBNO DA SE OSTAVI HREF KA GRADU 
+               a.href = "https://www.w3schools.com/html/";
+               a.setAttribute("rel","");
+            </script>
+        {% else %}
+            <script>
+                var x =  {{city.xCoord}};
+                var y =    {{city.yCoord}};
+                var a = document.getElementById(x.toString()+y.toString()); 
+                a.setAttribute("href","#ex1");
+                a.setAttribute("rel","modal:open");
+            </script>
+        {% endif %}
+       
    {% endfor %}
-
+    <!--ENDSCRIPT-->
 
     <script type="text/javascript">
 
-
+    //FUNKCIJA: OTVARA POP UP PROZOR FOREIGN GRADA
     function openForeignCity(a)
     {
        var city_array_json = {{city_list | tojson}};
-       alert(city_array_json.length);
-     
 
+       for(var i =0;i<city_array_json.length;i++)
+       {//prolaz kroz listu
+            var city_coordinate_combination= city_array_json[i].xCoord.toString()+","+city_array_json[i].yCoord.toString();
+            if(a.id==city_coordinate_combination)
+            {//dohvatili smo grad
+                document.getElementById("cityName").innerHTML = city_array_json[i].name.toString();
+                document.getElementById("cityOwnerPopUp").innerHTML = city_array_json[i].ownerName.toString();
+            }
+       }
+     
     }
         $(function() {
         
