@@ -7,7 +7,7 @@ from kavijar.auth import login_required, player_required, check_ban
 from kavijar.auth import login_required
 from . import db
 
-from .models import City, Building
+from .models import City, Building, User
 import functools, datetime
 from . import updateWrappers
 
@@ -20,10 +20,13 @@ bp = Blueprint('game', __name__)
 def index():
     city_list = City.query.all()
     city_list_json = []
+    city_user_names = {}
     firstKey = None
     for city in city_list:
         #print(f'Our city is: {city.serialize()}')
-        city_list_json.append(city.serialize())
+        city_json = city.serialize()
+        city_json['ownerName'] = User.query.filter_by(idUser=city.idOwner).first().username
+        city_list_json.append(city_json)
     #print(f"The dump is: {json.dumps(city_list_json)}")
     return render_template('game/main_map.html', city_list=city_list_json)
 
