@@ -28,7 +28,7 @@ def player_city():
         for bt in gr.building_types.keys():
             building_costs[bt] = gr.build_cost(bt, 1)
         for b in buildings:
-            building_costs[b.type] = gr.build_cost(b.type, b.level+1)
+            building_costs[b.type] = gr.build_cost(b.type, b.level + 1)
     return render_template('playercity/city.html', city=city, buildings=buildings,
                            armies=armies, building_costs=building_costs, buildingnames=gr.building_types)
 
@@ -36,7 +36,7 @@ def player_city():
 @player_required
 @check_ban
 @updateWrappers.update_resources
-@bp.route('/create_building/<string:type>', methods=('GET', 'POST'))
+@bp.route('/create_building/<string:b_type>', methods=('GET', 'POST'))
 def create_building(b_type):
     if request.method == 'POST':
         city = City.query.filter_by(idOwner=g.user.idUser).first()
@@ -68,7 +68,7 @@ def create_building(b_type):
 @player_required
 @check_ban
 @updateWrappers.update_resources
-@bp.route('/halt_building/<string:type>', methods=('GET', 'POST'))
+@bp.route('/halt_building/<string:b_type>', methods=('GET', 'POST'))
 def halt_building(b_type):
     if request.method == 'POST':
         city = City.query.filter_by(idOwner=g.user.idUser).first()
@@ -99,7 +99,7 @@ def halt_building(b_type):
 @player_required
 @check_ban
 @updateWrappers.update_resources
-@bp.route('/upgrade_building/<string:type>', methods=('GET', 'POST'))
+@bp.route('/upgrade_building/<string:b_type>', methods=('GET', 'POST'))
 def upgrade_building(b_type):
     if request.method == 'POST':
         city = City.query.filter_by(idOwner=g.user.idUser).first()
@@ -113,7 +113,7 @@ def upgrade_building(b_type):
             error = 'Već ste pokrenuli izgradnju!'
         elif existing_building.level >= gr.building_max_level:
             error = 'Gradjevina je maksimalnog nivoa!'
-        costs = gr.build_cost(b_type, existing_building.level+1)
+        costs = gr.build_cost(b_type, existing_building.level + 1)
         gold = costs['gold']
         wood = costs['wood']
         stone = costs['stone']
@@ -121,8 +121,8 @@ def upgrade_building(b_type):
             error = 'Nedovoljno resursa!'
         if error is None:
             finishTime = datetime.datetime.now() \
-                         + datetime.timedelta(minutes=gr.build_time(existing_building.level+1, b_type))
-            #existing_building.level += 1
+                         + datetime.timedelta(minutes=gr.build_time(existing_building.level + 1, b_type))
+            # existing_building.level += 1
             existing_building.finishTime = finishTime
             gr.adjust_resources(player=g.user, gold=gold, wood=wood, stone=stone)
             db.session.commit()
@@ -150,13 +150,13 @@ def reassign_workers(ww, sw):
             kamenolom_level = Kamenolom.level
         wwlimit = gr.resource_allocation_limit[pilana_level]
         swlimit = gr.resource_allocation_limit[kamenolom_level]
-        if (ww > wwlimit):
+        if ww > wwlimit:
             ww = wwlimit
-        if (sw > swlimit):
+        if sw > swlimit:
             sw = swlimit
-        if (ww < 0):
+        if ww < 0:
             ww = 0
-        if (sw < 0):
+        if sw < 0:
             sw = 0
         error = None
         if ww + sw > city.population:
@@ -168,4 +168,41 @@ def reassign_workers(ww, sw):
             city.civilians = civ
         else:
             flash(error)
+    return redirect(url_for('playercity.player_city'))
+
+
+@player_required
+@check_ban
+@updateWrappers.update_resources
+@bp.route('/recruit_unit/<string:u_type>/<int:quantity>', methods=('GET', 'POST'))
+def recruit_unit(u_type, quantity):
+    if request.method == 'POST':
+        city = City.query.filter_by(idOwner=g.user.idUser).first()
+        barracks = Building.query.filter_by(idOwner=g.user.idUser, type=gr.barracks_allocation[u_type]).first()
+        error = None
+        if city is None:
+            error = 'Grad ne postoji'
+        elif barracks is None:
+            error = 'Nepostojeca baraka!'
+        elif barracks.level == 0:
+            error = 'Baraka jos nije gotova!'
+        else:
+            cost = gr.recruit_cost(u_type, quantity)
+            gold = cost['gold']
+            wood = cost['wood']
+            stone = cost['stone']
+            population = cost['population']
+            if gold > city.gold or wood > city.wood or stone > city.stone or population > city.population:
+                error = 'Nedovoljno resursa!'
+            if error is None:
+                recruit_time = gr.recruit_time_seconds(u_type, quantity, barracks.level)
+                recruit_date = datetime.datetime.now() + datetime.timedelta(seconds=recruit_time)
+                new_army = Army(idCityFrom=city.idCity, idCityTo=None, status='R', timeToArrival=recruit_date,
+                                lakaPesadija=0, teskaPesadija=0, lakaKonjica=0, teskaKonjica=0,
+                                strelci=0, samostrelci=0, katapult=0, trebuset=0)
+                setattr(new_army, gr.unit_type_fields[u_type], quantity)
+                db.session.commit()
+                flash(f"Pokrenuto regrutovanje {quantity} jedinica tipa {gr.unit_types[u_type]}")
+            else:
+                flash(error)
     return redirect(url_for('playercity.player_city'))

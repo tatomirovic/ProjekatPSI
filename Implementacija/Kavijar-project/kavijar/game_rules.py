@@ -3,8 +3,6 @@ import math, datetime, random
 from .models import City, Building, Army
 from . import db
 
-
-
 goldPerHour = 3
 woodPerHour = 1
 stonePerHour = 1
@@ -26,6 +24,28 @@ building_types = {
     'ZD': 'Zidine'
 }
 
+unit_types = {
+    'LP': 'Laka pešadija',
+    'TP': 'Teška pešadija',
+    'ST': 'Strelci',
+    'SS': 'Samostrelci',
+    'LK': 'Laka konjica',
+    'TK': 'Teška konjica',
+    'KT': 'Katapulti',
+    'TR': 'Trebušeti'
+}
+
+unit_type_fields = {
+    'LP': 'lakaPesadija',
+    'TP': 'teskaPesadija',
+    'ST': 'strelci',
+    'SS': 'samostrelci',
+    'LK': 'lakaKonjica',
+    'TK': 'teškaKonjica',
+    'KT': 'katapult',
+    'TR': 'trebušet'
+}
+
 building_costs = {
     'TH': {'gold': 500, 'wood': 300, 'stone': 600},
     'PI': {'gold': 130, 'wood': 0, 'stone': 250},
@@ -36,6 +56,17 @@ building_costs = {
     'BS': {'gold': 100, 'wood': 100, 'stone': 150},
     'BO': {'gold': 300, 'wood': 500, 'stone': 150},
     'ZD': {'gold': 50, 'wood': 100, 'stone': 500}
+}
+
+barracks_allocation = {
+    'LP': 'BP',
+    'TP': 'BP',
+    'ST': 'BS',
+    'SS': 'BS',
+    'LK': 'BK',
+    'TK': 'BK',
+    'KT': 'BO',
+    'TR': 'BO'
 }
 
 resource_caps = {
@@ -64,7 +95,34 @@ building_costs_scaling = {
     4: -20,
     5: -100,
 }
+
+building_build_time_scaling = [5, 20, 60, 300, 1440]
+
+barracks_recruit_time_scaling = [1, 5, 10, 15, 20]
+
 # Koristimo - jer se pri izgradnji GUBE resursi
+
+unit_costs = {
+    "LP": {'gold': 30, 'wood': 0, 'stone': 0, 'population': 1},
+    "TP": {'gold': 60, 'wood': 0, 'stone': 0, 'population': 1},
+    "ST": {'gold': 20, 'wood': 10, 'stone': 0, 'population': 1},
+    "SS": {'gold': 45, 'wood': 15, 'stone': 0, 'population': 1},
+    "LK": {'gold': 70, 'wood': 10, 'stone': 0, 'population': 2},
+    "TK": {'gold': 100, 'wood': 20, 'stone': 0, 'population': 3},
+    "KT": {'gold': 100, 'wood': 50, 'stone': 20, 'population': 1},
+    "TR": {'gold': 250, 'wood': 80, 'stone': 40, 'population': 1},
+}
+
+unit_recruit_times = {
+    "LP": 5,
+    "TP": 10,
+    "ST": 5,
+    "SS": 10,
+    "LK": 20,
+    "TK": 40,
+    "KT": 50,
+    "TR": 100,
+}
 
 refund_mult = -0.5
 building_max_level = 5
@@ -78,8 +136,18 @@ def build_cost(bType, level):
 
 
 def build_time(level, b_type):
-    buildTime = [5, 20, 60, 300, 1440]
-    return buildTime[level]
+    return building_build_time_scaling[level]
+
+
+def recruit_cost(uType, quantity):
+    costdict = {'gold': 0, 'wood': 0, 'stone': 0, 'population': 0}
+    for k in costdict.keys():
+        costdict[k] = unit_costs[uType][k] * quantity
+    return costdict
+
+
+def recruit_time_seconds(uType, quantity, barracks_level):
+    return (60.0*quantity*unit_recruit_times[uType])/barracks_recruit_time_scaling[barracks_level]
 
 
 # BITNO - POZVATI db.session.commit() POSLE OVE FUNKCIJE, NE POZIVA GA SAMA
@@ -112,8 +180,11 @@ def adjust_resources(player, gold=0, wood=0, stone=0, pop=0, kavijar=0):
 
 
 def createGarrison(idCity):
-    db.session.add(Army(idCityFrom=idCity, status="G", lakaPesadija=0, teskaPesadija=0, lakaKonjica=0, teskaKonjica=0, strelci=0, samostrelci=0, katapult=0, trebuset=0))
+    db.session.add(
+        Army(idCityFrom=idCity, status="G", lakaPesadija=0, teskaPesadija=0, lakaKonjica=0, teskaKonjica=0, strelci=0,
+             samostrelci=0, katapult=0, trebuset=0))
     db.session.commit()
+
 
 def createTownHall(idCity):
     db.session.add(Building(idCity=idCity, type="TH", status="A", level=1, finishTime=datetime.datetime.now()))
@@ -121,8 +192,8 @@ def createTownHall(idCity):
 
 
 def createCity(idOwner, name):
-    xCoord = random.randint(0,29) ## placeholder
-    yCoord = random.randint(0,29)
+    xCoord = random.randint(0, 29)  ## placeholder
+    yCoord = random.randint(0, 29)
     db.session.add(City(idOwner=idOwner, name=name, xCoord=xCoord, yCoord=yCoord, population=startingPopulation,
                         woodworkers=0, stoneworkers=0, civilians=startingPopulation, gold=startingGold,
                         wood=startingWood, stone=startingStone, lastUpdate=datetime.datetime.now()))
@@ -144,4 +215,4 @@ def growth(p0, dt, townHallLevel):
 
 
 def cityDistance(city1, city2):
-    return ((city1.xCoord - city2.xCoord)**2 + (city1.yCoord - city2.yCoord)**2)**.5
+    return ((city1.xCoord - city2.xCoord) ** 2 + (city1.yCoord - city2.yCoord) ** 2) ** .5
