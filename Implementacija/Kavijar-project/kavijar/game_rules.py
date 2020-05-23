@@ -124,6 +124,14 @@ unit_recruit_times = {
     "TR": 100,
 }
 
+tp_resource_cap = {
+    1: 500,
+    2: 2000,
+    3: 10000,
+    4: 50000,
+    5: 200000
+}
+
 refund_mult = -0.5
 building_max_level = 5
 
@@ -216,3 +224,7 @@ def growth(p0, dt, townHallLevel):
 
 def cityDistance(city1, city2):
     return ((city1.xCoord - city2.xCoord) ** 2 + (city1.yCoord - city2.yCoord) ** 2) ** .5
+
+
+def cityTravelTime_seconds(city1, city2):
+    return 40.0 * cityDistance(city1, city2)

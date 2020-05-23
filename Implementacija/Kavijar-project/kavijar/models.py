@@ -138,6 +138,19 @@ class Trade(Base):
     wood2 = Column(INTEGER(11), nullable=False)
     stone2 = Column(INTEGER(11), nullable=False)
     timeToArrival = Column(DateTime)
+
+    def serialize(self):
+        return {"idTrade": self.idTrade,
+                "idCity1": self.idCity1,
+                "idCity2": self.idCity2,
+                "status": self.status,
+                "gold1": self.gold1,
+                "wood1": self.wood1,
+                "stone1": self.stone1,
+                "gold2": self.gold2,
+                "wood2": self.wodo2,
+                "stone2": self.stone2,
+                "timeToArrival": self.timeToArrival}
     
     city = relationship(u'City', primaryjoin='Trade.idCity1 == City.idCity')
     city1 = relationship(u'City', primaryjoin='Trade.idCity2 == City.idCity')
