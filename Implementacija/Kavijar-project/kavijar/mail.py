@@ -26,6 +26,14 @@ def msg_main():
     return render_template('mail/mail.html', msg_list=msg_list)
 
 
+def send_msg_function(sender, recipient, msgbody, msgtime):
+    recipient.statusUpdate += 1
+    new_message = Mailmsg(idFrom=sender.idUser, idTo=recipient.idUser,
+                          time=msgtime, content=msgbody, readFlag=0)
+    db.session.add(new_message)
+    db.session.commit()
+
+
 @bp.route('/send_msg', methods=('GET', 'POST'))
 @login_required
 @check_ban
@@ -41,11 +49,7 @@ def send_msg():
         elif len(msgbody) > 256 or len(msgbody) == 0:
             error = "Losa duzina poruke!"
         if error is None:
-            recipient.statusUpdate += 1
-            new_message = Mailmsg(idFrom=sender.idUser, idTo=recipient.idUser,
-                                  time=msgtime, content=msgbody, readFlag=0)
-            db.session.add(new_message)
-            db.session.commit()
+            send_msg_function(sender, recipient, msgbody, msgtime)
         else:
             flash(error)
     return render_template('mail/send_msg.html')

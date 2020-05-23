@@ -14,8 +14,8 @@ bp = Blueprint('tradingpost', __name__, url_prefix='/tradingpost')
 
 def sanitycheck(val):
     try:
-        return int(val) > 0
-    except:
+        return int(val) >= 0
+    except ValueError:
         return False
 
 
@@ -180,7 +180,6 @@ def accept_trade(idTrade):
                                 wood=-trade.wood2, stone=-trade.stone2)
             db.session.commit()
             flash(f"Prihvatili ste ponudu od grada {city_send.name} igrača {sender.username}")
-            eventLogger.logEvents(g.user, datetime.datetime.now())
         else:
             flash(error)
     return redirect(url_for('tradingpost.trading_post'))
