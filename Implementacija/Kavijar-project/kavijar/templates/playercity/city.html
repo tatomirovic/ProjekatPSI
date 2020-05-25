@@ -1,0 +1,33 @@
+{% extends 'userbase.html'%}
+
+{% block head %}
+<title>Kavijar</title>
+{% endblock %}
+
+{% block body %}
+
+
+    <div class="row-fluid myBorder text-center center-block">
+        <div class="col-sm-12">
+            
+            <h1>{{city.name}}</h1>
+            <table class='citytable' cellpadding=20px style='margin:0 auto'>
+                
+                <tr>
+                    {% for bld in buildings %}
+                    {% set imgurl="img/buildings/" + bld.type ~ bld.level + ".png" %}
+                    {% if bld.level>0 %}
+                    <td class='citytile'><img src= '{{url_for("static", filename=imgurl) }}' class='building'><br> {{ buildingnames[bld.type] }}</td>
+                    {% else %}
+                    <td class='citytile'><img src= '{{url_for("static", filename="img/buildings/empty.png") }}' class='building' ><br>{{ buildingnames[bld.type] }}</td>
+                    {% endif %}
+                        {% if loop.index%3==0 %}
+                        </tr><tr>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+
+            </table>
+        </div>
+    </div>
+{% endblock %}

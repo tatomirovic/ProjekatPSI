@@ -1,6 +1,6 @@
 .background
 {
-	background-image: url('/static/img/bgdark.jpg');
+	background-image: url('/static/img/bg.jpg');
 	background-size:100% 100%;
 	-webkit-background-size: cover;
     -moz-background-size: cover;
@@ -49,15 +49,36 @@
 	cursor: url('/static/img/cursor.png'), auto;
 }
 
+.citytile
+{
+	width:290px;
+	height:120px;
+	vertical-align:bottom;
+	text-align:center;
+	font-size:14px;
+}
 
 
+.building
+{
+	width:120px;
+}
+
+.building:hover
+{
+	-webkit-filter: drop-shadow(1px 1px 0 rgb(233, 171, 0))
+                  drop-shadow(-1px -1px 0 rgb(233, 171, 0));
+  filter: drop-shadow(1px 1px 0 rgb(233, 171, 0)) 
+          drop-shadow(-1px -1px 0 rgb(233, 171, 0));
+}
 .myBorder
 {
-	border: 5px solid transparent;
+	border: 5px solid ;
 	border-image: url('/static/img/border.png') 30 round;
-	background-image: url('/static/img/formbg.jpg');
+	background-image: url('/static/img/formbg1.jpg');
 	background-size:cover;
 }
+
 .login-input
 {
 	width:45%;
@@ -65,6 +86,15 @@
 	height:30px;
 }
 
+
+.citytable
+{
+	border: 5px solid ;
+	border-radius: 2px;
+	border-image: url('/static/img/border.png') 30 round !important;
+	background:url('/static/img/citybg.png');
+	background-size: cover;
+}
 .input {
 	padding: 5px;
 	font-size: 20px;
@@ -72,7 +102,7 @@
 	color:rgb(233, 171, 0);
 	border-width: 1px;
 	border-color:rgb(233, 171, 0);
-	background-color: rgb(19, 19, 19);
+	background-color: rgb(39, 23, 0);
 	border-style: solid;
 	border-radius: 0px;
 	box-shadow: 5px 3px 9px rgba(0,0,0,.80);
@@ -131,7 +161,7 @@
 	color:rgb(233, 171, 0);
 	font-weight:bold;
 	height:80px;
-	background-image: url('/static/img/formbg.jpg');
+	background-image: url('/static/img/formbg1.jpg');
 	background-size:cover;
 }
 
@@ -246,16 +276,23 @@
 
 .def-button:hover
 {
-	opacity:70%;
+	opacity:90%;
 	cursor: url('/static/img/cursor.png'), auto;
+	outline-style: solid;
+	outline-color:rgb(233, 171, 0) ;
+	outline-width: 1px;
 }
 .def-button:focus
 {
 	outline-color:rgb(233, 171, 0) ;
+	outline-style: solid;
+	outline-width: 2px;
 }
 .def-button:active
 {
 	outline-color:rgb(233, 171, 0) ;
+	outline-style: solid;
+	outline-width: 2px;
 }
 .logotext
 {
