@@ -32,7 +32,7 @@ def login():
             if user.dateUnban > datetime.datetime.now():
                 error = 'Banovani ste!'
             else:
-                g.user.dateUnban = None
+                user.dateUnban = None
                 db.session.commit()
         if error is None:
             session.clear()
