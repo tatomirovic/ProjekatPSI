@@ -35,7 +35,7 @@ def create_app():
         from . import warfare
         app.register_blueprint(warfare.bp)
         from . import building
-        app.register_blueprint(warfare.bp)
+        app.register_blueprint(building.bp)
         app.add_url_rule('/', endpoint='index')
         auth.init_app(app)
         socketio.run(app, debug=True)
