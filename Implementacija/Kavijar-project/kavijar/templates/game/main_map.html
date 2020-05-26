@@ -1,7 +1,7 @@
 {% extends 'userbase.html'%}
 
 {% block head %}
-<title>GAME</title>
+<title>Kavijar</title>
 <link rel="stylesheet" href='{{ url_for("static",filename="css/styleMap.css") }}'>
 <style>
   
@@ -21,7 +21,7 @@
     <!-- POP UP KOJI TREBA DA SE EDIT SA INFO O GRADU-->
     <div id="ex1" class="modal" style="background: url(static/img/formbg.jpg);" id="editPopUP">
         <p id="cityName" class='myFont' style="text-align: center; font-size: 25px; margin-bottom: 25px;"></p>
-        <p class='myFont' style="text-align: center; font-size: 15px;">vlasnik grada</p>
+        <p class='myFont' style="text-align: center; font-size: 15px;">Vlasnik grada</p>
         <p id="cityOwnerPopUp" class='myFont' style="text-align: center; font-size: 25px; color: wheat;"></p>
         <div class="d-flex justify-content-center">
             <img src = "static/img/map_images/player.png" style="margin-left: auto; margin-right: auto;"></img>
@@ -30,13 +30,16 @@
         <div class="container"style ="margin-bottom: 50px;">
             <div class="row">
               <div class="col-sm" style="text-align: center;">
-                <button type='button' class = "def-button logo-button" style="height: 50px;">NAPADNI</button>
+                <button type='button' class = "def-button logo-button" style="height: 50px;">Napadni</button>
               </div>
               <div class="col-sm">
                
               </div>
               <div class="col-sm" style="text-align: center;">
-                <button type='button' class = "def-button logo-button" style="height: 50px;">TRGUJ</button>
+                <a id='tradeButton' href='#'>
+                    <button type='button' class = "def-button logo-button" style="height: 50px;">Trguj</button>
+                </a>
+                
               </div>
             </div>
           </div>
@@ -117,7 +120,7 @@
                var city_coordinate_combination_for_redirection= city_array_json[i].xCoord.toString()+city_array_json[i].yCoord.toString();
 
                //OVDE JE POTREBNO DA SE OSTAVI HREF KA GRADU 
-               a.href = "https://www.w3schools.com/html/";
+               document.getElementById(x.toString()+y.toString()).setAttribute("href","playercity");
                a.setAttribute("rel","");
             </script>
         {% else %}
@@ -147,6 +150,7 @@
             {//dohvatili smo grad
                 document.getElementById("cityName").innerHTML = city_array_json[i].name.toString();
                 document.getElementById("cityOwnerPopUp").innerHTML = city_array_json[i].ownerName.toString();
+                document.getElementById("tradeButton").setAttribute("href","tradingpost/trade?username=" + city_array_json[i].ownerName.toString());
             }
        }
      

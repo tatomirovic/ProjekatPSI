@@ -23,7 +23,7 @@
                 {% for msg in msg_list %}
                 <tr>
                     
-                    <td width=4%>
+                    <td width=5%>
                         {% if msg.user.idUser==g.user.idUser %}
                         <img src='{{ url_for("static", filename="img/sent.png") }}' class='mailimg'>
                         {% else %}
@@ -34,7 +34,7 @@
                             {% endif %}
                         {% endif %} 
                     </td>
-                    <td width=16%>
+                    <td width=15%>
                         {%if msg.user.idUser!=g.user.idUser %}
                             {% if msg.user.role == 'A' %}
                             [Admin]

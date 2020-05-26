@@ -11,7 +11,7 @@
         <div class="col-sm-12">
             
             <h1>{{city.name}}</h1>
-            <table class='citytable' cellpadding=20px style='margin:0 auto'>
+            <table class='citytable' cellpadding=20px style='margin:0 auto;'>
                 
                 <tr>
                     {% for bld in buildings %}
@@ -28,6 +28,17 @@
                 </tr>
 
             </table>
+            Populacija {{city.population|int}}
+            <br>
+            <img class='cityimg' src='{{url_for("static", filename="img/villager.png") }}'> {{city.civilians}}
+            <img class='cityimg' src='{{url_for("static", filename="img/axe.png") }}'> {{city.woodworkers}}
+            <img class='cityimg' src='{{url_for("static", filename="img/pickaxe.png") }}'> {{city.stoneworkers}}
+            <br>
+            Resursi
+            <br>
+            <img class='cityimg' src='{{url_for("static", filename="img/gold.png") }}'> {{city.gold|int}}
+            <img class='cityimg' src='{{url_for("static", filename="img/wood.png") }}'> {{city.wood|int}}
+            <img class='cityimg' src='{{url_for("static", filename="img/stone.png") }}'> {{city.stone|int}}
         </div>
     </div>
 {% endblock %}
