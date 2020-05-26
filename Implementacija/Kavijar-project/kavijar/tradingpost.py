@@ -23,10 +23,11 @@ def sanitycheck(val):
 @check_ban
 @updateWrappers.update_resources
 def trade_main():
+    city = City.query.filter_by(idOwner=g.user.idUser).first()
     username = request.args.get('username')
     if username is None:
         username=''
-    return render_template('tradingpost/trade.html', username=username, )
+    return render_template('tradingpost/trade.html', username=username, city=city)
 
 
 
