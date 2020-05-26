@@ -138,6 +138,8 @@ building_max_level = 5
 
 def build_cost(bType, level):
     costdict = {'gold': 0, 'wood': 0, 'stone': 0}
+    if level > building_max_level:
+        level = building_max_level
     for k in costdict.keys():
         costdict[k] = building_costs[bType][k] * building_costs_scaling[level]
     return costdict
