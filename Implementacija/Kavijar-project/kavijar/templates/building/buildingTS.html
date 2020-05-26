@@ -1,0 +1,20 @@
+{% extends 'userbase.html'%}
+
+{% block head %}
+<title>Kavijar</title>
+{% endblock %}
+
+{% block body %}
+
+    <div class="row-fluid myBorder text-center center-block">
+        <div class="col-sm-12">
+            <h3>Resursi</h3>
+            <img class='cityimg' src='{{url_for("static", filename="img/gold.png") }}'> {{city.gold|int}}
+            <img class='cityimg' src='{{url_for("static", filename="img/wood.png") }}'> {{city.wood|int}}
+            <img class='cityimg' src='{{url_for("static", filename="img/stone.png") }}'> {{city.stone|int}}
+        </div>
+        {% for message in get_flashed_messages() %}
+        <button class="error-msg" disabled>{{ message }}</button>
+        {% endfor %}
+    </div>
+{% endblock %}

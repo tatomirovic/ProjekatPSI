@@ -148,7 +148,7 @@ class Trade(Base):
                 "wood1": self.wood1,
                 "stone1": self.stone1,
                 "gold2": self.gold2,
-                "wood2": self.wodo2,
+                "wood2": self.wood2,
                 "stone2": self.stone2,
                 "timeToArrival": self.timeToArrival}
     

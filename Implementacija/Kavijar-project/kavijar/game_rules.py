@@ -217,7 +217,7 @@ growth_rate = 0.1
 
 
 def growth(p0, dt, townHallLevel):
-    k = carry_capacity[townHallLevel]
+    k = carry_capacity[townHallLevel-1]
     r = growth_rate
     return k / (1 + (k - p0) / p0 * math.exp(-r * dt))
 

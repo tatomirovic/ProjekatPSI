@@ -45,10 +45,10 @@ def trading_post():
         trades_sent = Trade.query.filter_by(idCity1=city.idCity, status='P').all()
         # Sve ponude koje su nam stigle
         trades_received = Trade.query.filter_by(idCity2=city.idCity, status='P').all()
-        userCity = City.query.filter_by(idOwner=g.user.idUser)
+        userCity = City.query.filter_by(idOwner=g.user.idUser).first()
         for trade in trades_sent:
             citySend = userCity
-            cityReceive = City.query.filter_by(idCity=Trade.idCity2)
+            cityReceive = City.query.filter_by(idCity=Trade.idCity2).first()
             # Json reprezentacija ponude
             data = trade.serialize()
             # Dodato u json data imamo i imena gradova
@@ -82,8 +82,8 @@ def create_trade():
         receiver = User.query.filter_by(username=username).first()
         city_send = City.query.filter_by(idOwner=sender.idUser).first()
         city_receive = City.query.filter_by(idOwner=receiver.idUser).first()
-        tpost_send = Building.query.filter_by(idCity=city_send.idCity, type='TP').first()
-        tpost_receive = Building.query.filter_by(idCity=city_receive.idCity, type='TP').first()
+        tpost_send = Building.query.filter_by(idCity=city_send.idCity, type='TS').first()
+        tpost_receive = Building.query.filter_by(idCity=city_receive.idCity, type='TS').first()
         error = None
         if city_send is None or city_receive is None:
             error = 'Transakcija mora uključivati dva grada!'
@@ -104,9 +104,9 @@ def create_trade():
                 # Ako igrac ima suvise slabu trgovinsku stanicu, ogranici mu resurse koji se salju u jednoj ponudi.
                 trade_cap = gr.tp_resource_cap[tpost_send.level]
                 for k in res1.keys():
-                    res1['k'] = min(int(res1['k']), trade_cap)
+                    res1[k] = min(int(res1[k]), trade_cap)
                 for k in res2.keys():
-                    res2['k'] = min(int(res2['k']), trade_cap)
+                    res2[k] = min(int(res2[k]), trade_cap)
                 # Obavesti igraca ako pokusava da salje vise nego sto ima
                 if res1['gold'] > city_send.gold or res1['wood'] > city_send.wood or res1['stone'] > city_send.stone:
                     error = 'Nemate dovoljno resursa!'
