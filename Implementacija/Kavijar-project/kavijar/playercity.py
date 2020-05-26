@@ -36,7 +36,7 @@ def player_city():
 @player_required
 @check_ban
 @updateWrappers.update_resources
-@bp.route('/create_building/<string:b_type>', methods=('GET', 'POST'))
+@bp.route('/create_building/<b_type>', methods=('GET', 'POST'))
 def create_building(b_type):
     if request.method == 'POST':
         city = City.query.filter_by(idOwner=g.user.idUser).first()
@@ -68,7 +68,7 @@ def create_building(b_type):
 @player_required
 @check_ban
 @updateWrappers.update_resources
-@bp.route('/halt_building/<string:b_type>', methods=('GET', 'POST'))
+@bp.route('/halt_building/<b_type>', methods=('GET', 'POST'))
 def halt_building(b_type):
     if request.method == 'POST':
         city = City.query.filter_by(idOwner=g.user.idUser).first()
@@ -99,7 +99,7 @@ def halt_building(b_type):
 @player_required
 @check_ban
 @updateWrappers.update_resources
-@bp.route('/upgrade_building/<string:b_type>', methods=('GET', 'POST'))
+@bp.route('/upgrade_building/<b_type>', methods=('GET', 'POST'))
 def upgrade_building(b_type):
     if request.method == 'POST':
         city = City.query.filter_by(idOwner=g.user.idUser).first()
@@ -175,7 +175,7 @@ def reassign_workers(ww, sw):
 @player_required
 @check_ban
 @updateWrappers.update_resources
-@bp.route('/recruit_unit/<string:u_type>/<int:quantity>', methods=('GET', 'POST'))
+@bp.route('/recruit_unit/<u_type>/<int:quantity>', methods=('GET', 'POST'))
 def recruit_unit(u_type, quantity):
     if request.method == 'POST':
         city = City.query.filter_by(idOwner=g.user.idUser).first()
@@ -187,6 +187,8 @@ def recruit_unit(u_type, quantity):
             error = 'Nepostojeca baraka!'
         elif barracks.level == 0:
             error = 'Baraka jos nije gotova!'
+        elif quantity <= 0:
+            error = 'Morati regrutuvati pozitivan broj jedinica!'
         else:
             cost = gr.recruit_cost(u_type, quantity)
             gold = cost['gold']

@@ -18,6 +18,17 @@ def sanitycheck(val):
     except ValueError:
         return False
 
+@bp.route('/trade')
+@player_required
+@check_ban
+@updateWrappers.update_resources
+def trade_main():
+    username = request.args.get('username')
+    if username is None:
+        username=''
+    return render_template('tradingpost/trade.html', username=username)
+
+
 
 # Ovo je metoda koja generise templejt za podstranu trgovinske stanice. Ovoj strani se pristupa iz gradskog menija.
 @bp.route('/', methods=('GET', 'POST'))
