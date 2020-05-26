@@ -17,7 +17,7 @@
                     {% for bld in buildings %}
                     {% set imgurl="img/buildings/" + bld.type ~ bld.level + ".png" %}
                     {% if bld.level>0 %}
-                    <td class='citytile'><img src= '{{url_for("static", filename=imgurl) }}' class='building'><br> {{ buildingnames[bld.type] }}</td>
+                    <td class='citytile'><a href='{{url_for("building.building_main", b_type=bld.type) }}'><img src= '{{url_for("static", filename=imgurl) }}' class='building'></a><br> {{ buildingnames[bld.type] }}</td>
                     {% else %}
                     <td class='citytile'><img src= '{{url_for("static", filename="img/buildings/empty.png") }}' class='building' ><br>{{ buildingnames[bld.type] }}</td>
                     {% endif %}
@@ -28,7 +28,8 @@
                 </tr>
 
             </table>
-            Populacija {{city.population|int}}
+            <hr>
+            Populacija {{city.population|round|int}}
             <br>
             <img class='cityimg' src='{{url_for("static", filename="img/villager.png") }}'> {{city.civilians}}
             <img class='cityimg' src='{{url_for("static", filename="img/axe.png") }}'> {{city.woodworkers}}

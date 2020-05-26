@@ -1,0 +1,32 @@
+{% extends 'userbase.html'%}
+
+{% block head %}
+<title>Kavijar</title>
+{% endblock %}
+
+{% block body %}
+
+
+    <div class="row-fluid myBorder text-center center-block">
+        <div class="col-sm-12">
+            <form method='POST' action="attack">
+            <br>
+            Igrac: <input type='text' class='input' name='username' value={{username}}>
+            <hr>
+            <h3>Armija za napad</h3>
+            <img class='cityimg' src='{{url_for("static", filename="img/units/LP.png") }}'>: <input type='number' class='input inputnum' name='LP' value=0>
+            <img class='cityimg' src='{{url_for("static", filename="img/units/TP.png") }}'>: <input type='number' class='input inputnum' name='TP' value=0><br>
+            <img class='cityimg' src='{{url_for("static", filename="img/units/ST.png") }}'>: <input type='number' class='input inputnum' name='ST' value=0>
+            <img class='cityimg' src='{{url_for("static", filename="img/units/SS.png") }}'>: <input type='number' class='input inputnum' name='SS' value=0><br>
+            <img class='cityimg' src='{{url_for("static", filename="img/units/LK.png") }}'>: <input type='number' class='input inputnum' name='LK' value=0>
+            <img class='cityimg' src='{{url_for("static", filename="img/units/TK.png") }}'>: <input type='number' class='input inputnum' name='TK' value=0><br>
+            <img class='cityimg' src='{{url_for("static", filename="img/units/KT.png") }}'>: <input type='number' class='input inputnum' name='KT' value=0>
+            <img class='cityimg' src='{{url_for("static", filename="img/units/TR.png") }}'>: <input type='number' class='input inputnum' name='TR' value=0>
+            <br>
+            <br>
+            <input type='submit' class='def-button' value='Pošalji'>
+            </form>
+            <hr>
+        </div>
+    </div>
+{% endblock %}

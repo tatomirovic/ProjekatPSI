@@ -28,7 +28,9 @@
         <div class="container"style ="margin-bottom: 50px;">
             <div class="row">
               <div class="col-sm" style="text-align: center;">
-                <button type='button' class = "def-button logo-button" style="height: 50px;">Napadni</button>
+                <a id='attackButton' href='#'>
+                    <button type='button' class = "def-button logo-button" style="height: 50px;">Napadni</button>
+                </a>
               </div>
               <div class="col-sm">
                
@@ -153,6 +155,7 @@
                 document.getElementById("cityName").innerHTML = city_array_json[i].name.toString();
                 document.getElementById("cityOwnerPopUp").innerHTML = city_array_json[i].ownerName.toString();
                 document.getElementById("tradeButton").setAttribute("href","tradingpost/trade?username=" + city_array_json[i].ownerName.toString());
+                document.getElementById("attackButton").setAttribute("href","warfare?username=" + city_array_json[i].ownerName.toString());
             }
        }
      
