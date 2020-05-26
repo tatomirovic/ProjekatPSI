@@ -23,7 +23,7 @@ def sanitycheck(val):
 @player_required
 @check_ban
 @updateWrappers.update_resources
-def attack_form():
+def warfare_main():
     city = City.query.filter_by(idOwner=g.user.idUser).first()
     username = request.args.get('username')
     if username is None:
