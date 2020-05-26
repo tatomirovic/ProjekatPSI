@@ -86,12 +86,13 @@
 	height:30px;
 }
 
-
+.cityimg
+{
+	width:4%;
+	min-width: 30px;
+}
 .citytable
 {
-	border: 5px solid ;
-	border-radius: 2px;
-	border-image: url('/static/img/border.png') 30 round !important;
 	background:url('/static/img/citybg.png');
 	background-size: cover;
 }
@@ -107,6 +108,10 @@
 	border-radius: 0px;
 	box-shadow: 5px 3px 9px rgba(0,0,0,.80);
 	text-shadow: 0px 0px 0px rgba(66,66,66,.100);
+}
+
+.inputnum {
+	width:10%;
 }
 .input:focus {
 	outline:none;
@@ -214,7 +219,6 @@
 .mailimg
 {
 	width: 100%;
-	border-radius: 52%;
 }
 .inbox
 {
