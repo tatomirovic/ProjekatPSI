@@ -19,7 +19,7 @@ def sanitycheck(val):
         return False
 
 
-@bp.route('/attack_form')
+@bp.route('/warfare')
 @player_required
 @check_ban
 @updateWrappers.update_resources
@@ -28,7 +28,7 @@ def attack_form():
     username = request.args.get('username')
     if username is None:
         username=''
-    return render_template('warfare/attack.html', username=username, city=city)
+    return render_template('warfare/warfare.html', username=username, city=city)
 
 # Metoda se poziva iz glavne mape kada se naredi napad na grad drugog igraca.
 # Metoda ocekuje formular sa poljima za ime igraca koji se napada i broju svakog jedinica koji se salje u napad
