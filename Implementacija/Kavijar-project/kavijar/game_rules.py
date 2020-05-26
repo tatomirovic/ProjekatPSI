@@ -94,6 +94,7 @@ building_costs_scaling = {
     3: -10,
     4: -20,
     5: -100,
+    6: -1000000000
 }
 
 building_build_time_scaling = [5, 20, 60, 300, 1440]
