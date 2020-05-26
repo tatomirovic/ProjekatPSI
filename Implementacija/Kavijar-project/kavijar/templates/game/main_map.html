@@ -3,9 +3,7 @@
 {% block head %}
 <title>Kavijar</title>
 <link rel="stylesheet" href='{{ url_for("static",filename="css/styleMap.css") }}'>
-<style>
-  
-</style>
+
 {% endblock %}
 
 {% block body %}
@@ -50,16 +48,16 @@
         
       </div>
     <!--SKRIPTA ZA ISCRTAVANJE MAPE -->
-    <div class="container">
-        <div class="row">
+    <div class="container-centered">
          
-          <div class="col-sm-centered">
             <div id="ib-main-wrapper" class="ib-main-wrapper"
             style="
+            border: 5px solid ;
+	        border-image: url('/static/img/border.png') 30 round;
+	        background-image: url('/static/img/formbg1.jpg');
+	        background-size:cover;
             margin-top: 6%;
-            margin-left: auto;
-            margin-right: auto;
-            max-width: 80%;
+            max-width: 98.5%;
             max-height: 90%;"  >
             <div class="ib-main" id="ibMain">
                 
@@ -67,7 +65,7 @@
                     //ISCRTAVANJE MAPE                    
                     for(var i=1;i<=30;i++)
                     {
-                        var city_position = Math.floor(Math.random() * 30);   
+                        
                         for(var j=1;j<=30;j++)
                         {
                         var h  = document.createElement("a");
@@ -78,13 +76,13 @@
                         document.getElementById("ibMain").appendChild(h);
                         }                
                     }   
-                    //ISCRTAVANJE GRADA
+                    //ISCRTAVANJE SVIH GRADOVA
                     var city_array_json = {{city_list | tojson}};
                     for(var i =0;i<city_array_json.length;i++)
                     {
                         var x =  city_array_json[i].xCoord;
                         var y =  city_array_json[i].yCoord;
-      
+                        
                         var image_id = x.toString()+","+y.toString();
                         var img = document.createElement("img");
                         
@@ -96,6 +94,8 @@
 
                         var a = document.getElementById(x.toString()+y.toString()); 
                         a.appendChild(img);
+
+                       
                     }
                             
                 </script>
@@ -103,12 +103,12 @@
                 <div class="clr"></div>
             </div><!-- ib-main -->
             </div><!-- ib-main-wrapper -->
-          </div>
           
-        </div>
+          
+        
     </div>
-
-    <!-- OVA SCRIPTA JE ZA ISCRTAVANJE SVOG GRADA I DODAVANJE HREF-->
+ 
+    <!-- OVA SCRIPTA JE ZA ISCRTAVANJE SVOG GRADA I DODAVANJE HREF -->
     {% for city in city_list %}
         {% if city.ownerName == g.user.username%}   
             <script>
@@ -116,11 +116,13 @@
                var y =    {{city.yCoord}};
                var a = document.getElementById(x.toString()+y.toString()); 
                var image_id = x.toString()+","+y.toString();
+               
                document.getElementById(image_id).setAttribute("src","static/img/map_images/mycityicon.png");
+               document.getElementById(image_id).setAttribute("onclick","openPlayerCity()");
                var city_coordinate_combination_for_redirection= city_array_json[i].xCoord.toString()+city_array_json[i].yCoord.toString();
 
                //OVDE JE POTREBNO DA SE OSTAVI HREF KA GRADU 
-               document.getElementById(x.toString()+y.toString()).setAttribute("href","playercity");
+               document.getElementById(x.toString()+y.toString()).setAttribute("href","");
                a.setAttribute("rel","");
             </script>
         {% else %}
@@ -138,7 +140,7 @@
 
     <script type="text/javascript">
 
-    //FUNKCIJA: OTVARA POP UP PROZOR FOREIGN GRADA
+    //FUNKCIJA: ZA FOREIGN GRADA SETUJE SVE POTREBNE ATRIBUTE ZA POPUP WINDOW
     function openForeignCity(a)
     {
        var city_array_json = {{city_list | tojson}};
@@ -154,6 +156,10 @@
             }
        }
      
+    }
+    function openPlayerCity()
+    {
+        window.open("/playercity","_self");
     }
         $(function() {
         
