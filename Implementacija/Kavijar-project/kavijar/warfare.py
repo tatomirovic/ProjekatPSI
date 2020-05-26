@@ -36,7 +36,7 @@ def attack_form():
 @player_required
 @check_ban
 @updateWrappers.update_resources
-@bp.route('/attack/', methods=('GET', 'POST'))
+@bp.route('/attack', methods=('GET', 'POST'))
 def attack():
     if request.method == 'POST':
         username = request.form['username']
