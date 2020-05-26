@@ -26,7 +26,7 @@ def trade_main():
     username = request.args.get('username')
     if username is None:
         username=''
-    return render_template('tradingpost/trade.html', username=username)
+    return render_template('tradingpost/trade.html', username=username, )
 
 
 
@@ -63,8 +63,8 @@ def trading_post():
             data['sendName'] = citySend.name
             data['receiveName'] = cityReceive.name
             trades_received_data.append(data)
-    return render_template('tradingpost/tradingpost.html', trades_sent=trades_sent_data,
-                           trades_received=trades_received_data)
+    return render_template('building/buildingTS.html', trades_sent=trades_sent_data,
+                           trades_received=trades_received_data, city=city)
 
 
 # Ova metoda se poziva kada korisnik kreira i salje ponudu drugom gradu. Ocekuje formular sa imenom igraca (NE GRADA)

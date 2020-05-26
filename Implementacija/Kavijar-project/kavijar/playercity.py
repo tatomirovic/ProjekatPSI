@@ -40,7 +40,7 @@ def player_city():
 def create_building(b_type):
     if request.method == 'POST':
         city = City.query.filter_by(idOwner=g.user.idUser).first()
-        existing_building = Building.query.filter_by(idCity=city.idCity, type=request.json.type).first()
+        existing_building = Building.query.filter_by(idCity=city.idCity, type=b_type).first()
         error = None
         if city is None:
             error = 'Grad ne postoji!'
@@ -72,7 +72,7 @@ def create_building(b_type):
 def halt_building(b_type):
     if request.method == 'POST':
         city = City.query.filter_by(idOwner=g.user.idUser).first()
-        existing_building = Building.query.filter_by(idCity=city.idCity, type=request.json.type).first()
+        existing_building = Building.query.filter_by(idCity=city.idCity, type=b_type).first()
         error = None
         if city is None:
             error = 'Grad ne postoji!'
@@ -103,7 +103,7 @@ def halt_building(b_type):
 def upgrade_building(b_type):
     if request.method == 'POST':
         city = City.query.filter_by(idOwner=g.user.idUser).first()
-        existing_building = Building.query.filter_by(idCity=city.idCity, type=request.json.type).first()
+        existing_building = Building.query.filter_by(idCity=city.idCity, type=b_type).first()
         error = None
         if city is None:
             error = 'Grad ne postoji!'

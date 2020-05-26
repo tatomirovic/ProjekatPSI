@@ -32,6 +32,10 @@ def create_app():
         app.register_blueprint(playercity.bp)
         from . import tradingpost
         app.register_blueprint(tradingpost.bp)
+        from . import warfare
+        app.register_blueprint(warfare.bp)
+        from . import building
+        app.register_blueprint(warfare.bp)
         app.add_url_rule('/', endpoint='index')
         auth.init_app(app)
         socketio.run(app, debug=True)
