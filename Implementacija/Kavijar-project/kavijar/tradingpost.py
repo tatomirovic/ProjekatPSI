@@ -70,7 +70,7 @@ def trading_post():
 # Ova metoda se poziva kada korisnik kreira i salje ponudu drugom gradu. Ocekuje formular sa imenom igraca (NE GRADA)
 # kom se salje ponuda, kao i resursima koji se nude i traze. Imena polja prate iste konvencije kao u bazi podataka (
 # username, gold1, wood1...)
-@bp.route('/create_trade/', methods=('GET', 'POST'))
+@bp.route('/create_trade', methods=('GET', 'POST'))
 @player_required
 @check_ban
 @updateWrappers.update_resources
