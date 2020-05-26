@@ -19,7 +19,7 @@ def sanitycheck(val):
         return False
 
 
-@bp.route('/warfare')
+@bp.route('/')
 @player_required
 @check_ban
 @updateWrappers.update_resources
