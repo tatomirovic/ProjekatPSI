@@ -19,7 +19,7 @@ bp = Blueprint('building', __name__, url_prefix='/building')
 @bp.route('/<b_type>')
 def building_main(b_type):
     if b_type == 'TS':
-        return redirect(url_for('trading_post.trading_post'))
+        return redirect(url_for('tradingpost.trading_post'))
     elif b_type not in gr.building_types:
         return redirect(url_for('index'))
     city = City.query.filter_by(idOwner=g.user.idUser).first()
