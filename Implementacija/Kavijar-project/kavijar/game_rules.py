@@ -210,12 +210,17 @@ def normalCap(D = 30):
 def createCity(idOwner, name):
     xCoord = 0
     yCoord = 0
+    cities = City.query.all()
     while True:
         xCoord = normalCap()
         yCoord = normalCap()
-        if len(City.query.filter((City.xCoord==xCoord) & (City.yCoord==yCoord)).all()) == 0:
+        for city in cities:
+            dist = (city.xCoord - xCoord)**2 + (city.yCoord - yCoord)**2
+            if dist < 4:
+                break
+        else:
             break
-
+        
     db.session.add(City(idOwner=idOwner, name=name, xCoord=xCoord, yCoord=yCoord, population=startingPopulation,
                         woodworkers=0, stoneworkers=0, civilians=startingPopulation, gold=startingGold,
                         wood=startingWood, stone=startingStone, lastUpdate=datetime.datetime.now()))
