@@ -201,9 +201,21 @@ def createTownHall(idCity):
     db.session.commit()
 
 
+def normalCap(D = 30):
+    x = random.gauss(D/2, D/6)
+    if x < 1: return 1
+    if x > D: return D
+    return int(x)
+
 def createCity(idOwner, name):
-    xCoord = random.randint(0, 29)  ## placeholder
-    yCoord = random.randint(0, 29)
+    xCoord = 0
+    yCoord = 0
+    while True:
+        xCoord = normalCap()
+        yCoord = normalCap()
+        if len(City.query.filter((City.xCoord==xCoord) & (City.yCoord==yCoord)).all()) == 0:
+            break
+
     db.session.add(City(idOwner=idOwner, name=name, xCoord=xCoord, yCoord=yCoord, population=startingPopulation,
                         woodworkers=0, stoneworkers=0, civilians=startingPopulation, gold=startingGold,
                         wood=startingWood, stone=startingStone, lastUpdate=datetime.datetime.now()))
