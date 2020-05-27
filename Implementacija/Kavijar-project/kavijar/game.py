@@ -20,7 +20,6 @@ bp = Blueprint('game', __name__)
 def index():
     city_list = City.query.all()
     city_list_json = []
-    city_user_names = {}
     firstKey = None
     for city in city_list:
         #print(f'Our city is: {city.serialize()}')

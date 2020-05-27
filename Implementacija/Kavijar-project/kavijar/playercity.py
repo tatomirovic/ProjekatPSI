@@ -78,15 +78,15 @@ def halt_building(b_type):
             error = 'Grad ne postoji!'
         elif existing_building is None:
             error = 'Gradjevina ne postoji!'
-        elif existing_building.finishTime is None:
+        elif existing_building.status != 'U':
             error = 'Ne možete obustaviti izgradnju koja se ne dešava!'
         costs = gr.build_cost(b_type, 1)
         gold = costs['gold'] * gr.refund_mult
         wood = costs['wood'] * gr.refund_mult
         stone = costs['stone'] * gr.refund_mult
         if error is None:
-            if existing_building.level == 0:
-                db.session.delete(existing_building)
+            #if existing_building.level == 0:
+                #db.session.delete(existing_building)
             gr.adjust_resources(player=g.user, gold=gold, wood=wood, stone=stone)
             db.session.commit()
             flash(f"Uspešno ste obustavili rad na zgradi : {gr.building_types[b_type]}")
@@ -109,7 +109,7 @@ def upgrade_building(b_type):
             error = 'Grad ne postoji!'
         elif existing_building is None:
             error = 'Gradjevina ne postoji!'
-        elif existing_building.finishTime is not None:
+        elif existing_building.status != 'A':
             error = 'Već ste pokrenuli izgradnju!'
         elif existing_building.level >= gr.building_max_level:
             error = 'Gradjevina je maksimalnog nivoa!'
@@ -186,7 +186,7 @@ def recruit_unit(u_type, quantity):
         elif barracks is None:
             error = 'Nepostojeca baraka!'
         elif barracks.level == 0:
-            error = 'Baraka jos nije gotova!'
+            error = 'Baraka jos nije sagradjena!'
         elif quantity <= 0:
             error = 'Morati regrutuvati pozitivan broj jedinica!'
         else:

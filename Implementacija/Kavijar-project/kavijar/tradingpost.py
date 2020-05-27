@@ -45,19 +45,22 @@ def trading_post():
         trades_sent = Trade.query.filter_by(idCity1=city.idCity, status='P').all()
         # Sve ponude koje su nam stigle
         trades_received = Trade.query.filter_by(idCity2=city.idCity, status='P').all()
+        print(f'SENTDATA: {trades_sent}')
+        print(f'RECDATA: {trades_received}')
         userCity = City.query.filter_by(idOwner=g.user.idUser).first()
+        citySend = userCity
         for trade in trades_sent:
-            citySend = userCity
             cityReceive = City.query.filter_by(idCity=Trade.idCity2).first()
             # Json reprezentacija ponude
+            test = trade.gold2
             data = trade.serialize()
             # Dodato u json data imamo i imena gradova
             data['sendName'] = citySend.name
             data['receiveName'] = cityReceive.name
-            trades_sent.append(data)
+            trades_sent_data.append(data)
+        cityReceive = userCity
         for trade in trades_received:
             citySend = City.query.filter_by(idCity=Trade.idCity1)
-            cityReceive = userCity
             # Json reprezentacija ponude
             data = trade.serialize()
             # Dodato u json data imamo i imena gradova

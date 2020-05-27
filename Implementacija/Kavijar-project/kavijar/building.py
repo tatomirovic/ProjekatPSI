@@ -30,6 +30,8 @@ def building_main(b_type):
     recruit_costs = []
     if building is None:
         error = 'Nemate tu gradjevinu!'
+    elif building.level == 0:
+        error = 'Nemate tu gradjevinu!'
     if error is None:
         upgrade_cost = gr.build_cost(b_type, building.level)
         building_info = {'type': building.type, 'status': building.status,

@@ -61,11 +61,11 @@ def attack():
             if not sanitycheck(request.form[k]):
                 error = 'Loš format broja jedinica u armiji!'
                 break
-        garrison = Army.query.filter_by(idCityFrom=city_attack.idCity, status='G')
+        garrison = Army.query.filter_by(idCityFrom=city_attack.idCity, status='G').first()
         if error is None:
             # Za svaki tip jedinica proveravamo da li ga ima dovoljno u garnizonu. Ako ne, napad nije moguc.
-            for k in gr.unit_types.values():
-                if getattr(garrison, k) < int(request.form[k]):
+            for k in gr.unit_types.keys():
+                if getattr(garrison, gr.unit_type_fields[k]) < int(request.form[k]):
                     error = 'Nedovljno trupa!'
                     break
 
@@ -76,11 +76,11 @@ def attack():
             # Pravimo aktivnu armiju
             new_army = Army(idCityFrom=city_attack.idCity, idCityTo=city_defend.idCity, status='A',
                             timeToArrival=arrive_date)
-            for k in gr.unit_type_fields.values():
+            for k in gr.unit_type_fields.keys():
                 # Uzimamo iz garnizona da bismo napravili tu armiju
                 num_units = request.form[k]
-                setattr(new_army, k, num_units)
-                setattr(garrison, k, getattr(garrison, k) - num_units)
+                setattr(new_army, gr.unit_type_fields[k], num_units)
+                setattr(garrison, gr.unit_type_fields[k], getattr(garrison, gr.unit_type_fields[k]) - int(num_units))
             db.session.add(new_army)
             db.session.commit()
         else:
