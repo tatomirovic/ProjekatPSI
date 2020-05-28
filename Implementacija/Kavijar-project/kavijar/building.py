@@ -34,8 +34,7 @@ def building_main(b_type):
         error = 'Nemate tu gradjevinu!'
     if error is None:
         upgrade_cost = gr.build_cost(b_type, building.level)
-        building_info = {'type': building.type, 'status': building.status,
-                         'level': building.level, 'finishTime': building.finishTime}
+        building_info = building.serialize()
         for k, v in gr.barracks_allocation:
             if k == b_type:
                 recruit_costs.append(gr.recruit_cost(v, 1))

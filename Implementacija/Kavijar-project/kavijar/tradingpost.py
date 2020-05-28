@@ -40,40 +40,41 @@ def trading_post():
     city = City.query.filter_by(idOwner=g.user.idUser).first()
     trades_sent_data = []
     trades_received_data = []
+    tpost = None
     if city is not None:
-        # Sve ponude koje smo poslali
-        trades_sent = Trade.query.filter_by(idCity1=city.idCity, status='P').all()
-        # Sve ponude koje su nam stigle
-        trades_received = Trade.query.filter_by(idCity2=city.idCity, status='P').all()
-        print(f'SENTDATA: {trades_sent}')
-        print(f'RECDATA: {trades_received}')
-        userCity = City.query.filter_by(idOwner=g.user.idUser).first()
-        citySend = userCity
-        for trade in trades_sent:
-            cityReceive = City.query.filter_by(idCity=Trade.idCity2).first()
-            # Json reprezentacija ponude
-            test = trade.gold2
-            data = trade.serialize()
-            # Dodato u json data imamo i imena gradova
-            data['sendName'] = citySend.name
-            data['receiveName'] = cityReceive.name
-            trades_sent_data.append(data)
-        cityReceive = userCity
-        for trade in trades_received:
-            citySend = City.query.filter_by(idCity=Trade.idCity1).first()
-            # Json reprezentacija ponude
-            data = trade.serialize()
-            # Dodato u json data imamo i imena gradova
-            data['sendName'] = citySend.name
-            data['receiveName'] = cityReceive.name
-            trades_received_data.append(data)
+        tpost = Building.query.filter_by(idCity=city.idCity, type='TS').first()
+    if city is None or tpost is None:
+        return render_template(url_for('index'))
+    # Sve ponude koje smo poslali
+    trades_sent = Trade.query.filter_by(idCity1=city.idCity, status='P').all()
+    # Sve ponude koje su nam stigle
+    trades_received = Trade.query.filter_by(idCity2=city.idCity, status='P').all()
+    userCity = City.query.filter_by(idOwner=g.user.idUser).first()
+    citySend = userCity
+    for trade in trades_sent:
+        cityReceive = City.query.filter_by(idCity=Trade.idCity2).first()
+        # Json reprezentacija ponude
+        data = trade.serialize()
+        # Dodato u json data imamo i imena gradova
+        data['sendName'] = citySend.name
+        data['receiveName'] = cityReceive.name
+        trades_sent_data.append(data)
+    cityReceive = userCity
+    for trade in trades_received:
+        citySend = City.query.filter_by(idCity=Trade.idCity1).first()
+        # Json reprezentacija ponude
+        data = trade.serialize()
+        # Dodato u json data imamo i imena gradova
+        data['sendName'] = citySend.name
+        data['receiveName'] = cityReceive.name
+        trades_received_data.append(data)
     return render_template('building/buildingTS.html', trades_sent=trades_sent_data,
-                           trades_received=trades_received_data, city=city)
+                           trades_received=trades_received_data, city=city, trading_post=tpost)
 
 
 # Ova metoda se poziva kada korisnik kreira i salje ponudu drugom gradu. Ocekuje formular sa imenom igraca (NE GRADA)
-# kom se salje ponuda, kao i resursima koji se nude i traze. Imena polja prate iste konvencije kao u bazi podataka (
-# username, gold1, wood1...)
+# kom se salje ponuda, kao i resursima koji se nude i traze. Resursi koji se nude bivaju suspendovani dok traje ponuda.
+# Imena polja prate iste konvencije kao u bazi podataka (username, gold1, wood1...)
 @bp.route('/create_trade', methods=('GET', 'POST'))
 @player_required
 @check_ban
@@ -120,6 +121,7 @@ def create_trade():
                               status='P', gold1=res1['gold'], wood1=res1['wood'], stone1=res1['stone'],
                               gold2=res2['gold'], wood2=res2['wood'], stone2=res2['stone'],
                               timeToArrival=None)
+            gr.adjust_resources(player=g.user, gold=-res1['gold'], wood=-res1['wood'], stone=-res1['stone'])
             db.session.add(new_trade)
             db.session.commit()
             flash(f"Poslali ste ponudu gradu {city_receive.name} igrača {username}")
@@ -128,7 +130,8 @@ def create_trade():
     return redirect(url_for('tradingpost.trading_post'))
 
 
-# Ova metoda se poziva kada igrac zatrazi ponistavanje ponude koju je poslao.
+# Ova metoda se poziva kada igrac zatrazi ponistavanje ponude koju je poslao. Ponuda se brise iz baze i vracaju mu se
+# suspendovani resursi.
 @bp.route('/cancel_trade/<int:idTrade>', methods=('GET', 'POST'))
 @player_required
 @check_ban
@@ -150,6 +153,7 @@ def cancel_trade(idTrade):
             error = 'Transakcija je već obradjena!'
         if error is None:
             receiver = User.query.filter_by(idUser=city_receive.idOwner).first()
+            gr.adjust_resources(player=g.user, gold=trade.gold1, wood=trade.wood1, stone=trade.stone1)
             flash(f"Otkazali ste ponudu ka gradu {city_receive.name} igrača {receiver.username}")
             db.session.delete(trade)
             db.session.commit()
@@ -159,7 +163,7 @@ def cancel_trade(idTrade):
 
 
 # Metoda se poziva kada igrac prihvati ponudu koja mu je stigla. Ponuda se postavlja na aktivni status i bice obradjena
-# od strane event handlera, a u medjuvremenu se suspenduju resursi koji ucestvuju.
+# od strane event handlera, a u medjuvremenu se suspenduju resursi primaoca.
 @bp.route('/accept_trade/<int:idTrade>', methods=('GET', 'POST'))
 @player_required
 @check_ban
@@ -185,14 +189,10 @@ def accept_trade(idTrade):
             error = 'Nemate dovoljno resursa!'
         if error is None:
             sender = User.query.filter_by(idUser=city_send.idOwner).first()
-            receiver = g.user
             trade.timeToArrival = datetime.datetime.now() + datetime.timedelta(
                 seconds=gr.cityTravelTime_seconds(city_send, city_receive))
             trade.status = 'A'
-            gr.adjust_resources(player=sender, gold=-trade.gold1,
-                                wood=-trade.wood1, stone=-trade.stone1)
-            gr.adjust_resources(player=receiver, gold=-trade.gold2,
-                                wood=-trade.wood2, stone=-trade.stone2)
+            gr.adjust_resources(player=g.user, gold=trade.gold2, wood=trade.wood2, stone=trade.stone2)
             db.session.commit()
             flash(f"Prihvatili ste ponudu od grada {city_send.name} igrača {sender.username}")
         else:
@@ -226,6 +226,7 @@ def reject_trade(idTrade):
         if error is None:
             sender = User.query.filter_by(idUser=city_send.idOwner).first()
             flash(f"Odbili ste ponudu od grada {city_send.name} igrača {sender.username}")
+            gr.adjust_resources(player=sender, gold=trade.gold1, wood=trade.wood1, stone=trade.stone1)
             db.session.delete(trade)
             db.session.commit()
         else:

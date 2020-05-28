@@ -4,7 +4,9 @@ from sqlalchemy.dialects.mysql import BIT, INTEGER
 from sqlalchemy.orm import relationship
 
 from . import db
+
 Base = db.Model
+
 
 class User(Base):
     __tablename__ = 'user'
@@ -60,7 +62,7 @@ class City(Base):
                 "gold": self.gold,
                 "wood": self.wood,
                 "stone": self.stone}
-    
+
     user = relationship(u'User')
 
 
@@ -108,6 +110,10 @@ class Building(Base):
     level = Column(INTEGER(11), nullable=False)
     finishTime = Column(DateTime, nullable=False)
 
+    def serialize(self):
+        return {'type': self.type, 'status': self.status,
+                'level': self.level, 'finishTime': self.finishTime}
+
     city = relationship(u'City')
 
 
@@ -151,6 +157,6 @@ class Trade(Base):
                 "wood2": self.wood2,
                 "stone2": self.stone2,
                 "timeToArrival": self.timeToArrival}
-    
+
     city = relationship(u'City', primaryjoin='Trade.idCity1 == City.idCity')
     city1 = relationship(u'City', primaryjoin='Trade.idCity2 == City.idCity')
