@@ -41,9 +41,9 @@ unit_type_fields = {
     'ST': 'strelci',
     'SS': 'samostrelci',
     'LK': 'lakaKonjica',
-    'TK': 'teškaKonjica',
+    'TK': 'teskaKonjica',
     'KT': 'katapult',
-    'TR': 'trebušet'
+    'TR': 'trebuset'
 }
 
 building_costs = {

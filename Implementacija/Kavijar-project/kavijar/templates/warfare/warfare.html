@@ -11,9 +11,9 @@
         <div class="col-sm-12">
             <form method='POST' action="attack">
             <br>
-            Igrac: <input type='text' class='input' name='username' value={{username}}>
+            <b>Igrac: <input type='text' class='input' name='username' value={{username}}></b>
             <hr>
-            <h3>Armija za napad</h3>
+            <h3><b>Armija za napad</b></h3>
             <img class='cityimg' src='{{url_for("static", filename="img/units/LP.png") }}'>: <input type='number' class='input inputnum' name='LP' value=0>
             <img class='cityimg' src='{{url_for("static", filename="img/units/TP.png") }}'>: <input type='number' class='input inputnum' name='TP' value=0><br>
             <img class='cityimg' src='{{url_for("static", filename="img/units/ST.png") }}'>: <input type='number' class='input inputnum' name='ST' value=0>

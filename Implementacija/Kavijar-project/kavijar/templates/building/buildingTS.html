@@ -9,8 +9,12 @@
     <div class="row-fluid myBorder text-center center-block">
         <div class="col-sm-12">
             {% if 1>0 %}
-            <h1>Trgovinska stanica</h1>
-            <h3>Primljeni zahtevi</h3>
+            <h1><b>Trgovinska stanica</b></h1>
+            <h3><b>Primljeni zahtevi</b></h3>
+            {% if trades_received|length < 1 %}
+            <h4>Nemate primljenih zahteva</h4>
+            <hr>
+            {% endif %}
             {% for trade in trades_received %}
             <table cellpadding=10px width=50% style='margin:0 auto;'>
             <tr>
@@ -30,7 +34,11 @@
             </table>
             <hr>
             {% endfor %}
-            <h3>Poslati zahtevi</h3>
+            <h3><b>Poslati zahtevi</b></h3>
+            {% if trades_sent|length < 1 %}
+            <h4>Nemate poslatih zahteva</h4>
+            <hr>
+            {% endif %}
             {% for trade in trades_sent %}
             <table cellpadding=10px width=50% style='margin:0 auto;'>
             <tr>
@@ -52,10 +60,13 @@
             {% else %}
             <h1>Nemate izgradjenu trgovinsku stanicu!</h1>
             {% endif %}
-            <h3>Resursi</h3>
+            <h3><b>Resursi</b></h3>
             <img class='cityimg' src='{{url_for("static", filename="img/gold.png") }}'> {{city.gold|int}}
             <img class='cityimg' src='{{url_for("static", filename="img/wood.png") }}'> {{city.wood|int}}
             <img class='cityimg' src='{{url_for("static", filename="img/stone.png") }}'> {{city.stone|int}}
+            <br><br>
+            <a href='{{url_for("tradingpost.trade_main")}}'><button class='def-button'>Nova ponuda</button></a>
+            <br><br>
         </div>
         
     </div>
