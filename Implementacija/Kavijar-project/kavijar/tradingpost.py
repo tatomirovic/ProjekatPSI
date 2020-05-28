@@ -52,24 +52,24 @@ def trading_post():
     userCity = City.query.filter_by(idOwner=g.user.idUser).first()
     citySend = userCity
     for trade in trades_sent:
-        cityReceive = City.query.filter_by(idCity=Trade.idCity2).first()
+        cityReceive = trade.city1
         # Json reprezentacija ponude
         data = trade.serialize()
         # Dodato u json data imamo i imena gradova
-        data['sendName'] = citySend.name
-        data['receiveName'] = cityReceive.name
+        data['sendName'] = citySend.user.username
+        data['receiveName'] = cityReceive.user.username
         trades_sent_data.append(data)
     cityReceive = userCity
     for trade in trades_received:
-        citySend = City.query.filter_by(idCity=Trade.idCity1).first()
+        citySend = trade.city
         # Json reprezentacija ponude
         data = trade.serialize()
         # Dodato u json data imamo i imena gradova
-        data['sendName'] = citySend.name
-        data['receiveName'] = cityReceive.name
+        data['sendName'] = citySend.user.username
+        data['receiveName'] = cityReceive.user.username
         trades_received_data.append(data)
     return render_template('building/buildingTS.html', trades_sent=trades_sent_data,
-                           trades_received=trades_received_data, city=city, trading_post=tpost)
+                           trades_received=trades_received_data, city=city, trading_post=tpost.serialize())
 
 
 # Ova metoda se poziva kada korisnik kreira i salje ponudu drugom gradu. Ocekuje formular sa imenom igraca (NE GRADA)
