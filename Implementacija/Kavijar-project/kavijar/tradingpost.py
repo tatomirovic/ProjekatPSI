@@ -211,7 +211,7 @@ def reject_trade(idTrade):
         trade = Trade.query.filter_by(idTrade=idTrade).first()
         city_send = City.query.filter_by(idCity=trade.idCity1).first()
         city_receive = City.query.filter_by(idCity=trade.idCity2).first()
-        tpost = Building.query.filter_by(idCity=city_receive.idCity, type='TP').first()
+        tpost = Building.query.filter_by(idCity=city_receive.idCity, type='TS').first()
         error = None
         if city_receive is None:
             error = 'Nemate grad'
