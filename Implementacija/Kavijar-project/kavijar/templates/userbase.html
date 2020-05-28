@@ -29,7 +29,7 @@
                 </a>
 
             <a href='{{ url_for("chat.sessions") }}' target="popup" 
-            onclick="window.open('chat.html','popup','width=500,height=500');"><button type='button' class = 'def-button logo-button'> Čet </button></a>
+            onclick="window.open('chat.html','popup','width=550,height=465');"><button type='button' class = 'def-button logo-button'> Čet </button></a>
             <a href='{{ url_for("redirect_page.redirect_page") }}'><button type='button' class = 'def-button logo-button'>Početna</button></a>
             </div>
             </h2>
@@ -37,6 +37,11 @@
     </div>
         {% block body %}
         {% endblock %}
+        {% block actions %}
+        {% endblock %}
+        {% for message in get_flashed_messages() %}
+        <button class="error-msg" disabled>{{ message }}</button>
+        {% endfor %}
     </div> 
 </body>
 </html>

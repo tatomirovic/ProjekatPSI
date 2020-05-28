@@ -60,7 +60,7 @@ def trading_post():
             trades_sent_data.append(data)
         cityReceive = userCity
         for trade in trades_received:
-            citySend = City.query.filter_by(idCity=Trade.idCity1)
+            citySend = City.query.filter_by(idCity=Trade.idCity1).first()
             # Json reprezentacija ponude
             data = trade.serialize()
             # Dodato u json data imamo i imena gradova
@@ -135,10 +135,10 @@ def create_trade():
 @updateWrappers.update_resources
 def cancel_trade(idTrade):
     if request.method == 'POST':
-        trade = Trade.query.filter_by(idTrade=idTrade)
-        city_send = City.query.filter_by(idOwner=trade.idCity1).first()
+        trade = Trade.query.filter_by(idTrade=idTrade).first()
+        city_send = City.query.filter_by(idCity=trade.idCity1).first()
         city_receive = City.query.filter_by(idCity=trade.idCity2).first()
-        tpost = Building.query.filter_by(idCity=city_send.idCity, type='TP').first()
+        tpost = Building.query.filter_by(idCity=city_send.idCity, type='TS').first()
         error = None
         if city_send is None or city_receive is None:
             error = 'Transakcija mora uključivati dva grada!'
@@ -167,9 +167,9 @@ def cancel_trade(idTrade):
 def accept_trade(idTrade):
     if request.method == 'POST':
         trade = Trade.query.filter_by(idTrade=idTrade).first()
-        city_send = City.query.filter_by(idOwner=trade.idCity1).first()
-        city_receive = City.query.filter_by(idOwner=trade.idCity2).first()
-        tpost = Building.query.filter_by(idCity=city_receive.idCity, type='TP').first()
+        city_send = City.query.filter_by(idCity=trade.idCity1).first()
+        city_receive = City.query.filter_by(idCity=trade.idCity2).first()
+        tpost = Building.query.filter_by(idCity=city_receive.idCity, type='TS').first()
         error = None
         if city_receive is None:
             error = 'Nemate grad'
@@ -209,8 +209,8 @@ def accept_trade(idTrade):
 def reject_trade(idTrade):
     if request.method == 'POST':
         trade = Trade.query.filter_by(idTrade=idTrade).first()
-        city_send = City.query.filter_by(idOwner=trade.idCity1).first()
-        city_receive = City.query.filter_by(idOwner=trade.idCity2).first()
+        city_send = City.query.filter_by(idCity=trade.idCity1).first()
+        city_receive = City.query.filter_by(idCity=trade.idCity2).first()
         tpost = Building.query.filter_by(idCity=city_receive.idCity, type='TP').first()
         error = None
         if city_receive is None:

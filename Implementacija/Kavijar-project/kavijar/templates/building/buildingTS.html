@@ -8,13 +8,60 @@
 
     <div class="row-fluid myBorder text-center center-block">
         <div class="col-sm-12">
+            {% if 1>0 %}
+            <h1>Trgovinska stanica</h1>
+            <h3>Primljeni zahtevi</h3>
+            {% for trade in trades_received %}
+            <table cellpadding=10px width=50% style='margin:0 auto;'>
+            <tr>
+                <td>Nudi:</td>
+                <td><img class='cityimg' src='{{url_for("static", filename="img/gold.png") }}'> {{trade.gold1|int}}</td>
+                <td><img class='cityimg' src='{{url_for("static", filename="img/wood.png") }}'> {{trade.wood1|int}}</td>
+                <td><img class='cityimg' src='{{url_for("static", filename="img/stone.png") }}'> {{trade.stone1|int}}</td>
+                <td><form method='POST'><input type='submit' class='def-button' href='{{url_for("tradingpost.accept_trade", idTrade=trade.idTrade) }}' value='Prihvati'></form></td>
+            </tr>
+            <tr>
+                <td>Zahteva:</td>
+                <td><img class='cityimg' src='{{url_for("static", filename="img/gold.png") }}'> {{trade.gold2|int}}</td>
+                <td><img class='cityimg' src='{{url_for("static", filename="img/wood.png") }}'> {{trade.wood2|int}}</td>
+                <td><img class='cityimg' src='{{url_for("static", filename="img/stone.png") }}'> {{trade.stone2|int}}</td>
+                <td><form method='POST'><input type='submit' class='def-button' href='{{url_for("tradingpost.reject_trade", idTrade=trade.idTrade) }}' value='Odbij'></form></td>
+            </tr>
+            </table>
+            <hr>
+            {% endfor %}
+            <h3>Poslati zahtevi</h3>
+            {% for trade in trades_sent %}
+            <table cellpadding=10px width=50% style='margin:0 auto;'>
+            <tr>
+                <td>Nudite:</td>
+                <td><img class='cityimg' src='{{url_for("static", filename="img/gold.png") }}'> {{trade.gold1|int}}</td>
+                <td><img class='cityimg' src='{{url_for("static", filename="img/wood.png") }}'> {{trade.wood1|int}}</td>
+                <td><img class='cityimg' src='{{url_for("static", filename="img/stone.png") }}'> {{trade.stone1|int}}</td>
+            </tr>
+            <tr>
+                <td>Zahtevate:</td>
+                <td><img class='cityimg' src='{{url_for("static", filename="img/gold.png") }}'> {{trade.gold2|int}}</td>
+                <td><img class='cityimg' src='{{url_for("static", filename="img/wood.png") }}'> {{trade.wood2|int}}</td>
+                <td><img class='cityimg' src='{{url_for("static", filename="img/stone.png") }}'> {{trade.stone2|int}}</td>
+                <td rowspan=2><td><form method='POST' action='cancel_trade/{{trade.idTrade}}'><input type='submit' class='def-button' href='{{url_for("tradingpost.cancel_trade", idTrade=trade.idTrade) }}' value='Otkazi'></form></td></td>
+            </tr>
+            </table>
+            <hr>
+            {% endfor %}
+            {% else %}
+            <h1>Nemate izgradjenu trgovinsku stanicu!</h1>
+            {% endif %}
             <h3>Resursi</h3>
             <img class='cityimg' src='{{url_for("static", filename="img/gold.png") }}'> {{city.gold|int}}
             <img class='cityimg' src='{{url_for("static", filename="img/wood.png") }}'> {{city.wood|int}}
             <img class='cityimg' src='{{url_for("static", filename="img/stone.png") }}'> {{city.stone|int}}
         </div>
-        {% for message in get_flashed_messages() %}
-        <button class="error-msg" disabled>{{ message }}</button>
-        {% endfor %}
+        
     </div>
+{% endblock %}
+
+{% block actions %}
+<a><button class='def-button'>Izgradi</button></a>
+
 {% endblock %}
