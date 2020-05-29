@@ -51,6 +51,7 @@ def trading_post():
     trades_received = Trade.query.filter_by(idCity2=city.idCity, status='P').all()
     upgrade_level = min(tpost.level + 1, gr.building_max_level)
     upgrade_cost = gr.build_cost('TS', upgrade_level)
+    trade_cap = gr.tp_resource_cap[tpost.level]
     userCity = City.query.filter_by(idOwner=g.user.idUser).first()
     citySend = userCity
     for trade in trades_sent:
@@ -72,7 +73,7 @@ def trading_post():
         trades_received_data.append(data)
     return render_template('building/buildingTS.html', trades_sent=trades_sent_data,
                            trades_received=trades_received_data, city=city,
-                           building_info=tpost.serialize(), upgrade_cost=upgrade_cost)
+                           building_info=tpost.serialize(), upgrade_cost=upgrade_cost, trade_cap=trade_cap)
 
 
 # Ova metoda se poziva kada korisnik kreira i salje ponudu drugom gradu. Ocekuje formular sa imenom igraca (NE GRADA)
