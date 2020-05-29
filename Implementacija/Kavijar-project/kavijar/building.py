@@ -33,7 +33,8 @@ def building_main(b_type):
     elif building.level == 0:
         error = 'Nemate tu gradjevinu!'
     if error is None:
-        upgrade_cost = gr.build_cost(b_type, building.level)
+        upgrade_level = min(building.level + 1, gr.building_max_level)
+        upgrade_cost = gr.build_cost(b_type, upgrade_level)
         building_info = building.serialize()
         for k, v in gr.barracks_allocation:
             if k == b_type:

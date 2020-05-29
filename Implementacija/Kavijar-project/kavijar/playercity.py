@@ -85,8 +85,8 @@ def halt_building(b_type):
         wood = costs['wood'] * gr.refund_mult
         stone = costs['stone'] * gr.refund_mult
         if error is None:
-            #if existing_building.level == 0:
-                #db.session.delete(existing_building)
+            # if existing_building.level == 0:
+            # db.session.delete(existing_building)
             gr.adjust_resources(player=g.user, gold=gold, wood=wood, stone=stone)
             db.session.commit()
             flash(f"Uspešno ste obustavili rad na zgradi : {gr.building_types[b_type]}")
@@ -120,8 +120,9 @@ def upgrade_building(b_type):
         if error is None and (gold > city.gold or wood > city.wood or stone > city.stone):
             error = 'Nedovoljno resursa!'
         if error is None:
+            upgrade_level = min(existing_building.level + 1, gr.building_max_level)
             finishTime = datetime.datetime.now() \
-                         + datetime.timedelta(minutes=gr.build_time(existing_building.level + 1, b_type))
+                + datetime.timedelta(minutes=gr.build_time(upgrade_level, b_type))
             # existing_building.level += 1
             existing_building.finishTime = finishTime
             existing_building.status = 'U'
