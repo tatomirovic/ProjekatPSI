@@ -25,9 +25,15 @@ def sanitycheck(val):
 def trade_main():
     city = City.query.filter_by(idOwner=g.user.idUser).first()
     username = request.args.get('username')
+    tpost = None
+    if city is not None:
+        tpost = Building.query.filter_by(idCity=city.idCity, type='TS').first()
+    trade_cap = gr.tp_resource_cap[tpost.level]
+    if city is None or tpost is None:
+        return render_template(url_for('index'))
     if username is None:
         username=''
-    return render_template('tradingpost/trade.html', username=username, city=city)
+    return render_template('tradingpost/trade.html', username=username, city=city, trade_cap=trade_cap)
 
 
 
