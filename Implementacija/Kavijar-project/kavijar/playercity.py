@@ -181,7 +181,7 @@ def reassign_workers():
                 city.civilians = civ
         else:
             flash(error)
-    return redirect(url_for('playercity.player_city'))
+    return redirect(url_for('building.building_main', b_type='TH'))
 
 
 @player_required
