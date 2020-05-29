@@ -180,6 +180,8 @@ def reassign_workers():
                 city.stoneworkers = sw
                 city.civilians = civ
                 db.session.commit()
+            else:
+                flash(error)
         else:
             flash(error)
     return redirect(url_for('building.building_main', b_type='TH'))
