@@ -13,6 +13,12 @@ from . import updateWrappers
 bp = Blueprint('playercity', __name__, url_prefix='/playercity')
 
 
+def sanitycheck(val):
+    try:
+        return int(val) >= 0
+    except ValueError:
+        return False
+
 @player_required
 @check_ban
 @updateWrappers.update_resources
@@ -140,8 +146,8 @@ def upgrade_building(b_type):
 @player_required
 @check_ban
 @updateWrappers.update_resources
-@bp.route('/reassign_workers/<int:ww>/<int:sw>', methods=('GET', 'POST'))
-def reassign_workers(ww, sw):
+@bp.route('/reassign_workers', methods=('GET', 'POST'))
+def reassign_workers():
     if request.method == 'POST':
         city = City.query.filter_by(idOwner=g.user.idUser).first()
         Pilana = Building.query.filter_by(idCity=city.idCity, type="PI").first()
@@ -152,24 +158,27 @@ def reassign_workers(ww, sw):
             pilana_level = Pilana.level
         if Kamenolom is not None:
             kamenolom_level = Kamenolom.level
-        wwlimit = gr.resource_allocation_limit[pilana_level]
-        swlimit = gr.resource_allocation_limit[kamenolom_level]
-        if ww > wwlimit:
-            ww = wwlimit
-        if sw > swlimit:
-            sw = swlimit
-        if ww < 0:
-            ww = 0
-        if sw < 0:
-            sw = 0
+        ww = request.form['woodworkers']
+        sw = request.form['stoneworkers']
         error = None
-        if ww + sw > city.population:
-            error = 'Nedovoljno populacije!'
+        if not sanitycheck(ww) or not sanitycheck(sw):
+            error = 'Loš format raspodele!'
         if error is None:
-            civ = city.population - ww - sw
-            city.woodworkers = ww
-            city.stoneworkers = sw
-            city.civilians = civ
+            ww = int(ww)
+            sw = int(sw)
+            wwlimit = gr.resource_allocation_limit[pilana_level]
+            swlimit = gr.resource_allocation_limit[kamenolom_level]
+            if ww > wwlimit:
+                ww = wwlimit
+            if sw > swlimit:
+                sw = swlimit
+            if ww + sw > city.population:
+                error = 'Nedovoljno populacije!'
+            if error is None:
+                civ = city.population - ww - sw
+                city.woodworkers = ww
+                city.stoneworkers = sw
+                city.civilians = civ
         else:
             flash(error)
     return redirect(url_for('playercity.player_city'))
