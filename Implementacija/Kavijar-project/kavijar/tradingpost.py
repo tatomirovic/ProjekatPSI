@@ -69,7 +69,7 @@ def trading_post():
         data['receiveName'] = cityReceive.user.username
         trades_received_data.append(data)
     return render_template('building/buildingTS.html', trades_sent=trades_sent_data,
-                           trades_received=trades_received_data, city=city, trading_post=tpost.serialize())
+                           trades_received=trades_received_data, city=city, building_info=tpost.serialize())
 
 
 # Ova metoda se poziva kada korisnik kreira i salje ponudu drugom gradu. Ocekuje formular sa imenom igraca (NE GRADA)
