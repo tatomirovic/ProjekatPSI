@@ -33,36 +33,36 @@ def player_city():
                            armies=armies, building_costs=building_costs, buildingnames=gr.building_types)
 
 
-@player_required
-@check_ban
-@updateWrappers.update_resources
-@bp.route('/create_building/<b_type>', methods=('GET', 'POST'))
-def create_building(b_type):
-    if request.method == 'POST':
-        city = City.query.filter_by(idOwner=g.user.idUser).first()
-        existing_building = Building.query.filter_by(idCity=city.idCity, type=b_type).first()
-        error = None
-        if city is None:
-            error = 'Grad ne postoji!'
-        elif existing_building is not None:
-            error = 'Gradjevina već postoji!'
-        costs = gr.build_cost(b_type, 1)
-        gold = costs['gold']
-        wood = costs['wood']
-        stone = costs['stone']
-        if error is None and (gold > city.gold or wood > city.wood or stone > city.stone):
-            error = 'Nedovoljno resursa!'
-        if error is None:
-            finishTime = datetime.datetime.now() + datetime.timedelta(minutes=gr.build_time(1, b_type))
-            new_building = Building(idOwner=city.idCity, type=b_type, level=0, finishTime=finishTime, status='U')
-            gr.adjust_resources(player=g.user, gold=gold, wood=wood, stone=stone)
-            db.session.add(new_building)
-            db.session.commit()
-            flash(f"Uspešno je pokrenuta konstrukcija zgrade : {gr.building_types[b_type]}")
-        else:
-            flash(error)
+# @player_required
+# @check_ban
+# @updateWrappers.update_resources
+# @bp.route('/create_building/<b_type>', methods=('GET', 'POST'))
+# def create_building(b_type):
+#    if request.method == 'POST':
+#        city = City.query.filter_by(idOwner=g.user.idUser).first()
+#        existing_building = Building.query.filter_by(idCity=city.idCity, type=b_type).first()
+#        error = None
+#        if city is None:
+#            error = 'Grad ne postoji!'
+#        elif existing_building is not None:
+#            error = 'Gradjevina već postoji!'
+#        costs = gr.build_cost(b_type, 1)
+#        gold = costs['gold']
+#        wood = costs['wood']
+#        stone = costs['stone']
+#        if error is None and (-gold > city.gold or -wood > city.wood or -stone > city.stone):
+#            error = 'Nedovoljno resursa!'
+#        if error is None:
+#            finishTime = datetime.datetime.now() + datetime.timedelta(minutes=gr.build_time(1, b_type))
+#            new_building = Building(idOwner=city.idCity, type=b_type, level=0, finishTime=finishTime, status='U')
+#            gr.adjust_resources(player=g.user, gold=gold, wood=wood, stone=stone)
+#            db.session.add(new_building)
+#            db.session.commit()
+#            flash(f"Uspešno je pokrenuta konstrukcija zgrade : {gr.building_types[b_type]}")
+#        else:
+#            flash(error)
 
-    return redirect(url_for('playercity.player_city'))
+    #return redirect(url_for('playercity.player_city'))
 
 
 @player_required
@@ -88,6 +88,8 @@ def halt_building(b_type):
             # if existing_building.level == 0:
             # db.session.delete(existing_building)
             gr.adjust_resources(player=g.user, gold=gold, wood=wood, stone=stone)
+            existing_building.status = 'A'
+            existing_building.finishTime = None
             db.session.commit()
             flash(f"Uspešno ste obustavili rad na zgradi : {gr.building_types[b_type]}")
         else:
@@ -113,14 +115,14 @@ def upgrade_building(b_type):
             error = 'Već ste pokrenuli izgradnju!'
         elif existing_building.level >= gr.building_max_level:
             error = 'Gradjevina je maksimalnog nivoa!'
-        costs = gr.build_cost(b_type, existing_building.level + 1)
+        upgrade_level = min(existing_building.level + 1, gr.building_max_level)
+        costs = gr.build_cost(b_type, upgrade_level)
         gold = costs['gold']
         wood = costs['wood']
         stone = costs['stone']
-        if error is None and (gold > city.gold or wood > city.wood or stone > city.stone):
+        if error is None and (-gold > city.gold or -wood > city.wood or -stone > city.stone):
             error = 'Nedovoljno resursa!'
         if error is None:
-            upgrade_level = min(existing_building.level + 1, gr.building_max_level)
             finishTime = datetime.datetime.now() \
                 + datetime.timedelta(minutes=gr.build_time(upgrade_level, b_type))
             # existing_building.level += 1
