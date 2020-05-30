@@ -184,9 +184,9 @@ def adjust_resources(player, gold=0, wood=0, stone=0, pop=0, kavijar=0):
     if city.gold < 0:
         city.gold = 0
     if city.wood < 0:
-        city.wood < 0
+        city.wood = 0
     if city.stone < 0:
-        city.stone < 0
+        city.stone = 0
     if city.population < startingPopulation:
         city.population = startingPopulation
 
