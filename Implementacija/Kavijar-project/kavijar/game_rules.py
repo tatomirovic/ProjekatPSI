@@ -7,6 +7,8 @@ goldPerHour = 3
 woodPerHour = 1
 stonePerHour = 1
 
+timescaler = 0.01
+
 startingPopulation = 40
 startingGold = 0
 startingWood = 400
@@ -146,7 +148,7 @@ def build_cost(bType, level):
 
 
 def build_time(level, b_type):
-    return building_build_time_scaling[level]
+    return timescaler*building_build_time_scaling[level]
 
 
 def recruit_cost(uType, quantity):
@@ -157,7 +159,7 @@ def recruit_cost(uType, quantity):
 
 
 def recruit_time_seconds(uType, quantity, barracks_level):
-    return (60.0*quantity*unit_recruit_times[uType])/barracks_recruit_time_scaling[barracks_level]
+    return (60.0*timescaler*quantity*unit_recruit_times[uType])/barracks_recruit_time_scaling[barracks_level]
 
 
 # BITNO - POZVATI db.session.commit() POSLE OVE FUNKCIJE, NE POZIVA GA SAMA
@@ -246,4 +248,4 @@ def cityDistance(city1, city2):
 
 
 def cityTravelTime_seconds(city1, city2):
-    return 40.0 * cityDistance(city1, city2)
+    return 40.0 * cityDistance(city1, city2) * timescaler
