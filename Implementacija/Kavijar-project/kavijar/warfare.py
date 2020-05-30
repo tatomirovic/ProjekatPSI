@@ -34,10 +34,10 @@ def warfare_main():
 # Metoda se poziva iz glavne mape kada se naredi napad na grad drugog igraca.
 # Metoda ocekuje formular sa poljima za ime igraca koji se napada i broju svakog jedinica koji se salje u napad
 # Imena polja za jedinice u formularu treba da prate istu konvenciju kao i u bazi (npr: polje 'LP' : broj lake pesadije)
+@bp.route('/attack', methods=('GET', 'POST'))
 @player_required
 @check_ban
 @updateWrappers.update_resources
-@bp.route('/attack', methods=('GET', 'POST'))
 def attack():
     if request.method == 'POST':
         username = request.form['username']

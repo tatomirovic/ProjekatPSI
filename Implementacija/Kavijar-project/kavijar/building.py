@@ -13,10 +13,10 @@ from . import updateWrappers
 bp = Blueprint('building', __name__, url_prefix='/building')
 
 
+@bp.route('/<b_type>')
 @player_required
 @check_ban
 @updateWrappers.update_resources
-@bp.route('/<b_type>')
 def building_main(b_type):
     if b_type == 'TS':
         return redirect(url_for('tradingpost.trading_post'))

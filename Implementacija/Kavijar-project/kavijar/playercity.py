@@ -19,10 +19,11 @@ def sanitycheck(val):
     except ValueError:
         return False
 
+
+@bp.route('/', methods=('GET', 'POST'))
 @player_required
 @check_ban
 @updateWrappers.update_resources
-@bp.route('/', methods=('GET', 'POST'))
 def player_city():
     buildings = []
     armies = []
@@ -68,13 +69,13 @@ def player_city():
 #        else:
 #            flash(error)
 
-    #return redirect(url_for('playercity.player_city'))
+# return redirect(url_for('playercity.player_city'))
 
 
+@bp.route('/halt_building/<b_type>', methods=('GET', 'POST'))
 @player_required
 @check_ban
 @updateWrappers.update_resources
-@bp.route('/halt_building/<b_type>', methods=('GET', 'POST'))
 def halt_building(b_type):
     if request.method == 'POST':
         city = City.query.filter_by(idOwner=g.user.idUser).first()
@@ -104,10 +105,10 @@ def halt_building(b_type):
     return redirect(url_for('playercity.player_city'))
 
 
+@bp.route('/upgrade_building/<b_type>', methods=('GET', 'POST'))
 @player_required
 @check_ban
 @updateWrappers.update_resources
-@bp.route('/upgrade_building/<b_type>', methods=('GET', 'POST'))
 def upgrade_building(b_type):
     if request.method == 'POST':
         city = City.query.filter_by(idOwner=g.user.idUser).first()
@@ -130,7 +131,7 @@ def upgrade_building(b_type):
             error = 'Nedovoljno resursa!'
         if error is None:
             finishTime = datetime.datetime.now() \
-                + datetime.timedelta(minutes=gr.build_time(upgrade_level, b_type))
+                         + datetime.timedelta(minutes=gr.build_time(upgrade_level, b_type))
             # existing_building.level += 1
             existing_building.finishTime = finishTime
             existing_building.status = 'U'
@@ -143,10 +144,10 @@ def upgrade_building(b_type):
     return redirect(url_for('playercity.player_city'))
 
 
+@bp.route('/reassign_workers', methods=('GET', 'POST'))
 @player_required
 @check_ban
 @updateWrappers.update_resources
-@bp.route('/reassign_workers', methods=('GET', 'POST'))
 def reassign_workers():
     if request.method == 'POST':
         city = City.query.filter_by(idOwner=g.user.idUser).first()
@@ -187,10 +188,10 @@ def reassign_workers():
     return redirect(url_for('building.building_main', b_type='TH'))
 
 
+@bp.route('/recruit_unit/<u_type>/<int:quantity>', methods=('GET', 'POST'))
 @player_required
 @check_ban
 @updateWrappers.update_resources
-@bp.route('/recruit_unit/<u_type>/<int:quantity>', methods=('GET', 'POST'))
 def recruit_unit(u_type, quantity):
     if request.method == 'POST':
         city = City.query.filter_by(idOwner=g.user.idUser).first()

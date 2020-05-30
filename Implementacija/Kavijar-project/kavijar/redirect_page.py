@@ -9,8 +9,8 @@ from kavijar.auth import login_required
 bp = Blueprint('redirect_page', __name__, url_prefix='/redirect')
 
 
-@login_required
 @bp.route('/')
+@login_required
 def redirect_page():
     rolePageDict = {
         'I': url_for('index'),
