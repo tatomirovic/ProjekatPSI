@@ -7,7 +7,7 @@ goldPerHour = 3
 woodPerHour = 1
 stonePerHour = 1
 
-timescaler = 0.01
+timescaler = 1
 
 startingPopulation = 40
 startingGold = 0
@@ -73,9 +73,9 @@ barracks_allocation = {
 
 resource_caps = {
     0: 0,
-    1: 1000,
-    2: 3000,
-    3: 10000,
+    1: 5000,
+    2: 10000,
+    3: 20000,
     4: 50000,
     5: 150000
 }
