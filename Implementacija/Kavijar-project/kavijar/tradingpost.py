@@ -46,10 +46,8 @@ def trading_post():
     city = City.query.filter_by(idOwner=g.user.idUser).first()
     trades_sent_data = []
     trades_received_data = []
-    tpost = None
-    if city is not None:
-        tpost = Building.query.filter_by(idCity=city.idCity, type='TS').first()
-    if city is None or tpost is None:
+    tpost = Building.query.filter_by(city=city, type='TS').first()
+    if city is None or tpost.level == 0:
         return render_template(url_for('index'))
     # Sve ponude koje smo poslali
     trades_sent = Trade.query.filter_by(idCity1=city.idCity, status='P').all()
@@ -96,12 +94,14 @@ def create_trade():
         receiver = User.query.filter_by(username=username).first()
         city_send = City.query.filter_by(idOwner=sender.idUser).first()
         city_receive = City.query.filter_by(idOwner=receiver.idUser).first()
+        if receiver is not None:
+            eventLogger.logEvents(receiver, datetime.datetime.now())
         tpost_send = Building.query.filter_by(idCity=city_send.idCity, type='TS').first()
         tpost_receive = Building.query.filter_by(idCity=city_receive.idCity, type='TS').first()
         error = None
         if city_send is None or city_receive is None:
             error = 'Transakcija mora uključivati dva grada!'
-        elif tpost_send is None or tpost_receive is None:
+        elif tpost_send.level == 0 or tpost_receive.level == 0:
             error = 'Oba grada moraju imati trgovinsku stanicu!'
         elif Trade.query.filter_by(idCity1=city_send.idCity, idCity2=city_receive.idCity).first() is not None:
             error = 'Već ste poslali ponudu ovom gradu!'
@@ -157,7 +157,7 @@ def cancel_trade(idTrade):
             error = 'Transakcija mora uključivati dva grada!'
         elif city_send.idOwner != g.user.idUser:
             error = 'Niste ovlašćeni da poništite ovu ponudu!'
-        elif tpost is None:
+        elif tpost.level == 0:
             error = 'Nemate trgovinsku stanicu!'
         elif trade.status != 'P':
             error = 'Transakcija je već obradjena!'
@@ -191,7 +191,7 @@ def accept_trade(idTrade):
             error = 'Niste ovlašćeni da odbijete ovu ponudu'
         elif city_send is None:
             error = 'Nepostojeći grad je poslao ponudu'
-        elif tpost is None:
+        elif tpost.level == 0:
             error = 'Nemate trgovinsku stanicu!'
         elif trade.gold1 > city_send.gold or trade.wood1 > city_send.wood or trade.stone1 > city_send.stone:
             error = 'Pošiljalac nema dovoljno resursa!'
@@ -202,7 +202,7 @@ def accept_trade(idTrade):
             trade.timeToArrival = datetime.datetime.now() + datetime.timedelta(
                 seconds=gr.cityTravelTime_seconds(city_send, city_receive))
             trade.status = 'A'
-            gr.adjust_resources(player=g.user, gold=trade.gold2, wood=trade.wood2, stone=trade.stone2)
+            gr.adjust_resources(player=g.user, gold=-trade.gold2, wood=-trade.wood2, stone=-trade.stone2)
             db.session.commit()
             flash(f"Prihvatili ste ponudu od grada {city_send.name} igrača {sender.username}")
         else:
@@ -229,7 +229,7 @@ def reject_trade(idTrade):
             error = 'Niste ovlašćeni da odbijete ovu ponudu'
         elif city_send is None:
             error = 'Nepostojeći grad je poslao ponudu'
-        elif tpost is None:
+        elif tpost.level == 0:
             error = 'Nemate trgovinsku stanicu!'
         elif trade.status != 'P':
             error = 'Transakcija je već obradjena!'
