@@ -53,8 +53,8 @@ def trading_post():
     trades_sent = Trade.query.filter_by(idCity1=city.idCity, status='P').all()
     # Sve ponude koje su nam stigle
     trades_received = Trade.query.filter_by(idCity2=city.idCity, status='P').all()
-    trades_in_progress = Trade.query.filter((Trade.idCity1 == city.idCity or Trade.idCity2 == city.idCity)
-                                            and Trade.status == 'A').all()
+    trades_in_progress = Trade.query.filter(((Trade.idCity1 == city.idCity) or (Trade.idCity2 == city.idCity))
+                                            and (Trade.status == 'A')).all()
     upgrade_level = min(tpost.level + 1, gr.building_max_level)
     upgrade_cost = gr.build_cost('TS', upgrade_level)
     trade_cap = gr.tp_resource_cap[tpost.level]
