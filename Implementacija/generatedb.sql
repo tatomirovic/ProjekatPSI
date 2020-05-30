@@ -136,7 +136,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `kavijardb`.`mailmsg` (
   `idMail` INT(11) NOT NULL AUTO_INCREMENT,
-  `idFrom` INT(11) NOT NULL,
+  `idFrom` INT(11),
   `idTo` INT(11) NOT NULL,
   `time` DATETIME NOT NULL,
   `content` VARCHAR(256) NOT NULL,

@@ -70,7 +70,7 @@ class Mailmsg(Base):
     __tablename__ = 'mailmsg'
 
     idMail = Column(INTEGER(11), primary_key=True)
-    idFrom = Column(ForeignKey(u'user.idUser'), nullable=False, index=True)
+    idFrom = Column(ForeignKey(u'user.idUser'), index=True)
     idTo = Column(ForeignKey(u'user.idUser'), nullable=False, index=True)
     time = Column(DateTime, nullable=False)
     content = Column(String(256), nullable=False)

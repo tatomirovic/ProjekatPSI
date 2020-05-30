@@ -23,8 +23,7 @@ def index():
     firstKey = None
     for city in city_list:
         #print(f'Our city is: {city.serialize()}')
-        city_json = city.serialize()
-        city_json['ownerName'] = User.query.filter_by(idUser=city.idOwner).first().username
+        city_json = {'name': city.name, 'xCoord': city.xCoord, 'yCoord': city.yCoord, 'ownerName': city.user.username}
         city_list_json.append(city_json)
     #print(f"The dump is: {json.dumps(city_list_json)}")
     return render_template('game/main_map.html', city_list=city_list_json)
