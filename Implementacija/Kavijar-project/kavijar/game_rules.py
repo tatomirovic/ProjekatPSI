@@ -148,7 +148,7 @@ def build_cost(bType, level):
 
 
 def build_time(level, b_type):
-    return timescaler*building_build_time_scaling[level]
+    return timescaler * building_build_time_scaling[level]
 
 
 def recruit_cost(uType, quantity):
@@ -159,7 +159,7 @@ def recruit_cost(uType, quantity):
 
 
 def recruit_time_seconds(uType, quantity, barracks_level):
-    return (60.0*timescaler*quantity*unit_recruit_times[uType])/barracks_recruit_time_scaling[barracks_level]
+    return (60.0 * timescaler * quantity * unit_recruit_times[uType]) / barracks_recruit_time_scaling[barracks_level]
 
 
 # BITNO - POZVATI db.session.commit() POSLE OVE FUNKCIJE, NE POZIVA GA SAMA
@@ -203,11 +203,12 @@ def createTownHall(idCity):
     db.session.commit()
 
 
-def normalCap(D = 30):
-    x = random.gauss(D/2, D/6)
+def normalCap(D=30):
+    x = random.gauss(D / 2, D / 6)
     if x < 1: return 1
     if x > D: return D
     return int(x)
+
 
 def createCity(idOwner, name):
     xCoord = 0
@@ -217,12 +218,12 @@ def createCity(idOwner, name):
         xCoord = normalCap()
         yCoord = normalCap()
         for city in cities:
-            dist = (city.xCoord - xCoord)**2 + (city.yCoord - yCoord)**2
+            dist = (city.xCoord - xCoord) ** 2 + (city.yCoord - yCoord) ** 2
             if dist < 4:
                 break
         else:
             break
-        
+
     db.session.add(City(idOwner=idOwner, name=name, xCoord=xCoord, yCoord=yCoord, population=startingPopulation,
                         woodworkers=0, stoneworkers=0, civilians=startingPopulation, gold=startingGold,
                         wood=startingWood, stone=startingStone, lastUpdate=datetime.datetime.now()))
@@ -230,6 +231,10 @@ def createCity(idOwner, name):
 
     idCity = City.query.filter_by(idOwner=idOwner, name=name).first().idCity
     createTownHall(idCity)
+    for k in building_types.keys():
+        if k == 'TH':
+            continue
+        db.session.add(Building(idCity=idCity, type=k, status="A", level=0, finishTime=datetime.datetime.now()))
     createGarrison(idCity)
 
 
@@ -238,7 +243,7 @@ growth_rate = 0.1
 
 
 def growth(p0, dt, townHallLevel):
-    k = carry_capacity[townHallLevel-1]
+    k = carry_capacity[townHallLevel - 1]
     r = growth_rate
     return k / (1 + (k - p0) / p0 * math.exp(-r * dt))
 
