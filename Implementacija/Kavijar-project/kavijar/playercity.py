@@ -195,7 +195,7 @@ def reassign_workers():
 def recruit_unit(u_type, quantity):
     if request.method == 'POST':
         city = City.query.filter_by(idOwner=g.user.idUser).first()
-        barracks = Building.query.filter_by(idOwner=g.user.idUser, type=gr.barracks_allocation[u_type]).first()
+        barracks = Building.query.filter_by(idCity=city.idCity, type=gr.barracks_allocation[u_type]).first()
         error = None
         if city is None:
             error = 'Grad ne postoji'
@@ -220,6 +220,7 @@ def recruit_unit(u_type, quantity):
                                 lakaPesadija=0, teskaPesadija=0, lakaKonjica=0, teskaKonjica=0,
                                 strelci=0, samostrelci=0, katapult=0, trebuset=0)
                 setattr(new_army, gr.unit_type_fields[u_type], quantity)
+                db.session.add(new_army)
                 db.session.commit()
                 flash(f"Pokrenuto regrutovanje {quantity} jedinica tipa {gr.unit_types[u_type]}")
             else:

@@ -186,7 +186,7 @@ def logEvents(player, upTo):
     eventList = []
 
     recruitings = Army.query.filter(
-        (Army.idCityFrom == city.idCity) & (Army.status == 'R') & (Army.timeToArrival > upTo)
+        (Army.idCityFrom == city.idCity) & (Army.status == 'R') & (Army.timeToArrival <= upTo)
     ).all()
     for recruiting in recruitings:
         eventList.append(recruitingEvent(recruiting.timeToArrival, recruiting))
