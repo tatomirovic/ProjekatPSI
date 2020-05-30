@@ -44,8 +44,8 @@ def attack():
         # Dohvatamo gradove napadaca i branioca
         attacker = g.user
         defender = User.query.filter_by(username=username).first()
-        city_attack = City.query.filter_by(idOwner=attacker.idUser).first()
-        city_defend = City.query.filter_by(idOwner=defender.idUser).first()
+        city_attack = City.query.filter_by(user=attacker).first()
+        city_defend = City.query.filter_by(user=defender).first()
         error = None
         # Greska ako ijedan grad ne postoji
         if city_attack is None or city_defend is None:
@@ -66,7 +66,7 @@ def attack():
             # Za svaki tip jedinica proveravamo da li ga ima dovoljno u garnizonu. Ako ne, napad nije moguc.
             for k in gr.unit_types.keys():
                 if getattr(garrison, gr.unit_type_fields[k]) < int(request.form[k]):
-                    error = 'Nedovljno trupa!'
+                    error = 'Nedovoljno trupa!'
                     break
 
         if error is None:
@@ -79,10 +79,12 @@ def attack():
             for k in gr.unit_type_fields.keys():
                 # Uzimamo iz garnizona da bismo napravili tu armiju
                 num_units = request.form[k]
-                setattr(new_army, gr.unit_type_fields[k], num_units)
+                setattr(new_army, gr.unit_type_fields[k], int(num_units))
                 setattr(garrison, gr.unit_type_fields[k], getattr(garrison, gr.unit_type_fields[k]) - int(num_units))
+            flash(f'Poslat je napad na {city_defend.user.username}')
             db.session.add(new_army)
             db.session.commit()
         else:
             flash(error)
+            return redirect(url_for('warfare.warfare_main'))
     return redirect(url_for('index'))
