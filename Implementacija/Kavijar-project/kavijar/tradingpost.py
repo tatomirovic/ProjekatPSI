@@ -55,6 +55,7 @@ def trading_post():
     trades_received = Trade.query.filter_by(idCity2=city.idCity, status='P').all()
     trades_in_progress = Trade.query.filter(((Trade.idCity1 == city.idCity) or (Trade.idCity2 == city.idCity))
                                             and (Trade.status == 'A')).all()
+    #print(f'Pname: {g.user.username} TREC: {trades_received} TSEN: {trades_sent} TPROG: {trades_in_progress}')
     upgrade_level = min(tpost.level + 1, gr.building_max_level)
     upgrade_cost = gr.build_cost('TS', upgrade_level)
     trade_cap = gr.tp_resource_cap[tpost.level]
@@ -142,6 +143,7 @@ def create_trade():
                               status='P', gold1=res1['gold'], wood1=res1['wood'], stone1=res1['stone'],
                               gold2=res2['gold'], wood2=res2['wood'], stone2=res2['stone'],
                               timeToArrival=None)
+            #print(f'R1: {res1} R2: {res2}')
             gr.adjust_resources(player=g.user, gold=-res1['gold'], wood=-res1['wood'], stone=-res1['stone'])
             db.session.add(new_trade)
             db.session.commit()

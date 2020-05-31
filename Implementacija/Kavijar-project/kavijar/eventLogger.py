@@ -176,7 +176,7 @@ class buildEvent(cityEvent):
 
 
 def logEvents(player, upTo):
-    print('Entering logevents')
+    #print('Entering logevents')
     city = City.query.filter_by(idOwner=player.idUser).first()
     if city is None:
         return

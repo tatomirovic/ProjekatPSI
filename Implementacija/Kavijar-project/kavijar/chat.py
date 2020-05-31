@@ -22,7 +22,7 @@ def sessions():
 
 
 def message_received(methods=['GET', 'POST']):
-    print('message was received!!!')
+    #print('message was received!!!')
     # click.echo(f'User name is: {g.user.username}')
     pass
 
@@ -33,7 +33,7 @@ def handle_my_custom_event(json, methods=['GET', 'POST']):
     if sender is None:
         return
 
-    print('received my event: ' + str(json))
+    #print('received my event: ' + str(json))
 
     if sender.dateCharLift is not None and sender.dateCharLift <= datetime.datetime.now():
         sender.dateCharLift = None

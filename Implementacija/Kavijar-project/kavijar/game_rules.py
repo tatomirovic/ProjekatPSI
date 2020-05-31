@@ -168,7 +168,7 @@ def adjust_resources(player, gold=0, wood=0, stone=0, pop=0, kavijar=0):
     city = City.query.filter_by(idOwner=player.idUser).first()
     if city is None:
         return
-    print(f'Adjusting resources, G: {gold} W: {wood} S: {stone}')
+    #print(f'Adjusting resources, G: {gold} W: {wood} S: {stone}')
     city.gold += gold
     city.wood += wood
     city.stone += stone
