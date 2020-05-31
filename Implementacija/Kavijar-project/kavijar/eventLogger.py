@@ -241,7 +241,7 @@ def logEvents(player, upTo):
         event.execute()
 
     t0 = city.lastUpdate
-    city.lastUpdate = datetime.datetime.now()
+    city.lastUpdate = upTo
     db.session.commit()
     t1 = city.lastUpdate
     dt = (t1 - t0).seconds / 3600
