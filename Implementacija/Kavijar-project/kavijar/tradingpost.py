@@ -54,8 +54,8 @@ def trading_post():
     # Sve ponude koje su nam stigle
     trades_received = Trade.query.filter_by(idCity2=city.idCity, status='P').all()
     trades_in_progress = Trade.query.filter(((Trade.idCity1 == city.idCity) or (Trade.idCity2 == city.idCity))
-                                            and (Trade.status == 'A')).all()
-    #print(f'Pname: {g.user.username} TREC: {trades_received} TSEN: {trades_sent} TPROG: {trades_in_progress}')
+                                            , (Trade.status == 'A')).all()
+    print(f'Pname: {g.user.username} TREC: {trades_received} TSEN: {trades_sent} TPROG: {trades_in_progress}')
     upgrade_level = min(tpost.level + 1, gr.building_max_level)
     upgrade_cost = gr.build_cost('TS', upgrade_level)
     trade_cap = gr.tp_resource_cap[tpost.level]
@@ -86,7 +86,7 @@ def trading_post():
         # Dodato u json data imamo i imena gradova
         data['sendName'] = citySend.user.username
         data['receiveName'] = cityReceive.user.username
-        trades_received_data.append(data)
+        trades_in_progress.append(data)
     return render_template('building/buildingTS.html', trades_sent=trades_sent_data,
                            trades_received=trades_received_data, trades_in_progress=trades_in_progress, city=city,
                            building_info=tpost.serialize(), upgrade_cost=upgrade_cost, trade_cap=trade_cap)
