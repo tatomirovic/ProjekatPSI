@@ -98,9 +98,9 @@ building_costs_scaling = {
     5: -100,
 }
 
-building_build_time_scaling = [5, 20, 60, 300, 1440]
+building_build_time_scaling = [0, 5, 20, 60, 300, 1440]
 
-barracks_recruit_time_scaling = [1, 5, 10, 15, 20]
+barracks_recruit_time_scaling = [0, 1, 5, 10, 15, 20]
 
 # Koristimo - jer se pri izgradnji GUBE resursi
 
