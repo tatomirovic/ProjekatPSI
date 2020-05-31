@@ -27,6 +27,8 @@ def building_main(b_type):
     error = None
     building_info = None
     upgrade_cost = None
+    armies_sent = []
+    garrison = None
     recruit_costs = []
     if building is None:
         error = 'Nemate tu gradjevinu!'
@@ -39,7 +41,11 @@ def building_main(b_type):
         for k, v in gr.barracks_allocation:
             if k == b_type:
                 recruit_costs.append(gr.recruit_cost(v, 1))
+        if b_type == 'ZD':
+            armies_sent = Army.query.filter_by(idCityFrom=city.idCity, status='A').all()
+            garrison = Army.query.filter_by(idCityFrom=city.idCity, status='G').first()
     else:
         flash(error)
     return render_template(f'building/building{b_type}.html', building_info=building_info,
-                           upgrade_cost=upgrade_cost, recruit_costs=recruit_costs, city=city)
+                           upgrade_cost=upgrade_cost, recruit_costs=recruit_costs,
+                           city=city, armies_sent=armies_sent, garrison=garrison)
