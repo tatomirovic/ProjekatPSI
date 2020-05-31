@@ -233,11 +233,12 @@ def createCity(idOwner, name):
     db.session.commit()
 
     idCity = City.query.filter_by(idOwner=idOwner, name=name).first().idCity
-    createTownHall(idCity)
+    #createTownHall(idCity)
     for k in building_types.keys():
-        if k == 'TH':
-            continue
-        db.session.add(Building(idCity=idCity, type=k, status="A", level=0, finishTime=datetime.datetime.now()))
+        new_building = Building(idCity=idCity, type=k, status="A", level=0, finishTime=datetime.datetime.now())
+        if new_building.type in ['TH', 'PI', 'KL']:
+            new_building.level = 1
+        db.session.add(new_building)
     createGarrison(idCity)
 
 
