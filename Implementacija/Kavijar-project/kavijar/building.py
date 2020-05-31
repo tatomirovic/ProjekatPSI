@@ -32,8 +32,6 @@ def building_main(b_type):
     recruit_costs = []
     if building is None:
         error = 'Nemate tu gradjevinu!'
-    elif building.level == 0:
-        error = 'Nemate tu gradjevinu!'
     if error is None:
         upgrade_level = min(building.level + 1, gr.building_max_level)
         upgrade_cost = gr.build_cost(b_type, upgrade_level)

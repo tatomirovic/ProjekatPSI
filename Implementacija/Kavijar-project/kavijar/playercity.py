@@ -96,7 +96,6 @@ def halt_building(b_type):
             # db.session.delete(existing_building)
             gr.adjust_resources(player=g.user, gold=gold, wood=wood, stone=stone, debug=True, context='Halt Building')
             existing_building.status = 'A'
-            existing_building.finishTime = None
             db.session.commit()
             flash(f"Uspešno ste obustavili rad na zgradi : {gr.building_types[b_type]}")
         else:
