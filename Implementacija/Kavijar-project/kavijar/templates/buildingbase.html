@@ -37,6 +37,28 @@
     </div>
         {% block body %}
         {% endblock %}
+        <div class="row-fluid">
+            <div class="col-sm-12">
+                {% if building_info.level==0 %}
+                <form action='/playercity/upgrade_building/{{building_info.type}}' method='POST'>
+                <input type='submit' value="Izgradi" class='def-button'>
+                </form>
+                {% else %}
+                    {% if building_info.status=='U' %}
+                    <form action='/playercity/halt_building/{{building_info.type}}' method='POST'>
+                        <input type='submit' value="Zaustavi konstrukciju" class='def-button'>
+                    </form>
+                    {% else %}
+
+                        {% if building_info.level < 5 %}
+                        <form action='/playercity/upgrade_building/{{building_info.type}}' method='POST'>
+                            <input type='submit' value="Unapredi" class='def-button'>
+                        </form>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
         {% for message in get_flashed_messages() %}
         <button class="error-msg" disabled>{{ message }}</button>
         {% endfor %}

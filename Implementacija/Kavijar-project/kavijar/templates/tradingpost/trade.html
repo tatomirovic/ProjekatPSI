@@ -12,6 +12,9 @@
             <form method='POST' action="create_trade">
             <br>
             <b> Igrac: <input type='text' class='input' name='username' value={{username}}></b>
+            <br>
+            <br>
+            <h4><b>Maksimalna kolicina resursa {{ trade_cap }}</b></h4>
             <hr>
             <h3><b>Ponudi</b></h3>
             <img class='cityimg' src='{{url_for("static", filename="img/gold.png") }}'>: <input type='number' class='input inputnum' name='gold1' value=0>

@@ -1,4 +1,4 @@
-{% extends 'userbase.html'%}
+{% extends 'buildingbase.html'%}
 
 {% block head %}
 <title>Kavijar</title>
@@ -8,8 +8,9 @@
 
     <div class="row-fluid myBorder text-center center-block">
         <div class="col-sm-12">
-            {% if 1>0 %}
-            <h1><b>Trgovinska stanica</b></h1>
+            {% if building_info.level>0 %}
+            <h1><b>Trgovinska stanica {{building_info.level}}</b></h1>
+            
             <h3><b>Primljeni zahtevi</b></h3>
             {% if trades_received|length < 1 %}
             <h4>Nemate primljenih zahteva</h4>
@@ -17,6 +18,10 @@
             {% endif %}
             {% for trade in trades_received %}
             <table cellpadding=10px width=50% style='margin:0 auto;'>
+            <tr>
+                <td>Igrac:</td>
+                <td>{{trade.sendName}}</td>
+            </tr>
             <tr>
                 <td>Nudi:</td>
                 <td><img class='cityimg' src='{{url_for("static", filename="img/gold.png") }}'> {{trade.gold1|int}}</td>
@@ -41,6 +46,10 @@
             {% endif %}
             {% for trade in trades_sent %}
             <table cellpadding=10px width=50% style='margin:0 auto;'>
+            <tr>
+                <td>Igrac:</td>
+                <td>{{trade.receiveName}}</td>
+            </tr>
             <tr>
                 <td>Nudite:</td>
                 <td><img class='cityimg' src='{{url_for("static", filename="img/gold.png") }}'> {{trade.gold1|int}}</td>
@@ -70,9 +79,5 @@
         </div>
         
     </div>
-{% endblock %}
-
-{% block actions %}
-<a><button class='def-button'>Izgradi</button></a>
-
+    
 {% endblock %}
