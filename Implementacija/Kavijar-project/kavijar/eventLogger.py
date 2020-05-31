@@ -180,7 +180,7 @@ def logEvents(player, upTo):
     city = City.query.filter_by(idOwner=player.idUser).first()
     if city is None:
         return
-    if city.lastUpdate == upTo:
+    if city.lastUpdate >= upTo:
         return
 
     eventList = []
@@ -221,13 +221,17 @@ def logEvents(player, upTo):
         if event.time >= upTo:
             break
         t0 = city.lastUpdate
-        t1 = city.lastUpdate = event.time
+        city.lastUpdate = event.time
+        db.session.commit()
+        t1 = city.lastUpdate
         dt = (t1 - t0).seconds / 3600
 
         totalUpkeep = 0
+        if totalUpkeep < 0:
+            totalUpkeep = 0
         for army in armies:
             totalUpkeep += armyUpkeepPH(army)
-
+        print(f't0 is {t0} t1 is {t1} gr.goldPerHour is {gr.goldPerHour} city.civilians is {city.civilians} totalupkeep is {totalUpkeep} dt is {dt}')
         gr.adjust_resources(player=g.user,
                             gold=(gr.goldPerHour * city.civilians - totalUpkeep) * dt,
                             wood=gr.woodPerHour * city.woodworkers * dt,
@@ -237,13 +241,15 @@ def logEvents(player, upTo):
         event.execute()
 
     t0 = city.lastUpdate
-    t1 = city.lastUpdate = upTo
+    city.lastUpdate = datetime.datetime.now()
+    db.session.commit()
+    t1 = city.lastUpdate
     dt = (t1 - t0).seconds / 3600
 
     totalUpkeep = 0
     for army in armies:
         totalUpkeep += armyUpkeepPH(army)
-
+    print(f't0 is {t0} t1 is {t1} gr.goldPerHour is {gr.goldPerHour} city.civilians is {city.civilians} totalupkeep is {totalUpkeep} dt is {dt}')
     gr.adjust_resources(player=g.user,
                         gold=(gr.goldPerHour * city.civilians - totalUpkeep) * dt,
                         wood=gr.woodPerHour * city.woodworkers * dt,
@@ -251,3 +257,4 @@ def logEvents(player, upTo):
                         pop=gr.growth(city.population, dt, lvl) - city.population, debug=True, context='eventlogger maint 2')
     city.civilians = city.population - city.woodworkers - city.stoneworkers
     db.session.commit()
+

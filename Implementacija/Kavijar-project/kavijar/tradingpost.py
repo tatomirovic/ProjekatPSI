@@ -113,8 +113,8 @@ def create_trade():
         receiver = User.query.filter_by(username=username).first()
         city_send = City.query.filter_by(user=sender).first()
         city_receive = City.query.filter_by(user=receiver).first()
-        if receiver is not None:
-            eventLogger.logEvents(receiver, datetime.datetime.now())
+        #if receiver is not None:
+            #eventLogger.logEvents(receiver, datetime.datetime.now())
         tpost_send = Building.query.filter_by(city=city_send, type='TS').first()
         tpost_receive = Building.query.filter_by(city=city_receive, type='TS').first()
         error = None
