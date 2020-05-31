@@ -56,6 +56,7 @@ def attack():
         # Zabranjujemo gradjanski rat
         elif city_attack.idCity == city_defend.idCity:
             error = 'Ne možete napasti samog sebe!'
+
         # Zabranjujemo slanje bilo kakvog broja jedinica koji nije pozitivan ceo broj
         for k in gr.unit_type_fields.keys():
             if not sanitycheck(request.form[k]):
