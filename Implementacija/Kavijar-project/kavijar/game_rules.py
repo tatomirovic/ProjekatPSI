@@ -127,6 +127,7 @@ unit_recruit_times = {
 }
 
 tp_resource_cap = {
+    0: 0,
     1: 500,
     2: 2000,
     3: 10000,
@@ -240,8 +241,8 @@ def createCity(idOwner, name):
     createGarrison(idCity)
 
 
-carry_capacity = [80, 120, 180, 260, 360]
-growth_rate = 0.1
+carry_capacity = [1000, 5000, 20000, 50000, 100000]
+growth_rate = 1
 
 
 def growth(p0, dt, townHallLevel):
