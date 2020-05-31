@@ -164,11 +164,12 @@ def recruit_time_seconds(uType, quantity, barracks_level):
 
 # BITNO - POZVATI db.session.commit() POSLE OVE FUNKCIJE, NE POZIVA GA SAMA
 # POZIVATI OVU F-JU PRE SVAKOG AZURIRANJA RESURSA
-def adjust_resources(player, gold=0, wood=0, stone=0, pop=0, kavijar=0):
+def adjust_resources(player, gold=0, wood=0, stone=0, pop=0, kavijar=0, debug=False, context=''):
     city = City.query.filter_by(idOwner=player.idUser).first()
     if city is None:
         return
-    #print(f'Adjusting resources, G: {gold} W: {wood} S: {stone}')
+    if debug:
+        print(f'Adjusting resources for Player: {player.username}, G: {gold} W: {wood} S: {stone}, context is {context}')
     city.gold += gold
     city.wood += wood
     city.stone += stone

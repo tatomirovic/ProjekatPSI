@@ -94,7 +94,7 @@ def halt_building(b_type):
         if error is None:
             # if existing_building.level == 0:
             # db.session.delete(existing_building)
-            gr.adjust_resources(player=g.user, gold=gold, wood=wood, stone=stone)
+            gr.adjust_resources(player=g.user, gold=gold, wood=wood, stone=stone, debug=True, context='Halt Building')
             existing_building.status = 'A'
             existing_building.finishTime = None
             db.session.commit()
@@ -135,7 +135,7 @@ def upgrade_building(b_type):
             # existing_building.level += 1
             existing_building.finishTime = finishTime
             existing_building.status = 'U'
-            gr.adjust_resources(player=g.user, gold=gold, wood=wood, stone=stone)
+            gr.adjust_resources(player=g.user, gold=gold, wood=wood, stone=stone, debug=True, context='Upgrade Building')
             db.session.commit()
             flash(f"Uspešno je pokrenuto unapredjenje zgrade : {gr.building_types[b_type]}")
         else:
@@ -220,6 +220,8 @@ def recruit_unit(u_type, quantity):
                                 lakaPesadija=0, teskaPesadija=0, lakaKonjica=0, teskaKonjica=0,
                                 strelci=0, samostrelci=0, katapult=0, trebuset=0)
                 setattr(new_army, gr.unit_type_fields[u_type], quantity)
+                gr.adjust_resources(player=g.user, gold=-gold, wood=-wood, stone=-stone, debug=True,
+                                    context='Recruit Unit')
                 db.session.add(new_army)
                 db.session.commit()
                 flash(f"Pokrenuto regrutovanje {quantity} jedinica tipa {gr.unit_types[u_type]}")

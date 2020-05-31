@@ -132,8 +132,8 @@ class battleEvent(cityEvent):
         if DLoss > battleEvent.victoryRequirement:
             plunderCap = battleEvent.plunderCap
             gr.adjust_resources(player1, gold=city2.gold * plunderCap, wood=city2.wood * plunderCap,
-                                stone=city2.stone * plunderCap)
-            gr.adjust_resources(player2, gold=-city2.gold * plunderCap, wood=-city2.wood * plunderCap,
+                                stone=city2.stone * plunderCap, debug=True, context='eventlogger battle_p1')
+            gr.adjust_resources(player2, gold=-city2.gold * plunderCap, wood=-city2.wood * plunderCap, debug=True, context='eventlogger battle_p2',
                                 stone=-city2.stone * plunderCap)
 
         garrisonArmy(attacker)
@@ -156,8 +156,8 @@ class tradeEvent(cityEvent):
         logEvents(player1, self.time)
         logEvents(player2, self.time)
 
-        gr.adjust_resources(player1, gold=trade.gold2, wood=trade.wood2, stone=trade.stone2)
-        gr.adjust_resources(player2, gold=trade.gold1, wood=trade.wood1, stone=trade.stone1)
+        gr.adjust_resources(player1, gold=trade.gold2, wood=trade.wood2, stone=trade.stone2, debug=True, context='eventlogger trade_p1')
+        gr.adjust_resources(player2, gold=trade.gold1, wood=trade.wood1, stone=trade.stone1, debug=True, context='eventlogger trade_p2')
 
         ## obavestiti igrace
         db.session.delete(trade)
@@ -232,7 +232,7 @@ def logEvents(player, upTo):
                             gold=(gr.goldPerHour * city.civilians - totalUpkeep) * dt,
                             wood=gr.woodPerHour * city.woodworkers * dt,
                             stone=gr.stonePerHour * city.stoneworkers * dt,
-                            pop=gr.growth(city.population, dt, lvl) - city.population)
+                            pop=gr.growth(city.population, dt, lvl) - city.population, debug=True, context='eventlogger maint 1')
         city.civilians = city.population - city.woodworkers - city.stoneworkers
         event.execute()
 
@@ -248,6 +248,6 @@ def logEvents(player, upTo):
                         gold=(gr.goldPerHour * city.civilians - totalUpkeep) * dt,
                         wood=gr.woodPerHour * city.woodworkers * dt,
                         stone=gr.stonePerHour * city.stoneworkers * dt,
-                        pop=gr.growth(city.population, dt, lvl) - city.population)
+                        pop=gr.growth(city.population, dt, lvl) - city.population, debug=True, context='eventlogger maint 2')
     city.civilians = city.population - city.woodworkers - city.stoneworkers
     db.session.commit()
