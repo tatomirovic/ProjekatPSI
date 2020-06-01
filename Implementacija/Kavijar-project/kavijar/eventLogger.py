@@ -278,7 +278,7 @@ class battleEvent(cityEvent):
                 destroyed = int(severity * battleEvent.buildingDestructionCap)
                 damagedBuildings = random.sample(buildings, destroyed)
                 for damagedBuilding in damagedBuildings:
-                    damagedBuilding.level = min(damagedBuilding.level - 1, 0)
+                    damagedBuilding.level = max(damagedBuilding.level - 1, 0)
                     upgrade_building_function(damagedBuilding, use_resources=False)
 
             stolen = battleEvent.plunderCap * severity
