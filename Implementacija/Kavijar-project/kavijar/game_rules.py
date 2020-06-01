@@ -81,7 +81,7 @@ resource_caps = {
 }
 
 resource_allocation_limit = {
-    0: 50,
+    0: 300,
     1: 1000,
     2: 10000,
     3: 50000,
