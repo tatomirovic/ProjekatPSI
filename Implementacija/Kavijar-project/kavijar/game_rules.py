@@ -9,7 +9,7 @@ stonePerHour = 1
 
 timescaler = 0.1
 
-startingPopulation = 40
+startingPopulation = 250
 startingGold = 0
 startingWood = 400
 startingStone = 400
@@ -81,8 +81,8 @@ resource_caps = {
 }
 
 resource_allocation_limit = {
-    0: 300,
-    1: 1000,
+    0: 100,
+    1: 250,
     2: 10000,
     3: 50000,
     4: 250000,
