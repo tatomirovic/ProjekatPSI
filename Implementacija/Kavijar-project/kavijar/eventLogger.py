@@ -173,7 +173,7 @@ unitPower = {
     },
 }
 ##  igrac koji se brani dobija procentualni bonus za snagu
-defeseBonus = [1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6]
+defenseBonus = [1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6]
 
 ##  olaksava dohvatanje atributa armije
 stringToAttr = {
@@ -235,7 +235,7 @@ class battleEvent(cityEvent):
         defender = Army.query.filter((Army.idCityFrom == attacker.idCityTo) & (Army.status == "G")).first()
 
         APower = battleEvent.armyPower(attacker, defender)
-        DPower = battleEvent.armyPower(defender, attacker) * defeseBonus[wallLvl]
+        DPower = battleEvent.armyPower(defender, attacker) * defenseBonus[wallLvl]
         print(f'Power vals APOWER {APower} DPOWER {DPower}')
         ALoss = DPower / (APower + DPower)
         DLoss = 1 - ALoss
