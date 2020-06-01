@@ -282,9 +282,9 @@ class battleEvent(cityEvent):
 
             stolen = battleEvent.plunderCap * severity
             plunder = {
-                "gold": city2.gold * stolen,
-                "wood": city2.wood * stolen,
-                "stone": city2.stone * stolen, 
+                "gold": int(city2.gold * stolen),
+                "wood": int(city2.wood * stolen),
+                "stone": int(city2.stone * stolen), 
             }
             gr.adjust_resources(player1, gold=plunder["gold"], wood=plunder["wood"],
                                 stone=plunder["stone"], debug=True, context='eventlogger battle_p1')
