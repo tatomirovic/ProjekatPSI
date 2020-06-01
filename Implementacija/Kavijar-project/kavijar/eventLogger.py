@@ -5,7 +5,7 @@ import math, datetime, random
 from .models import City, Army, Trade, User, Building
 from . import db, mail
 from . import game_rules as gr
-from . import playercity
+from .auxfunction import upgrade_building_function
 
 ## Preface za peru
 ## znam da je nepregledno za svakoga ko nije radio na projektu ali nasminkacu
@@ -272,13 +272,13 @@ class battleEvent(cityEvent):
         if DLoss > battleEvent.victoryRequirement:
             severity = (DLoss - battleEvent.victoryRequirement) / (1 - battleEvent.victoryRequirement)
             wall.level -= 1
-            playercity.upgrade_building_function(wall, use_resources=False)
+            upgrade_building_function(wall, use_resources=False)
             if len(buildings):
                 destroyed = int(severity * battleEvent.buildingDestructionCap)
                 damagedBuildings = random.sample(buildings, destroyed)
                 for damagedBuilding in damagedBuildings:
                     damagedBuilding.level -= 1
-                    playercity.upgrade_building_function(damagedBuilding, use_resources=False)
+                    upgrade_building_function(damagedBuilding, use_resources=False)
 
             stolen = battleEvent.plunderCap * severity
             plunder = {

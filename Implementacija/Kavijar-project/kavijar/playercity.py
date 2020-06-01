@@ -7,6 +7,7 @@ from kavijar.auth import login_required, player_required, check_ban
 from . import db, game_rules as gr
 
 from .models import City, Building, Army
+from .auxfunction import upgrade_building_function
 import functools, datetime
 from . import updateWrappers
 
@@ -102,19 +103,6 @@ def halt_building(b_type):
             flash(error)
 
     return redirect(url_for('playercity.player_city'))
-
-
-def upgrade_building_function(building, use_resources=True, gold=0, wood=0, stone=0):
-    b_type = building.type
-    upgrade_level = min(building.level + 1, gr.building_max_level)
-    finishTime = datetime.datetime.now() \
-                 + datetime.timedelta(minutes=gr.build_time(upgrade_level, b_type))
-    # existing_building.level += 1
-    building.finishTime = finishTime
-    building.status = 'U'
-    if use_resources:
-        gr.adjust_resources(player=g.user, gold=gold, wood=wood, stone=stone, debug=True, context='Upgrade Building')
-    db.session.commit()
 
 
 @bp.route('/upgrade_building/<b_type>', methods=('GET', 'POST'))
