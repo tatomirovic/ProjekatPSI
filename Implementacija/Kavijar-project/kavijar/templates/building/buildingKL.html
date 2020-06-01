@@ -1,0 +1,26 @@
+{% extends 'buildingbase.html'%}
+
+{% block head %}
+<title>Kavijar</title>
+{% endblock %}
+
+{% block body %}
+
+    <div class="row-fluid myBorder text-center center-block">
+        <div class="col-sm-12">
+            {% if building_info.level>0 %}
+            <h1><b>Kamenolom {{building_info.level}}</b></h1>
+            Trenutan broj radnika {{city.stoneworkers}}/{{ max_cap }} <img class='cityimgsm' src='{{url_for("static", filename="img/pickaxe.png") }}'>
+            <br>
+            Trenutan prinos po satu {{ income_dict['stone']|int }} <img class='cityimgsm' src='{{url_for("static", filename="img/stone.png") }}'>
+            <br>
+            <br>
+            {% else %}
+            <h1><b>Nemate kamenolom</b></h1>
+            
+            {% endif %}
+        </div>
+        
+    </div>
+    
+{% endblock %}
