@@ -156,26 +156,6 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `kavijardb`.`recruiting`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `kavijardb`.`recruiting` (
-  `idRecruiting` INT(11) NOT NULL AUTO_INCREMENT,
-  `idCity` INT(11) NOT NULL,
-  `type` CHAR(1) NOT NULL,
-  `finishTime` DATETIME NOT NULL,
-  `lowTier` INT(11) NULL DEFAULT NULL,
-  `highTier` INT(11) NULL DEFAULT NULL,
-  PRIMARY KEY (`idRecruiting`),
-  INDEX `idCity_idx` (`idCity` ASC) VISIBLE,
-  CONSTRAINT `FK_FORCITY`
-    FOREIGN KEY (`idCity`)
-    REFERENCES `kavijardb`.`city` (`idCity`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
-
-
--- -----------------------------------------------------
 -- Table `kavijardb`.`trade`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `kavijardb`.`trade` (
