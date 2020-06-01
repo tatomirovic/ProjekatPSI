@@ -229,7 +229,7 @@ class battleEvent(cityEvent):
         if wall:
             wallLvl = wall.level
 
-        buildings = Building.query.filter((Building.idCity==city2.idCity) & (Building.type != "ZD") & ((Building.type != "TH") | (Building.type == "TH") & (Building.level != 1))).all()
+        buildings = Building.query.filter((Building.idCity==city2.idCity) & (Building.type != "ZD") & ((Building.type != "TH") | (Building.type == "TH") & (Building.level > 0))).all()
         ## pretpostavka je da je garnizovana vojska uvek jedna armija i uvek postoji makar sa 0 jedinica
         ## sto je podrzano spajanjem vojske na kraju ove funkcije
         defender = Army.query.filter((Army.idCityFrom == attacker.idCityTo) & (Army.status == "G")).first()
