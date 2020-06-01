@@ -65,6 +65,8 @@ def trading_post():
     #print(f'Pname: {g.user.username} TREC: {trades_received} TSEN: {trades_sent} TPROG: {trades_in_progress}')
     upgrade_level = min(tpost.level + 1, gr.building_max_level)
     upgrade_cost = gr.build_cost('TS', upgrade_level)
+    for k in upgrade_cost:
+        upgrade_cost[k] *= -1
     trade_cap = gr.tp_resource_cap[tpost.level]
     if tpost.level > 0:
         userCity = City.query.filter_by(idOwner=g.user.idUser).first()
