@@ -54,7 +54,7 @@ def trading_post():
     trades_received_data = []
     trades_in_progress_data = []
     tpost = Building.query.filter_by(city=city, type='TS').first()
-    if city is None or tpost.level == 0:
+    if city is None:
         return render_template(url_for('index'))
     # Sve ponude koje smo poslali
     trades_sent = Trade.query.filter_by(idCity1=city.idCity, status='P').all()
@@ -62,38 +62,39 @@ def trading_post():
     trades_received = Trade.query.filter_by(idCity2=city.idCity, status='P').all()
     trades_in_progress = Trade.query.filter(((Trade.idCity1 == city.idCity) or (Trade.idCity2 == city.idCity))
                                             , (Trade.status == 'A')).all()
-    print(f'Pname: {g.user.username} TREC: {trades_received} TSEN: {trades_sent} TPROG: {trades_in_progress}')
+    #print(f'Pname: {g.user.username} TREC: {trades_received} TSEN: {trades_sent} TPROG: {trades_in_progress}')
     upgrade_level = min(tpost.level + 1, gr.building_max_level)
     upgrade_cost = gr.build_cost('TS', upgrade_level)
     trade_cap = gr.tp_resource_cap[tpost.level]
-    userCity = City.query.filter_by(idOwner=g.user.idUser).first()
-    citySend = userCity
-    for trade in trades_sent:
-        cityReceive = City.query.filter_by(idCity=trade.idCity2).first()
-        # Json reprezentacija ponude
-        data = trade.serialize()
-        # Dodato u json data imamo i imena gradova
-        data['sendName'] = citySend.user.username
-        data['receiveName'] = cityReceive.user.username
-        trades_sent_data.append(data)
-    cityReceive = userCity
-    for trade in trades_received:
-        citySend = City.query.filter_by(idCity=trade.idCity1).first()
-        # Json reprezentacija ponude
-        data = trade.serialize()
-        # Dodato u json data imamo i imena gradova
-        data['sendName'] = citySend.user.username
-        data['receiveName'] = cityReceive.user.username
-        trades_received_data.append(data)
-    for trade in trades_in_progress:
-        citySend = City.query.filter_by(idCity=trade.idCity1).first()
-        cityReceive = City.query.filter_by(idCity=trade.idCity2).first()
-        # Json reprezentacija ponude
-        data = trade.serialize()
-        # Dodato u json data imamo i imena gradova
-        data['sendName'] = citySend.user.username
-        data['receiveName'] = cityReceive.user.username
-        trades_in_progress_data.append(data)
+    if tpost.level > 0:
+        userCity = City.query.filter_by(idOwner=g.user.idUser).first()
+        citySend = userCity
+        for trade in trades_sent:
+            cityReceive = City.query.filter_by(idCity=trade.idCity2).first()
+            # Json reprezentacija ponude
+            data = trade.serialize()
+            # Dodato u json data imamo i imena gradova
+            data['sendName'] = citySend.user.username
+            data['receiveName'] = cityReceive.user.username
+            trades_sent_data.append(data)
+        cityReceive = userCity
+        for trade in trades_received:
+            citySend = City.query.filter_by(idCity=trade.idCity1).first()
+            # Json reprezentacija ponude
+            data = trade.serialize()
+            # Dodato u json data imamo i imena gradova
+            data['sendName'] = citySend.user.username
+            data['receiveName'] = cityReceive.user.username
+            trades_received_data.append(data)
+        for trade in trades_in_progress:
+            citySend = City.query.filter_by(idCity=trade.idCity1).first()
+            cityReceive = City.query.filter_by(idCity=trade.idCity2).first()
+            # Json reprezentacija ponude
+            data = trade.serialize()
+            # Dodato u json data imamo i imena gradova
+            data['sendName'] = citySend.user.username
+            data['receiveName'] = cityReceive.user.username
+            trades_in_progress_data.append(data)
     return render_template('building/buildingTS.html', trades_sent=trades_sent_data,
                            trades_received=trades_received_data, trades_in_progress=trades_in_progress_data, city=city,
                            building_info=tpost.serialize(), upgrade_cost=upgrade_cost, trade_cap=trade_cap)
