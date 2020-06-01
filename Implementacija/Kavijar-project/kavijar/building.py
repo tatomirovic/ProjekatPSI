@@ -31,6 +31,7 @@ def building_main(b_type):
     garrison = None
     max_cap = None
     recruit_costs = []
+    waiting_for_recruitment = {'LP': 0, 'TP': 0, 'ST': 0, 'SS': 0, 'LK': 0, 'TK': 0, 'KT': 0, 'TR': 0}
     income_dict = {}
     if building is None:
         error = 'Nemate tu gradjevinu!'
@@ -48,6 +49,10 @@ def building_main(b_type):
         armies_sent = Army.query.filter_by(idCityFrom=city.idCity, status='A').all()
         garrison = Army.query.filter_by(idCityFrom=city.idCity, status='G').first()
         recruiting_armies = Army.query.filter_by(idCityFrom=city.idCity, status='R').all()
+
+        for army in recruiting_armies:
+            for k in waiting_for_recruitment.keys():
+                waiting_for_recruitment[k] += getattr(army, gr.unit_type_fields[k])
         income_dict = {'gold': city.civilians * gr.goldPerHour / gr.timescaler,
                        'wood': city.woodworkers * gr.woodPerHour / gr.timescaler,
                        'stone': city.stoneworkers * gr.stonePerHour / gr.timescaler}
@@ -56,4 +61,4 @@ def building_main(b_type):
     return render_template(f'building/building{b_type}.html', building_info=building_info,
                            upgrade_cost=upgrade_cost, recruit_costs=recruit_costs,
                            city=city, armies_sent=armies_sent, garrison=garrison,
-                           income_dict=income_dict, max_cap=max_cap, recruiting_armies=recruiting_armies)
+                           income_dict=income_dict, max_cap=max_cap, waiting_for_recruitment=waiting_for_recruitment)
