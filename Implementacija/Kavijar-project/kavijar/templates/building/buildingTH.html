@@ -12,9 +12,9 @@
             <h1><b>Gradska uprava {{building_info.level}}</b></h1>
             Trenutna raspodela populacije {{city.population|round|int}}
             <br>
-            <img class='cityimg' src='{{url_for("static", filename="img/villager.png") }}'> {{city.civilians}}
-            <img class='cityimg' src='{{url_for("static", filename="img/axe.png") }}'> {{city.woodworkers}}
-            <img class='cityimg' src='{{url_for("static", filename="img/pickaxe.png") }}'> {{city.stoneworkers}}
+            <img class='cityimgsm' src='{{url_for("static", filename="img/villager.png") }}'> {{city.civilians}}
+            <img class='cityimgsm' src='{{url_for("static", filename="img/axe.png") }}'> {{city.woodworkers}}
+            <img class='cityimgsm' src='{{url_for("static", filename="img/pickaxe.png") }}'> {{city.stoneworkers}}
             <hr>
             Preraspodeli:
             <br>
@@ -27,6 +27,7 @@
             <br>
             {% else %}
             <h1><b>Nemate gradsku upravu</b></h1>
+            
             {% endif %}
         </div>
         

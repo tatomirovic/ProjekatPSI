@@ -91,6 +91,16 @@
 	width:5%;
 	min-width: 30px;
 }
+
+.cityimgsm
+{
+	width:3%;
+}
+
+.cityimgmini
+{
+	width:2%;
+}
 .citytable
 {
 	background:url('/static/img/citybg.png');
@@ -241,8 +251,8 @@
 
 .logo-button {
 	
-	height:50%;
-	margin:10px;
+	height:45%;
+	margin:8px;
 	margin-top:13px;
 	vertical-align: center;
 	float:right;

@@ -17,7 +17,7 @@
             <hr>
             {% endif %}
             {% for trade in trades_received %}
-            <table cellpadding=10px width=50% style='margin:0 auto;'>
+            <table cellpadding=10px width=70% style='margin:0 auto;'>
             <tr>
                 <td>Igrac:</td>
                 <td>{{trade.sendName}}</td>
@@ -65,19 +65,20 @@
             </tr>
             </table>
             <hr>
+            
             {% endfor %}
-            {% else %}
-            <h1>Nemate izgradjenu trgovinsku stanicu!</h1>
-            {% endif %}
-            <h3><b>Resursi</b></h3>
-            <img class='cityimg' src='{{url_for("static", filename="img/gold.png") }}'> {{city.gold|int}}
-            <img class='cityimg' src='{{url_for("static", filename="img/wood.png") }}'> {{city.wood|int}}
-            <img class='cityimg' src='{{url_for("static", filename="img/stone.png") }}'> {{city.stone|int}}
+            <h4><b>Resursi</b></h4>
+            <img class='cityimgsm' src='{{url_for("static", filename="img/gold.png") }}'> {{city.gold|int}}
+            <img class='cityimgsm' src='{{url_for("static", filename="img/wood.png") }}'> {{city.wood|int}}
+            <img class='cityimgsm' src='{{url_for("static", filename="img/stone.png") }}'> {{city.stone|int}}
             <br><br>
             <a href='{{url_for("tradingpost.trade_main")}}'><button class='def-button'>Nova ponuda</button></a>
             <br><br>
+            {% else %}
+            <h1><b>Nemate izgradjenu trgovinsku stanicu!</b></h1>
+            {% endif %}
+            
         </div>
-        
     </div>
     
 {% endblock %}
