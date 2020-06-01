@@ -19,6 +19,12 @@ def sanitycheck(val):
         return False
 
 
+def check_notzeroes(form):
+    for k in gr.unit_types.keys():
+        if int(form[k]) > 0:
+            return True
+    return False
+
 @bp.route('/')
 @player_required
 @check_ban
@@ -62,6 +68,9 @@ def attack():
             if not sanitycheck(request.form[k]):
                 error = 'Loš format broja jedinica u armiji!'
                 break
+        if check_notzeroes(request.form):
+            error = 'Armija ne sme biti prazna!'
+
         garrison = Army.query.filter_by(idCityFrom=city_attack.idCity, status='G').first()
         if error is None:
             # Za svaki tip jedinica proveravamo da li ga ima dovoljno u garnizonu. Ako ne, napad nije moguc.
