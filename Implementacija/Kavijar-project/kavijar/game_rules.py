@@ -37,6 +37,8 @@ unit_types = {
     'TR': 'Trebušeti'
 }
 
+heavy_unit_types = ['TP', 'SS', 'TK', 'TR']
+
 unit_type_fields = {
     'LP': 'lakaPesadija',
     'TP': 'teskaPesadija',

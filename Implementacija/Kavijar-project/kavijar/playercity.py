@@ -206,6 +206,8 @@ def recruit_unit(u_type):
             error = 'Morati regrutuvati pozitivan broj jedinica!'
         elif int(request.form['quantity']) <= 0:
             error = 'Morati regrutuvati pozitivan broj jedinica!'
+        elif u_type in gr.heavy_unit_types and barracks.level < 3:
+            error = 'Neophodna je LVL3 baraka za ove jedinice!'
         else:
             quantity = int(request.form['quantity'])
             cost = gr.recruit_cost(u_type, quantity)
