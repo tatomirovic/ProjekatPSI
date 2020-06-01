@@ -269,8 +269,8 @@ class battleEvent(cityEvent):
 
         plunder = None
         damagedBuildings = None
-        if DLoss > battleEvent.victoryRequirement:
-            severity = (DLoss - battleEvent.victoryRequirement) / (1 - battleEvent.victoryRequirement)
+        if ALoss > battleEvent.victoryRequirement:
+            severity = (ALoss - battleEvent.victoryRequirement) / (1 - battleEvent.victoryRequirement)
             wall.level -= 1
             upgrade_building_function(wall, use_resources=False)
             if len(buildings):
