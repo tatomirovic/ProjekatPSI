@@ -73,7 +73,7 @@ class Mailmsg(Base):
     idFrom = Column(ForeignKey(u'user.idUser'), index=True)
     idTo = Column(ForeignKey(u'user.idUser'), nullable=False, index=True)
     time = Column(DateTime, nullable=False)
-    content = Column(String(256), nullable=False)
+    content = Column(String(4096), nullable=False)
     readFlag = Column(BIT(1), nullable=False)
 
     user = relationship(u'User', primaryjoin='Mailmsg.idFrom == User.idUser')
