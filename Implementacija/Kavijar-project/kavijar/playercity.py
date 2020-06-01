@@ -104,6 +104,19 @@ def halt_building(b_type):
     return redirect(url_for('playercity.player_city'))
 
 
+def upgrade_building_function(building, use_resources=True, gold=0, wood=0, stone=0):
+    b_type = building.type
+    upgrade_level = min(building.level + 1, gr.building_max_level)
+    finishTime = datetime.datetime.now() \
+                 + datetime.timedelta(minutes=gr.build_time(upgrade_level, b_type))
+    # existing_building.level += 1
+    building.finishTime = finishTime
+    building.status = 'U'
+    if use_resources:
+        gr.adjust_resources(player=g.user, gold=gold, wood=wood, stone=stone, debug=True, context='Upgrade Building')
+    db.session.commit()
+
+
 @bp.route('/upgrade_building/<b_type>', methods=('GET', 'POST'))
 @player_required
 @check_ban
@@ -129,13 +142,7 @@ def upgrade_building(b_type):
         if error is None and (-gold > city.gold or -wood > city.wood or -stone > city.stone):
             error = 'Nedovoljno resursa!'
         if error is None:
-            finishTime = datetime.datetime.now() \
-                         + datetime.timedelta(minutes=gr.build_time(upgrade_level, b_type))
-            # existing_building.level += 1
-            existing_building.finishTime = finishTime
-            existing_building.status = 'U'
-            gr.adjust_resources(player=g.user, gold=gold, wood=wood, stone=stone, debug=True, context='Upgrade Building')
-            db.session.commit()
+            upgrade_building_function(existing_building, use_resources=True, gold=gold, wood=wood, stone=stone)
             flash(f"Uspešno je pokrenuto unapredjenje zgrade : {gr.building_types[b_type]}")
         else:
             flash(error)
