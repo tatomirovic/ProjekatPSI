@@ -192,7 +192,8 @@ def adjust_resources(player, gold=0, wood=0, stone=0, pop=0, kavijar=0, debug=Fa
     if city is None:
         return
     if debug:
-        print(f'Adjusting resources for Player: {player.username}, G: {gold} W: {wood} S: {stone}, context is {context}')
+        #print(f'Adjusting resources for Player: {player.username}, G: {gold} W: {wood} S: {stone}, context is {context}')
+        pass
     city.gold += gold
     city.wood += wood
     city.stone += stone
