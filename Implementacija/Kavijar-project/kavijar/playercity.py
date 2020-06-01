@@ -133,7 +133,7 @@ def upgrade_building(b_type):
         if error is None:
             upgrade_building_function(existing_building, use_resources=True, gold=gold, wood=wood, stone=stone)
             flash(f"Uspešno je pokrenuto unapredjenje zgrade : {gr.building_types[b_type]}")
-            return redirect(url_for(f'building/building{b_type}.html'))
+            return redirect(url_for('building.building_main', b_type=b_type))
         else:
             flash(error)
 
