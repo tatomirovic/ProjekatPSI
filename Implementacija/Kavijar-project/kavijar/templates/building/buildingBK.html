@@ -9,8 +9,7 @@
     <div class="row-fluid myBorder text-center center-block">
         <div class="col-sm-12">
             {% if building_info.level>0 %}
-            <h1><b>Baraka za strelce {{building_info.level}}</b></h1>
-
+            <h1><b>Baraka za konjicu {{building_info.level}}</b></h1>
             Garnizon: 
             {{ garrison.lakaPesadija }}<img class='cityimgsm' src='{{url_for("static", filename="img/units/LP.png") }}'> 
             {{ garrison.teskaPesadija }}<img class='cityimgsm' src='{{url_for("static", filename="img/units/TP.png") }}'> 
@@ -20,29 +19,29 @@
             {{ garrison.teskaKonjica }}<img class='cityimgsm' src='{{url_for("static", filename="img/units/TK.png") }}'> 
             {{ garrison.katapult}}<img class='cityimgsm' src='{{url_for("static", filename="img/units/KT.png") }}'> 
             {{ garrison.trebuset }}<img class='cityimgsm' src='{{url_for("static", filename="img/units/TR.png") }}'> 
+
             <hr>
-            <form action='/playercity/recruit_unit/ST' method='POST'>
-               Strelci <img class='cityimgsm' src='{{url_for("static", filename="img/units/ST.png") }}'>
-                <input type='number' class='input inputnum' name='quantity'> x {{ g.unit_costs['ST']['population'] }} <img class='cityimgsm' src='{{url_for("static", filename="img/villager.png") }}'> {{ g.unit_costs['ST']['wood'] }}  <img class='cityimgsm' src='{{url_for("static", filename="img/wood.png") }}'> 
-                {{ g.unit_costs['ST']['gold'] }}  <img class='cityimgsm' src='{{url_for("static", filename="img/gold.png") }}'>
+            <form action='playercity/recruit_unit/LK' method='POST'>
+               Laka konjica <img class='cityimgsm' src='{{url_for("static", filename="img/units/LK.png") }}'>
+                <input type='number' class='input inputnum' name='quantity'> x {{ g.unit_costs['LK']['population'] }} <img class='cityimgsm' src='{{url_for("static", filename="img/villager.png") }}'> {{ g.unit_costs['LK']['gold']}}  <img class='cityimgsm' src='{{url_for("static", filename="img/gold.png") }}'>
                  <input type='submit' class='def-button' value='Regrutuj'>
             </form>
             <hr>
                 {% if building_info.level>2 %}
-                <form action='/playercity/recruit_unit/SS' method='POST'>
-                    Samostrelci <img class='cityimgsm' src='{{url_for("static", filename="img/units/SS.png") }}'>
-                     <input type='number' class='input inputnum' name='quantity'>  x {{ g.unit_costs['SS']['population'] }} <img class='cityimgsm' src='{{url_for("static", filename="img/villager.png") }}'> {{ g.unit_costs['SS']['wood'] }}  <img class='cityimgsm' src='{{url_for("static", filename="img/wood.png") }}'> 
-                     {{ g.unit_costs['SS']['gold'] }}  <img class='cityimgsm' src='{{url_for("static", filename="img/gold.png") }}'><input type='submit' class='def-button' value='Regrutuj'>
+                <form action='playercity/recruit_unit/TK' method='POST'>
+                    Teška konjica <img class='cityimgsm' src='{{url_for("static", filename="img/units/TK.png") }}'>
+                     <input type='number' class='input inputnum' name='quantity'> x {{ g.unit_costs['TK']['population'] }} <img class='cityimgsm' src='{{url_for("static", filename="img/villager.png") }}'> 
+                     {{ g.unit_costs['TK']['gold']}}  <img class='cityimgsm' src='{{url_for("static", filename="img/gold.png") }}'>
+                      <input type='submit' class='def-button' value='Regrutuj'>
                  </form>
                 {% else %}
                 Unapredite zgradu za jace vojnike
                 {% endif %}
             <br><br>
             {% else %}
-            <h1><b>Nemate baraku za strelce</b></h1>
+            <h1><b>Nemate baraku za konjicu</b></h1>
             
             {% endif %}
-
         </div>
         
     </div>

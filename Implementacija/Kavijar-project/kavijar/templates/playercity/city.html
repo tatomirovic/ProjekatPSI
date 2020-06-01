@@ -19,7 +19,7 @@
                     {% if bld.level>0 %}
                     <td class='citytile'><a href='{{url_for("building.building_main", b_type=bld.type) }}'><img src= '{{url_for("static", filename=imgurl) }}' class='building'></a><br> {{ buildingnames[bld.type] }}</td>
                     {% else %}
-                    <td class='citytile'><img src= '{{url_for("static", filename="img/buildings/empty.png") }}' class='building' ><br>{{ buildingnames[bld.type] }}</td>
+                    <td class='citytile'><a href='{{url_for("building.building_main", b_type=bld.type) }}'><img src= '{{url_for("static", filename="img/buildings/empty.png") }}' class='building' ></a><br>{{ buildingnames[bld.type] }}</td>
                     {% endif %}
                         {% if loop.index%3==0 %}
                         </tr><tr>

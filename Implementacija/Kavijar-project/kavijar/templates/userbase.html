@@ -12,7 +12,7 @@
     <div class="container-fluid">
     <div class='row'>
         <div class="col-sm-12">
-                <h2 class = "logobar"><span class='logobartxt'>KAVIJAR      </span>
+                <h2 class = "logobar"><span class='logobartxt'> 
                 {% if g.user.role == 'A' %}
                 [Admin]
                 {% endif %}
@@ -20,6 +20,13 @@
                 [Moderator]
                 {% endif %}
                 <b>{{g.user.username}}</b>
+                {% if g.user.role=='I' %}
+            </span>
+                <img class='cityimgmini' src='{{url_for("static", filename="img/villager.png") }}'> <span style='font-size:14px'>{{g.city.civilians}}</span>
+                <img class='cityimgmini' src='{{url_for("static", filename="img/gold.png") }}'> <span style='font-size:14px'>{{g.city.gold|int}}</span>
+                <img class='cityimgmini' src='{{url_for("static", filename="img/wood.png") }}'> <span style='font-size:14px'>{{g.city.wood|int}}</span>
+                <img class='cityimgmini' src='{{url_for("static", filename="img/stone.png") }}'> <span style='font-size:14px'>{{g.city.stone|int}}</span>
+                {% endif %}
                 <div style='float:right;'>
                 <a  href='{{ url_for("auth.logout") }}'> <button type='button' class = 'def-button logo-button'>
                     Izloguj se
@@ -31,6 +38,9 @@
             <a href='{{ url_for("chat.sessions") }}' target="popup" 
             onclick="window.open('chat.html','popup','width=550,height=465');"><button type='button' class = 'def-button logo-button'> Čet </button></a>
             <a href='{{ url_for("redirect_page.redirect_page") }}'><button type='button' class = 'def-button logo-button'>Početna</button></a>
+            {% if g.user.role=='I' %}
+            <a href='{{ url_for("playercity.player_city") }}'><button type='button' class = 'def-button logo-button'>{{g.city.name}}</button></a>
+            {% endif %}
             </div>
             </h2>
         </div>

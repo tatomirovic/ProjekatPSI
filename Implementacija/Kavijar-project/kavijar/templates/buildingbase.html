@@ -12,7 +12,7 @@
     <div class="container-fluid">
     <div class='row'>
         <div class="col-sm-12">
-                <h2 class = "logobar"><span class='logobartxt'>KAVIJAR      </span>
+                <h2 class = "logobar"><span class='logobartxt'>     
                 {% if g.user.role == 'A' %}
                 [Admin]
                 {% endif %}
@@ -20,6 +20,13 @@
                 [Moderator]
                 {% endif %}
                 <b>{{g.user.username}}</b>
+            </span>
+                {% if g.user.role=='I' %}
+                <img class='cityimgmini' src='{{url_for("static", filename="img/villager.png") }}'> <span style='font-size:14px'>{{g.city.civilians}}</span>
+                <img class='cityimgmini' src='{{url_for("static", filename="img/gold.png") }}'> <span style='font-size:14px'>{{g.city.gold|int}}</span>
+                <img class='cityimgmini' src='{{url_for("static", filename="img/wood.png") }}'> <span style='font-size:14px'>{{g.city.wood|int}}</span>
+                <img class='cityimgmini' src='{{url_for("static", filename="img/stone.png") }}'> <span style='font-size:14px'>{{g.city.stone|int}}</span>
+                {% endif %}
                 <div style='float:right;'>
                 <a  href='{{ url_for("auth.logout") }}'> <button type='button' class = 'def-button logo-button'>
                     Izloguj se
@@ -31,34 +38,42 @@
             <a href='{{ url_for("chat.sessions") }}' target="popup" 
             onclick="window.open('chat.html','popup','width=550,height=465');"><button type='button' class = 'def-button logo-button'> Čet </button></a>
             <a href='{{ url_for("redirect_page.redirect_page") }}'><button type='button' class = 'def-button logo-button'>Početna</button></a>
+
+            {% if g.user.role=='I' %}
+            <a href='{{ url_for("playercity.player_city") }}'><button type='button' class = 'def-button logo-button'>{{g.city.name}}</button></a>
+            {% endif %}
+
             </div>
             </h2>
         </div>
     </div>
         {% block body %}
         {% endblock %}
-        <div class="row-fluid">
-            <div class="col-sm-12">
+
                 {% if building_info.level==0 %}
                 <form action='/playercity/upgrade_building/{{building_info.type}}' method='POST'>
                 <input type='submit' value="Izgradi" class='def-button'>
+                <img class='cityimgsm' src='{{url_for("static", filename="img/gold.png") }}'> {{upgrade_cost.gold|int}}
+            <img class='cityimgsm' src='{{url_for("static", filename="img/wood.png") }}'> {{upgrade_cost.wood|int}}
+            <img class='cityimgsm' src='{{url_for("static", filename="img/stone.png") }}'> {{upgrade_cost.stone|int}}
                 </form>
+                <br>
                 {% else %}
                     {% if building_info.status=='U' %}
                     <form action='/playercity/halt_building/{{building_info.type}}' method='POST'>
                         <input type='submit' value="Zaustavi konstrukciju" class='def-button'>
-                    </form>
+                    </form><br>
                     {% else %}
 
                         {% if building_info.level < 5 %}
                         <form action='/playercity/upgrade_building/{{building_info.type}}' method='POST'>
-                            <input type='submit' value="Unapredi" class='def-button'>
-                        </form>
+                            <input type='submit' value="Unapredi" class='def-button'><img class='cityimgsm' src='{{url_for("static", filename="img/gold.png") }}'> {{upgrade_cost.gold|int}}
+                            <img class='cityimgsm' src='{{url_for("static", filename="img/wood.png") }}'> {{upgrade_cost.wood|int}}
+                            <img class='cityimgsm' src='{{url_for("static", filename="img/stone.png") }}'> {{upgrade_cost.stone|int}}
+                        </form><br>
                         {% endif %}
                     {% endif %}
                 {% endif %}
-            </div>
-        </div>
         {% for message in get_flashed_messages() %}
         <button class="error-msg" disabled>{{ message }}</button>
         {% endfor %}

@@ -1,0 +1,53 @@
+{% extends 'buildingbase.html'%}
+
+{% block head %}
+<title>Kavijar</title>
+{% endblock %}
+
+{% block body %}
+
+    <div class="row-fluid myBorder text-center center-block">
+        <div class="col-sm-12">
+            {% if building_info.level>0 %}
+            <h1><b>Radionica opsadnog oruzja {{building_info.level}}</b></h1>
+            Garnizon: 
+            {{ garrison.lakaPesadija }}<img class='cityimgsm' src='{{url_for("static", filename="img/units/LP.png") }}'> 
+            {{ garrison.teskaPesadija }}<img class='cityimgsm' src='{{url_for("static", filename="img/units/TP.png") }}'> 
+            {{ garrison.strelci }}<img class='cityimgsm' src='{{url_for("static", filename="img/units/ST.png") }}'>
+            {{ garrison.samostrelci }}<img class='cityimgsm' src='{{url_for("static", filename="img/units/SS.png") }}'> 
+            {{ garrison.lakaKonjica }}<img class='cityimgsm' src='{{url_for("static", filename="img/units/LK.png") }}'> 
+            {{ garrison.teskaKonjica }}<img class='cityimgsm' src='{{url_for("static", filename="img/units/TK.png") }}'> 
+            {{ garrison.katapult}}<img class='cityimgsm' src='{{url_for("static", filename="img/units/KT.png") }}'> 
+            {{ garrison.trebuset }}<img class='cityimgsm' src='{{url_for("static", filename="img/units/TR.png") }}'> 
+
+            <hr>
+            <form action='playercity/recruit_unit/KT' method='POST'>
+               Katapult <img class='cityimgsm' src='{{url_for("static", filename="img/units/KT.png") }}'>
+                <input type='number' class='input inputnum' name='quantity'> x {{ g.unit_costs['KT']['population'] }} <img class='cityimgsm' src='{{url_for("static", filename="img/villager.png") }}'>
+                {{ g.unit_costs['KT']['wood'] }}  <img class='cityimgsm' src='{{url_for("static", filename="img/wood.png") }}'> {{ g.unit_costs['KT']['stone'] }}  <img class='cityimgsm' src='{{url_for("static", filename="img/stone.png") }}'>
+                {{ g.unit_costs['KT']['gold'] }}  <img class='cityimgsm' src='{{url_for("static", filename="img/gold.png") }}'>
+                 <input type='submit' class='def-button' value='Regrutuj'>
+            </form>
+            <hr>
+                {% if building_info.level>2 %}
+                <form action='playercity/recruit_unit/TR' method='POST'>
+                    Trebušet <img class='cityimgsm' src='{{url_for("static", filename="img/units/TR.png") }}'>
+                     <input type='number' class='input inputnum' name='quantity'> x {{ g.unit_costs['TR']['population'] }} <img class='cityimgsm' src='{{url_for("static", filename="img/villager.png") }}'>
+                     {{ g.unit_costs['TR']['wood'] }}  <img class='cityimgsm' src='{{url_for("static", filename="img/wood.png") }}'> {{ g.unit_costs['TR']['stone'] }}  <img class='cityimgsm' src='{{url_for("static", filename="img/stone.png") }}'>
+                     {{ g.unit_costs['TR']['gold'] }}  <img class='cityimgsm' src='{{url_for("static", filename="img/gold.png") }}'>
+                     <input type='submit' class='def-button' value='Regrutuj'>
+                 </form>
+                {% else %}
+                Unapredite zgradu za jacu opremu
+                {% endif %}
+            <br><br>
+            {% else %}
+            <h1><b>Nemate radionicu opsadnog oruzja</b></h1>
+            
+            {% endif %}
+
+        </div>
+        
+    </div>
+    
+{% endblock %}
