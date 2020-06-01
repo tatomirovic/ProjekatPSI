@@ -7,12 +7,14 @@ goldPerHour = 3
 woodPerHour = 1
 stonePerHour = 1
 
-timescaler = 0.1
+timescaler = 1
 
 startingPopulation = 250
-startingGold = 0
+startingGold = 300
 startingWood = 400
 startingStone = 400
+
+distance_mult = 100.0
 
 # SVI MOGUCI TIPOVI ZGRADA
 building_types = {
@@ -277,4 +279,4 @@ def cityDistance(city1, city2):
 
 # VRACA VREME PUTOVANJA IZMEDJU 2 GRADA U SEKUNDAMA
 def cityTravelTime_seconds(city1, city2):
-    return 40.0 * cityDistance(city1, city2) * timescaler
+    return distance_mult * cityDistance(city1, city2) * timescaler
