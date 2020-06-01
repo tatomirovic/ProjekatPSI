@@ -103,6 +103,7 @@
 }
 .citytable
 {
+	width:70%;
 	background:url('/static/img/citybg.png');
 	background-size: cover;
 }
