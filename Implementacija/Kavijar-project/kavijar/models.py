@@ -14,10 +14,15 @@ class User(Base):
     idUser = Column(INTEGER(11), primary_key=True)
     username = Column(String(30), nullable=False, unique=True)
     password = Column(String(10000), nullable=False)
+    # tip korisnika
     role = Column(String(1), nullable=False)
+    # caviar nije u upotrebi
     caviar = Column(INTEGER(11), nullable=False)
+    # broj neprocitanih poruka
     statusUpdate = Column(INTEGER(11), nullable=False)
+    # datum unbana
     dateUnban = Column(DateTime)
+    # datum unmute-a
     dateCharLift = Column(DateTime)
 
 
@@ -47,6 +52,7 @@ class City(Base):
     gold = Column(INTEGER(11), nullable=False)
     wood = Column(INTEGER(11), nullable=False)
     stone = Column(INTEGER(11), nullable=False)
+    # koristi se pri azuriranju
     lastUpdate = Column(DateTime, nullable=False)
 
     def serialize(self):
@@ -74,6 +80,7 @@ class Mailmsg(Base):
     idTo = Column(ForeignKey(u'user.idUser'), nullable=False, index=True)
     time = Column(DateTime, nullable=False)
     content = Column(String(4096), nullable=False)
+    # da li je poruka procitana
     readFlag = Column(BIT(1), nullable=False)
 
     user = relationship(u'User', primaryjoin='Mailmsg.idFrom == User.idUser')
@@ -86,6 +93,7 @@ class Army(Base):
     idArmy = Column(INTEGER(11), primary_key=True)
     idCityFrom = Column(ForeignKey(u'city.idCity'), nullable=False, index=True)
     idCityTo = Column(ForeignKey(u'city.idCity'), index=True)
+    # STATUSI: A - AKTIVNA ARMIJA R - ARMIJA KOJA SE REGRUTUJE G - ARMIJA U GARNIZONU
     status = Column(CHAR(1), nullable=False)
     timeToArrival = Column(DateTime)
     lakaPesadija = Column(INTEGER(11))
@@ -106,6 +114,7 @@ class Building(Base):
 
     idCity = Column(ForeignKey(u'city.idCity'), primary_key=True, nullable=False)
     type = Column(CHAR(2), primary_key=True, nullable=False)
+    # STATUSI A - AKTIVNA ZGRADA U - ZGRADA KOJA SE UNAPREDUJE
     status = Column(CHAR(1), nullable=False)
     level = Column(INTEGER(11), nullable=False)
     finishTime = Column(DateTime, nullable=False)
@@ -116,7 +125,7 @@ class Building(Base):
 
     city = relationship(u'City')
 
-
+# RECRUITING NIJE U UPOTREBI
 class Recruiting(Base):
     __tablename__ = 'recruiting'
 
@@ -136,6 +145,7 @@ class Trade(Base):
     idTrade = Column(INTEGER(11), primary_key=True)
     idCity1 = Column(ForeignKey(u'city.idCity'), nullable=False, index=True)
     idCity2 = Column(ForeignKey(u'city.idCity'), nullable=False, index=True)
+    # STATUSI A - AKTIVNA P - PENDING
     status = Column(CHAR(1), nullable=False)
     gold1 = Column(INTEGER(11), nullable=False)
     wood1 = Column(INTEGER(11), nullable=False)

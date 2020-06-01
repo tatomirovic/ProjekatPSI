@@ -84,7 +84,7 @@ def battle_report(attacker, defender, attacker_loss, defender_loss, plunder=None
         body += '\n\n'
         for k in building_damage:
             body += f'Zgrada {gr.building_types[k.type]} igrača {defender.username} je oštećena\n'
-    attacker.statusUpdate += 1
+    #attacker.statusUpdate += 1
     mail.send_msg_function(attacker, defender, body, datetime.datetime.now())
 
 ##  snaga jedne jedinice protiv druge u slucaju pogodnih uslova za prvu jedinicu
