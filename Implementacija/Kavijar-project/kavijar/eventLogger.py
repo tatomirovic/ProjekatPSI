@@ -236,7 +236,7 @@ class battleEvent(cityEvent):
         APower = battleEvent.armyPower(attacker, defender)
         DPower = battleEvent.armyPower(defender, attacker) * defenceBonus[wallLvl]
         print(f'Power vals APOWER {APower} DPOWER {DPower}')
-        ALoss = DPower / (APower + DPower)
+        ALoss = APower / (APower + DPower)
         DLoss = 1 - ALoss
 
         AUnitLoss = {}
