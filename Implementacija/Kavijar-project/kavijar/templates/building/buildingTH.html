@@ -10,6 +10,10 @@
         <div class="col-sm-12">
             {% if building_info.level>0 %}
             <h1><b>Gradska uprava {{building_info.level}}</b></h1>
+            {% if building_info.status=='U' %}
+            Vreme završetka {{ building_info.finishTime }}
+            <hr>
+            {% endif %}
             Trenutna raspodela populacije {{city.population|round|int}}
             <br>
             <img class='cityimgsm' src='{{url_for("static", filename="img/villager.png") }}'> {{city.civilians}}
@@ -27,7 +31,10 @@
             <br>
             {% else %}
             <h1><b>Nemate gradsku upravu</b></h1>
-            
+            {% if building_info.status=='U' %}
+            Vreme završetka {{ building_info.finishTime }}
+            <hr>
+            {% endif %}
             {% endif %}
         </div>
         

@@ -10,7 +10,10 @@
         <div class="col-sm-12">
             {% if building_info.level>0 %}
             <h1><b>Trgovinska stanica {{building_info.level}}</b></h1>
-            
+            {% if building_info.status=='U' %}
+            Vreme završetka {{ building_info.finishTime }}
+            <hr>
+            {% endif %}
             <h3><b>Primljeni zahtevi</b></h3>
             {% if trades_received|length < 1 %}
             <h4>Nemate primljenih zahteva</h4>
@@ -76,6 +79,10 @@
             <br><br>
             {% else %}
             <h1><b>Nemate izgradjenu trgovinsku stanicu!</b></h1>
+            {% if building_info.status=='U' %}
+            Vreme završetka {{ building_info.finishTime }}
+            <hr>
+            {% endif %}
             {% endif %}
             
         </div>

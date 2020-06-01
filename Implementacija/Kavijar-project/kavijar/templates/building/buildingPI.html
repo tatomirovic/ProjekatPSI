@@ -10,6 +10,10 @@
         <div class="col-sm-12">
             {% if building_info.level>0 %}
             <h1><b>Pilana {{building_info.level}}</b></h1>
+            {% if building_info.status=='U' %}
+            Vreme završetka {{ building_info.finishTime }}
+            <hr>
+            {% endif %}
             Trenutan broj radnika {{city.woodworkers}}/{{ max_cap }}  <img class='cityimgsm' src='{{url_for("static", filename="img/axe.png") }}'>
             <br>
             Trenutan prinos po satu {{ income_dict['wood']|int }} <img class='cityimgsm' src='{{url_for("static", filename="img/wood.png") }}'>
@@ -17,7 +21,10 @@
             <br>
             {% else %}
             <h1><b>Nemate Pilanu</b></h1>
-            
+            {% if building_info.status=='U' %}
+            Vreme završetka {{ building_info.finishTime }}
+            <hr>
+            {% endif %}
             {% endif %}
         </div>
         

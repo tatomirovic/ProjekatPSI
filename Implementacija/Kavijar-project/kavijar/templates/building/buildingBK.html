@@ -10,6 +10,10 @@
         <div class="col-sm-12">
             {% if building_info.level>0 %}
             <h1><b>Baraka za konjicu {{building_info.level}}</b></h1>
+            {% if building_info.status=='U' %}
+            Vreme završetka {{ building_info.finishTime }}
+            <hr>
+            {% endif %}
             Garnizon: 
             {{ garrison.lakaPesadija }}<img class='cityimgsm' src='{{url_for("static", filename="img/units/LP.png") }}'> 
             {{ garrison.teskaPesadija }}<img class='cityimgsm' src='{{url_for("static", filename="img/units/TP.png") }}'> 
@@ -40,7 +44,10 @@
             <br><br>
             {% else %}
             <h1><b>Nemate baraku za konjicu</b></h1>
-            
+                {% if building_info.status=='U' %}
+                Vreme završetka {{ building_info.finishTime }}
+                <hr>
+                {% endif %}
             {% endif %}
         </div>
         
