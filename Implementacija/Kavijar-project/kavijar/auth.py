@@ -78,14 +78,14 @@ def load_logged_in_user():
     if user_id is None:
         g.user = None
         g.city = None
-        #g.building_upgrade_costs = None
-        #g.unit_costs = None
+        g.building_upgrade_costs = None
+        g.unit_costs = None
     else:
         g.user = User.query.filter_by(idUser=user_id).first()
         if g.user.role == 'I':
             g.city = City.query.filter_by(idOwner=user_id).first()
-            #g.building_upgrade_costs = gr.building_costs
-            #g.unit_costs = gr.unit_costs
+            g.building_upgrade_costs = gr.building_costs
+            g.unit_costs = gr.unit_costs
 
 
 @bp.route('/logout')
