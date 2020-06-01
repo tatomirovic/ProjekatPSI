@@ -291,7 +291,7 @@ class battleEvent(cityEvent):
             gr.adjust_resources(player2, gold=-plunder["gold"], wood=-plunder["wood"], stone=-plunder["stone"], debug=True,
                                 context='eventlogger battle_p2')
         
-        battle_report(attacker, defender, AUnitLoss, DUnitLoss, plunder, damagedBuildings)
+        battle_report(player1, player2, AUnitLoss, DUnitLoss, plunder, damagedBuildings)
 
         garrisonArmy(attacker)
 
