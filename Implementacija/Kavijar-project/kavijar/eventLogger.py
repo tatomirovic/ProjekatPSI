@@ -69,21 +69,21 @@ class recruitingEvent(cityEvent):
 # plunder - dict sa tri kljuca gold, wood i stone
 # building_damage - lista sa spiskom svih zgrada koje su ostecene za jedan lvl, vrednosti su TH, BP itd
 def battle_report(attacker, defender, attacker_loss, defender_loss, plunder=None, building_damage=None):
-    body = f'Rezultat bitke izmedju napadača {attacker.name} i branioca {defender.name} je'
+    body = f'Rezultat bitke izmedju napadača {attacker.username} i branioca {defender.username} je'
     for k in attacker_loss.keys():
-        body += f'\n Igrač {attacker.name} je izgubio {attacker_loss[k]} jedinica tipa {gr.unit_types[k]}'
+        body += f'\n Igrač {attacker.username} je izgubio {attacker_loss[k]} jedinica tipa {gr.unit_types[k]}'
     body += '\n\n'
     for k in defender_loss.keys():
-        body += f'\n Igrač {defender.name} je izgubio {defender_loss[k]} jedinica tipa {gr.unit_types[k]}'
+        body += f'\n Igrač {defender.username} je izgubio {defender_loss[k]} jedinica tipa {gr.unit_types[k]}'
     if plunder is not None:
         gold_p = plunder['gold']
         wood_p = plunder['wood']
         stone_p = plunder['stone']
-        body += f'\n\n Igrač {attacker.name} je osvojio {gold_p} zlata, {wood_p} drva i {stone_p} kamena'
+        body += f'\n\n Igrač {attacker.username} je osvojio {gold_p} zlata, {wood_p} drva i {stone_p} kamena'
     if building_damage is not None:
         body += '\n\n'
         for k in building_damage:
-            body += f'Zgrada {gr.building_types[k]} igrača {defender.name} je oštećena'
+            body += f'Zgrada {gr.building_types[k]} igrača {defender.username} je oštećena'
     mail.send_msg_function(attacker, defender, body, datetime.datetime.now())
 
 ##  snaga jedne jedinice protiv druge u slucaju pogodnih uslova za prvu jedinicu
