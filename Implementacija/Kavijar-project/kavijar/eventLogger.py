@@ -1,10 +1,11 @@
 from flask import g
 
-import math, datetime
+import math, datetime, random
 
 from .models import City, Army, Trade, User, Building
 from . import db, mail
 from . import game_rules as gr
+from . import playercity
 
 ## Preface za peru
 ## znam da je nepregledno za svakoga ko nije radio na projektu ali nasminkacu
@@ -85,27 +86,126 @@ def battle_report(attacker, defender, attacker_loss, defender_loss, plunder=None
             body += f'Zgrada {gr.building_types[k]} igrača {defender.name} je oštećena'
     mail.send_msg_function(attacker, defender, body, datetime.datetime.now())
 
-class battleEvent(cityEvent):
-    unitWeight = {
+##  snaga jedne jedinice protiv druge u slucaju pogodnih uslova za prvu jedinicu
+##  primer: snaga lake pesadije protiv strelaca u slucaju melee distance je 2 (1v2 je fer odnos)
+##  druga strana primera: snaga strelaca protiv lake pesadije u slucaju velike distance (1v2.4 je fer odnos)
+unitPower = {
+    "LP": {
         "LP": 1,
-        "TP": 1.8,
-        "ST": 2.4,
+        "TP": 0.6,
+        "ST": 2,
+        "SS": 1.6,
+        "LK": 0.3,
+        "TK": 0.2,
+        "KT": 0.2,
+        "TR": 0.2
+    },
+    "TP": {
+        "LP": 1.66,
+        "TP": 1,
+        "ST": 3,
+        "SS": 2.2,
+        "LK": 0.5,
+        "TK": 0.3,
+        "KT": 0.2,
+        "TR": 0.2
+    },
+    "ST": {
+        "LP": 2.4,
+        "TP": 1.2,
+        "ST": 1,
+        "SS": 0.6,
+        "LK": 1.4,
+        "TK": 0.6,
+        "KT": 0.1,
+        "TR": 0.1
+    },
+    "SS": {
+        "LP": 3,
+        "TP": 2.2,
+        "ST": 1.66,
+        "SS": 1,
+        "LK": 2,
+        "TK": 1,
+        "KT": 0.1,
+        "TR": 0.1
+    },
+    "LK": {
+        "LP": 3,
+        "TP": 2,
+        "ST": 4,
+        "SS": 2.4,
+        "LK": 1,
+        "TK": 0.5,
+        "KT": 0.3,
+        "TR": 0.3
+    },
+    "TK": {
+        "LP": 5,
+        "TP": 3,
+        "ST": 6,
         "SS": 3,
-        "LK": 4,
-        "TK": 6,
-        "KT": 30,
-        "TR": 45
-    }
+        "LK": 2,
+        "TK": 1,
+        "KT": 0.3,
+        "TR": 0.3
+    },
+    "KT": {
+        "LP": 40,
+        "TP": 40,
+        "ST": 40,
+        "SS": 40,
+        "LK": 10,
+        "TK": 8,
+        "KT": 1,
+        "TR": 1
+    },
+    "TR": {
+        "LP": 60,
+        "TP": 60,
+        "ST": 60,
+        "SS": 60,
+        "LK": 20,
+        "TK": 16,
+        "KT": 1,
+        "TR": 1
+    },
+}
+##  igrac koji se brani dobija procentualni bonus za snagu
+defeseBonus = [1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6]
+
+##  olaksava dohvatanje atributa armije
+stringToAttr = {
+    "LP": lambda army: army.lakaPesadija,
+    "TP": lambda army: army.teskaPesadija,
+    "ST": lambda army: army.strelci,
+    "SS": lambda army: army.samostrelci,
+    "LK": lambda army: army.lakaKonjica,
+    "TK": lambda army: army.teskaKonjica,
+    "KT": lambda army: army.katapult,
+    "TR": lambda army: army.trebuset,
+}
+
+
+class battleEvent(cityEvent):
     victoryRequirement = 0.7
     plunderCap = 0.8
+    buildingDestructionCap = 3
 
     @staticmethod
-    def armyPower(army):
-        unitWeight = battleEvent.unitWeight
-        return army.lakaPesadija * unitWeight["LP"] + army.teskaPesadija * unitWeight["TP"] + \
-               army.lakaKonjica * unitWeight["LK"] + army.teskaKonjica * unitWeight["TK"] + \
-               army.strelci * unitWeight["ST"] + army.samostrelci * unitWeight["SS"] + \
-               army.katapult * unitWeight["KT"] + army.trebuset * unitWeight["TR"]
+    def armyPower(a1, a2):
+        ##  snaga vojske zavisi od kompozicije protivnicke vojske kao sto je odredjeno konstantama iz unitPower recnika
+        a2Numbers = sum([value(a2) for value in stringToAttr.values()])
+        if a2Numbers == 0:
+            return 1
+
+        power = 0
+        for aType, aAttr in stringToAttr.items():
+            for dType, dAttr in stringToAttr.items():
+                power += unitPower[aType][dType] * aAttr(a1) * dAttr(a2)
+        
+        return power / a2Numbers
+        
 
     def __init__(self, time, attacker):
         cityEvent.__init__(self, time)
@@ -123,15 +223,27 @@ class battleEvent(cityEvent):
         logEvents(player1, self.time)
         logEvents(player2, self.time)
 
+        wall = Building.query.filter((Building.idCity==city2.idCity) & (Building.type=="ZD")).first()
+        wallLvl = 0
+        if wall:
+            wallLvl = wall.level
+
+        buildings = Building.query.filter((Building.idCity==city2.idCity) & (Building.type != "ZD")).all()
         ## pretpostavka je da je garnizovana vojska uvek jedna armija i uvek postoji makar sa 0 jedinica
         ## sto je podrzano spajanjem vojske na kraju ove funkcije
         defender = Army.query.filter((Army.idCityFrom == attacker.idCityTo) & (Army.status == "G")).first()
 
-        APower = battleEvent.armyPower(attacker)
-        DPower = battleEvent.armyPower(defender)
+        APower = battleEvent.armyPower(attacker, defender)
+        DPower = battleEvent.armyPower(defender, attacker) * defeseBonus[wallLvl]
         print(f'Power vals APOWER {APower} DPOWER {DPower}')
         ALoss = DPower / (APower + DPower)
         DLoss = 1 - ALoss
+
+        AUnitLoss = {}
+        DUnitLoss = {}
+        for key, value in stringToAttr.items():
+            AUnitLoss[key] = value(attacker)
+            DUnitLoss[key] = value(defender)
 
         attacker.lakaPesadija *= ALoss
         attacker.teskaPesadija *= ALoss
@@ -151,13 +263,35 @@ class battleEvent(cityEvent):
         defender.katapult *= DLoss
         defender.trebuset *= DLoss
 
+        for key, value in stringToAttr.items():
+            AUnitLoss[key] -= value(attacker)
+            DUnitLoss[key] -= value(defender)
+
+        plunder = None
+        damagedBuildings = None
         if DLoss > battleEvent.victoryRequirement:
-            plunderCap = battleEvent.plunderCap
-            gr.adjust_resources(player1, gold=city2.gold * plunderCap, wood=city2.wood * plunderCap,
-                                stone=city2.stone * plunderCap, debug=True, context='eventlogger battle_p1')
-            gr.adjust_resources(player2, gold=-city2.gold * plunderCap, wood=-city2.wood * plunderCap, debug=True,
-                                context='eventlogger battle_p2',
-                                stone=-city2.stone * plunderCap)
+            severity = (DLoss - battleEvent.victoryRequirement) / (1 - battleEvent.victoryRequirement)
+            wall.level -= 1
+            playercity.upgrade_building_function(wall, use_resources=False)
+            if len(buildings):
+                destroyed = int(severity * battleEvent.buildingDestructionCap)
+                damagedBuildings = random.sample(buildings, destroyed)
+                for damagedBuilding in damagedBuildings:
+                    damagedBuilding.level -= 1
+                    playercity.upgrade_building_function(damagedBuilding, use_resources=False)
+
+            stolen = battleEvent.plunderCap * severity
+            plunder = {
+                "gold": city2.gold * stolen,
+                "wood": city2.wood * stolen,
+                "stone": city2.stone * stolen, 
+            }
+            gr.adjust_resources(player1, gold=plunder["gold"], wood=plunder["wood"],
+                                stone=plunder["stone"], debug=True, context='eventlogger battle_p1')
+            gr.adjust_resources(player2, gold=-plunder["gold"], wood=-plunder["wood"], stone=-plunder["stone"], debug=True,
+                                context='eventlogger battle_p2')
+        
+        battle_report(attacker, defender, AUnitLoss, DUnitLoss, plunder, damagedBuildings)
 
         garrisonArmy(attacker)
 
