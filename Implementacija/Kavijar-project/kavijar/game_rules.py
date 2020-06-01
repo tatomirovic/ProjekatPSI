@@ -7,7 +7,7 @@ goldPerHour = 3
 woodPerHour = 1
 stonePerHour = 1
 
-timescaler = 1
+timescaler = 0.1
 
 startingPopulation = 250
 startingGold = 300
