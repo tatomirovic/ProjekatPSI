@@ -111,8 +111,8 @@ unit_costs = {
     "TP": {'gold': 60, 'wood': 0, 'stone': 0, 'population': 1},
     "ST": {'gold': 20, 'wood': 10, 'stone': 0, 'population': 1},
     "SS": {'gold': 45, 'wood': 15, 'stone': 0, 'population': 1},
-    "LK": {'gold': 70, 'wood': 10, 'stone': 0, 'population': 2},
-    "TK": {'gold': 100, 'wood': 20, 'stone': 0, 'population': 3},
+    "LK": {'gold': 70, 'wood': 0, 'stone': 0, 'population': 2},
+    "TK": {'gold': 100, 'wood': 10, 'stone': 0, 'population': 3},
     "KT": {'gold': 100, 'wood': 50, 'stone': 20, 'population': 1},
     "TR": {'gold': 250, 'wood': 80, 'stone': 40, 'population': 1},
 }
