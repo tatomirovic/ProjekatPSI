@@ -42,9 +42,8 @@ def building_main(b_type):
         for k, v in gr.barracks_allocation:
             if k == b_type:
                 recruit_costs.append(gr.recruit_cost(v, 1))
-        if b_type == 'ZD':
-            armies_sent = Army.query.filter_by(idCityFrom=city.idCity, status='A').all()
-            garrison = Army.query.filter_by(idCityFrom=city.idCity, status='G').first()
+        armies_sent = Army.query.filter_by(idCityFrom=city.idCity, status='A').all()
+        garrison = Army.query.filter_by(idCityFrom=city.idCity, status='G').first()
         income_dict = {'gold': city.civilians * gr.goldPerHour / gr.timescaler,
                        'wood': city.woodworkers * gr.woodPerHour / gr.timescaler,
                        'stone': city.stoneworkers * gr.stonePerHour / gr.timescaler}
