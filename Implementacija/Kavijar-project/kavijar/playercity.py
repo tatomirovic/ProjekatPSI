@@ -191,7 +191,7 @@ def reassign_workers():
 @player_required
 @check_ban
 @updateWrappers.update_resources
-def recruit_unit(u_type):
+def recruit_unit():
     if request.method == 'POST':
         city = City.query.filter_by(idOwner=g.user.idUser).first()
         u_type = request.form['u_type']
