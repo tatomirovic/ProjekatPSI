@@ -13,6 +13,7 @@ from .models import User
 bp = Blueprint('admin', __name__, url_prefix='/admin')
 
 
+# Metoda kojom admin banuje korisnika. Ide preko formulara.
 @bp.route('/ban', methods=('GET', 'POST'))
 @admin_required
 def ban_user():
@@ -44,6 +45,7 @@ def ban_user():
     return redirect(url_for('admin.admin_main'))
 
 
+# Admin homepage
 @bp.route('/', methods=('GET', 'POST'))
 @admin_required
 def admin_main():
@@ -51,6 +53,7 @@ def admin_main():
     return render_template('admin/admin.html', user_list=user_list)
 
 
+# Metoda kojom admina kreira novog moda. Ide preko formulara.
 @bp.route('/create_mod', methods=('GET', 'POST'))
 @admin_required
 def create_mod():

@@ -16,6 +16,7 @@ from . import game_rules as gr
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 
+# POST FORMULAR ZA LOGIN
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
@@ -43,6 +44,7 @@ def login():
     return render_template('auth/login.html')
 
 
+# POST FORMULAR ZA REGISTER
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
     if request.method == 'POST':
@@ -72,6 +74,7 @@ def register():
     return render_template('auth/register.html')
 
 
+# WRAPPER KOJI OSIGURAVA DA SU SESSION PODACI PRISUTNI PRE SVAKOG REQUESTA
 @bp.before_app_request
 def load_logged_in_user():
     user_id = session.get('user_id')
@@ -88,6 +91,7 @@ def load_logged_in_user():
             g.unit_costs = gr.unit_costs
 
 
+# LOGOUT METODA
 @bp.route('/logout')
 def logout():
     click.echo("Usao sam u logout!")
@@ -95,6 +99,7 @@ def logout():
     return redirect(url_for('auth.login'))
 
 
+# WRAPPER KOJI ZABRANJUJE BANOVANOM KORISNIKU AKCIJE
 def check_ban(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
@@ -113,6 +118,7 @@ def check_ban(view):
     return wrapped_view
 
 
+# WRAPPER ZA METODE KOJE SU ISKLJUCIVO ZA IGRACE
 def player_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
@@ -123,6 +129,7 @@ def player_required(view):
     return wrapped_view
 
 
+# OPSTI WRAPPER ZA METODE KOJE SU ZAJEDNICKE SVIM USERIMA
 def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
@@ -133,6 +140,7 @@ def login_required(view):
     return wrapped_view
 
 
+# WRAPPER ZA METODE KOJE SU ISKLJUCIVO ZA ADMINE
 def admin_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
@@ -147,6 +155,7 @@ def admin_required(view):
     return wrapped_view
 
 
+# WRAPPER ZA METODE KOJE SU ISKLJUCIVO ZA MODOVE
 def mod_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
@@ -161,6 +170,7 @@ def mod_required(view):
     return wrapped_view
 
 
+# DODAVANJE ADMINA PREKO KOMANDNE LINIJE (sintaksa: flask add-admin {user} {password})
 def add_admin(username, password):
     if User.query.filter_by(username=username).first() is None:
         new_admin = User(username=username, password=generate_password_hash(password), role='A',
@@ -172,6 +182,7 @@ def add_admin(username, password):
         return f"User sa username: {username} već postoji"
 
 
+# POVEZIVANJE GORNJE METODE SA CLI
 @click.command('add-admin')
 @click.argument('username')
 @click.argument('password')
@@ -179,6 +190,6 @@ def add_admin(username, password):
 def add_admin_cli(username, password):
     click.echo(add_admin(username,password))
 
-
+# REGISTROVANJE KOMANDE
 def init_app(app):
     app.cli.add_command(add_admin_cli)

@@ -13,20 +13,24 @@ from . import db, socketio
 bp = Blueprint('chat', __name__, url_prefix='/chat')
 
 
+# Glavna chat stranica - prikazujemo zadnjih 15 poruka
 @bp.route('/')
 @login_required
+@check_ban
 def sessions():
     recent_messages = (Chatmsg.query.order_by(desc(Chatmsg.time)).limit(15).all())[::-1]
     #print(f"MSG IS {recent_messages[1].content}")
     return render_template('chat/chat.html', recent_messages=recent_messages)
 
 
+# Callback metoda, koriscena pri debuggovanju
 def message_received(methods=['GET', 'POST']):
     #print('message was received!!!')
     # click.echo(f'User name is: {g.user.username}')
     pass
 
 
+# Event handler za interakciju sa klijentskim jsom
 @socketio.on('my event')
 def handle_my_custom_event(json, methods=['GET', 'POST']):
     sender = User.query.filter_by(idUser=session['user_id']).first()

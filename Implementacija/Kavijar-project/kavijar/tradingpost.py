@@ -12,18 +12,22 @@ from .models import City, Building, User, Trade
 bp = Blueprint('tradingpost', __name__, url_prefix='/tradingpost')
 
 
+# SANITACIJA INPUTA
 def sanitycheck(val):
     try:
         return int(val) >= 0
     except ValueError:
         return False
 
+# SANITACIJA INPUTA
 def sanitycheckdict(d):
     for k in d.keys():
         if not sanitycheck(d[k]):
             return False
     return True
 
+
+# HOMEPAGE OD TRGOVINSKE STANICE
 @bp.route('/trade')
 @player_required
 @check_ban

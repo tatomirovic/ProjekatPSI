@@ -12,19 +12,22 @@ from .models import City, Building, User, Trade, Army
 bp = Blueprint('warfare', __name__, url_prefix='/warfare')
 
 
+# SANITACIJA INPUTA
 def sanitycheck(val):
     try:
         return int(val) >= 0
     except ValueError:
         return False
 
-
+# SANITACIJA INPUTA
 def check_notzeroes(form):
     for k in gr.unit_types.keys():
         if int(form[k]) > 0:
             return True
     return False
 
+
+# FORMULAR ZA NAPADANJE
 @bp.route('/')
 @player_required
 @check_ban

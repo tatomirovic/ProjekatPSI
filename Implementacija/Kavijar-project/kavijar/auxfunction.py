@@ -4,6 +4,7 @@ from flask import (
 import functools, datetime
 from . import db, game_rules as gr
 
+# Metoda kojom se pokrece upgrade proces.
 def upgrade_building_function(building, use_resources=True, gold=0, wood=0, stone=0):
     b_type = building.type
     upgrade_level = min(building.level + 1, gr.building_max_level)

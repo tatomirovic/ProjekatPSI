@@ -14,6 +14,7 @@ startingGold = 0
 startingWood = 400
 startingStone = 400
 
+# SVI MOGUCI TIPOVI ZGRADA
 building_types = {
     'TH': 'Gradska uprava',
     'PI': 'Pilana',
@@ -26,6 +27,7 @@ building_types = {
     'ZD': 'Zidine'
 }
 
+# SVI MOGUCI TIPOVI JEDINICA
 unit_types = {
     'LP': 'Laka pešadija',
     'TP': 'Teška pešadija',
@@ -37,8 +39,10 @@ unit_types = {
     'TR': 'Trebušeti'
 }
 
+# TESKE JEDINICE - NEOPHODNO JER SE RAZLIKUJU OD OBICNIH PRI REGRUTOVANJU
 heavy_unit_types = ['TP', 'SS', 'TK', 'TR']
 
+# OVAKO POVEZUJEMO OZNAKE JEDINICA I SQL POLJA ZA NJIH
 unit_type_fields = {
     'LP': 'lakaPesadija',
     'TP': 'teskaPesadija',
@@ -50,6 +54,7 @@ unit_type_fields = {
     'TR': 'trebuset'
 }
 
+# OSNOVNE CENE UNAPREDJENJA ZGRADA
 building_costs = {
     'TH': {'gold': 500, 'wood': 300, 'stone': 600},
     'PI': {'gold': 130, 'wood': 0, 'stone': 250},
@@ -62,6 +67,7 @@ building_costs = {
     'ZD': {'gold': 50, 'wood': 100, 'stone': 500}
 }
 
+# POVEZUJE JEDINICU SA BARAKOM ZADUZENOM ZA NJU
 barracks_allocation = {
     'LP': 'BP',
     'TP': 'BP',
@@ -73,15 +79,17 @@ barracks_allocation = {
     'TR': 'BO'
 }
 
+# MAX RESURSA KOJE MOZES IMATI PRI ODREDJENOM LVLU
 resource_caps = {
-    0: 0,
-    1: 5000,
-    2: 10000,
-    3: 20000,
-    4: 50000,
-    5: 150000
+    0: 1000,
+    1: 15000,
+    2: 50000,
+    3: 100000,
+    4: 250000,
+    5: 10000000
 }
 
+# MAX RADNIKA KOJE MOZES ZADUZITI ZA NEKI RESURS PO ODREDJENOM LVLU ZGRADE
 resource_allocation_limit = {
     0: 100,
     1: 250,
@@ -91,6 +99,7 @@ resource_allocation_limit = {
     5: 1000000
 }
 
+# SKALIRANJE CENE UPGRADE-A ZAGRADE U ZAVISNOSTI OD NIVOA. NEGATIVNO JER SE ODUZIMA OD IGRACEVIH RESURSA
 building_costs_scaling = {
     0: 0,
     1: -1,
@@ -100,12 +109,14 @@ building_costs_scaling = {
     5: -100,
 }
 
+# SKALIRANJE VREMENA UPGRADE-A ZAGRADE U ZAVISNOSTI OD NIVOA U MINUTIMA
 building_build_time_scaling = [0, 5, 20, 60, 300, 1440]
 
+# SKALIRANJE BRZINE REGRUTOVANJE U ZAVISNOSTI OD NIVOA BARAKE
 barracks_recruit_time_scaling = [0, 1, 5, 10, 15, 20]
 
-# Koristimo - jer se pri izgradnji GUBE resursi
 
+# KOLIKO KOSTA RESURSA JEDNA INSTANCA JEDINICE
 unit_costs = {
     "LP": {'gold': 30, 'wood': 0, 'stone': 0, 'population': 1},
     "TP": {'gold': 60, 'wood': 0, 'stone': 0, 'population': 1},
@@ -117,6 +128,7 @@ unit_costs = {
     "TR": {'gold': 250, 'wood': 80, 'stone': 40, 'population': 1},
 }
 
+# KOLIKO VREMENA TREBA DA SE REGRUTUJE JEDNA JEDINICA
 unit_recruit_times = {
     "LP": 5,
     "TP": 10,
@@ -128,19 +140,23 @@ unit_recruit_times = {
     "TR": 100,
 }
 
+# MAX RESURSA U JEDNOJ PONUDI PRI TRGOVANJU
 tp_resource_cap = {
     0: 0,
-    1: 500,
-    2: 2000,
+    1: 100,
+    2: 5000,
     3: 10000,
     4: 50000,
     5: 200000
 }
 
+# KOLIKO SE RESURSA REFUNDIRA AKO SE OTKAZE IZGRADNJA
 refund_mult = -0.5
+
+# MAX LVL ZGRADE
 building_max_level = 5
 
-
+# VRACA DICT SA CENOM UPGRADE-A ZA DATU ZGRADU
 def build_cost(bType, level):
     costdict = {'gold': 0, 'wood': 0, 'stone': 0}
     if level > building_max_level:
@@ -150,10 +166,12 @@ def build_cost(bType, level):
     return costdict
 
 
+# VRACA BROJ SEKUNDI POTREBNIH ZA UPDATE
 def build_time(level, b_type):
     return timescaler * building_build_time_scaling[level]
 
 
+# VRACA CENU REGRUTOVANJE TE KOLICINE JEDINICA KAO DICT
 def recruit_cost(uType, quantity):
     costdict = {'gold': 0, 'wood': 0, 'stone': 0, 'population': 0}
     for k in costdict.keys():
@@ -196,6 +214,7 @@ def adjust_resources(player, gold=0, wood=0, stone=0, pop=0, kavijar=0, debug=Fa
         city.population = startingPopulation
 
 
+# KREIRA POCETNI GARNIZON SVAKOG GRADA
 def createGarrison(idCity):
     db.session.add(
         Army(idCityFrom=idCity, status="G", lakaPesadija=0, teskaPesadija=0, lakaKonjica=0, teskaKonjica=0, strelci=0,
@@ -203,11 +222,7 @@ def createGarrison(idCity):
     db.session.commit()
 
 
-def createTownHall(idCity):
-    db.session.add(Building(idCity=idCity, type="TH", status="A", level=1, finishTime=datetime.datetime.now()))
-    db.session.commit()
-
-
+# FUNKCIJA ZA CENTRIRANJE GRADOVA
 def normalCap(D=30):
     x = random.gauss(D / 2, D / 6)
     if x < 1: return 1
@@ -215,6 +230,7 @@ def normalCap(D=30):
     return int(x)
 
 
+# FUNKCIJA KOJA KREIRA GRAD
 def createCity(idOwner, name):
     xCoord = 0
     yCoord = 0
@@ -248,15 +264,17 @@ carry_capacity = [1000, 5000, 20000, 50000, 100000]
 growth_rate = 0.1
 
 
+# FUNKCIJA KOJA IZRACUNAVA EKSPONENCIJALNI RAST POPULACIJE
 def growth(p0, dt, townHallLevel):
     k = carry_capacity[townHallLevel - 1]
     r = growth_rate
     return k / (1 + (k - p0) / p0 * math.exp(-r * dt / timescaler))
 
 
+# VRACA RAZDALJINU IZMEDJU 2 GRADA
 def cityDistance(city1, city2):
     return ((city1.xCoord - city2.xCoord) ** 2 + (city1.yCoord - city2.yCoord) ** 2) ** .5
 
-
+# VRACA VREME PUTOVANJA IZMEDJU 2 GRADA U SEKUNDAMA
 def cityTravelTime_seconds(city1, city2):
     return 40.0 * cityDistance(city1, city2) * timescaler

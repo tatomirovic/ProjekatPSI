@@ -6,6 +6,7 @@ from flask_socketio import SocketIO
 db = SQLAlchemy()
 socketio = None
 
+#APPLICATION FACTORY ZA FLASK - OVDE KREIRAMO APP OBJEKAT I REGISTRUJEMO POTREBNO SA NJIM
 def create_app():
     """Construct the core application."""
     app = Flask(__name__, instance_relative_config=False)

@@ -13,6 +13,7 @@ from . import updateWrappers
 bp = Blueprint('building', __name__, url_prefix='/building')
 
 
+# Ovo je zajednicka render metoda za sve zgrade. Vraca razlicite template-ova u zavisnosti od tacnog tipa.
 @bp.route('/<b_type>')
 @player_required
 @check_ban

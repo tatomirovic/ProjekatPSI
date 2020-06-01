@@ -9,6 +9,7 @@ from kavijar.auth import login_required
 bp = Blueprint('redirect_page', __name__, url_prefix='/redirect')
 
 
+# REDIREKT STRANICA - KORISTI SE PRI KLIKU DUGMA POCETNA U TOOLBARU
 @bp.route('/')
 @login_required
 def redirect_page():

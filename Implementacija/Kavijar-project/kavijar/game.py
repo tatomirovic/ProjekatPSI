@@ -13,6 +13,7 @@ from . import updateWrappers
 
 bp = Blueprint('game', __name__)
 
+# Renderuje main mapu.
 @bp.route('/')
 @player_required
 @check_ban
