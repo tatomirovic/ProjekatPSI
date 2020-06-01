@@ -245,23 +245,23 @@ class battleEvent(cityEvent):
             AUnitLoss[key] = value(attacker)
             DUnitLoss[key] = value(defender)
 
-        attacker.lakaPesadija *= ALoss
-        attacker.teskaPesadija *= ALoss
-        attacker.lakaKonjica *= ALoss
-        attacker.teskaKonjica *= ALoss
-        attacker.strelci *= ALoss
-        attacker.samostrelci *= ALoss
-        attacker.katapult *= ALoss
-        attacker.trebuset *= ALoss
+        attacker.lakaPesadija *= ALoss; attacker.lakaPesadija = int(attacker.lakaPesadija)
+        attacker.teskaPesadija *= ALoss; attacker.teskaPesadija = int(attacker.teskaPesadija)
+        attacker.lakaKonjica *= ALoss; attacker.lakaKonjica = int(attacker.lakaKonjica)
+        attacker.teskaKonjica *= ALoss; attacker.teskaKonjica = int(attacker.teskaKonjica)
+        attacker.strelci *= ALoss; attacker.strelci = int(attacker.strelci)
+        attacker.samostrelci *= ALoss; attacker.samostrelci = int(attacker.samostrelci)
+        attacker.katapult *= ALoss; attacker.katapult = int(attacker.katapult)
+        attacker.trebuset *= ALoss; attacker.trebuset = int(attacker.trebuset)
 
-        defender.lakaPesadija *= DLoss
-        defender.teskaPesadija *= DLoss
-        defender.lakaKonjica *= DLoss
-        defender.teskaKonjica *= DLoss
-        defender.strelci *= DLoss
-        defender.samostrelci *= DLoss
-        defender.katapult *= DLoss
-        defender.trebuset *= DLoss
+        defender.lakaPesadija *= DLoss; defender.lakaPesadija = int(defender.lakaPesadija)
+        defender.teskaPesadija *= DLoss; defender.teskaPesadija = int(defender.teskaPesadija)
+        defender.lakaKonjica *= DLoss; defender.lakaKonjica = int(defender.lakaKonjica)
+        defender.teskaKonjica *= DLoss; defender.teskaKonjica = int(defender.teskaKonjica)
+        defender.strelci *= DLoss; defender.strelci = int(defender.strelci)
+        defender.samostrelci *= DLoss; defender.samostrelci = int(defender.samostrelci)
+        defender.katapult *= DLoss; defender.katapult = int(defender.katapult)
+        defender.trebuset *= DLoss; defender.trebuset = int(defender.trebuset)
 
         for key, value in stringToAttr.items():
             AUnitLoss[key] -= value(attacker)
