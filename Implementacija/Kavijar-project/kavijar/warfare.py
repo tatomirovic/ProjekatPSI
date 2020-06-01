@@ -33,11 +33,10 @@ def warfare_main():
     city = City.query.filter_by(idOwner=g.user.idUser).first()
     username = request.args.get('username')
     garrison = Army.query.filter_by(idCityFrom=city.idCity, status='G').first()
-    recruiting_armies = Army.query.filter_by(idCityFrom=city.idCity, status='R').all()
     if username is None:
         username=''
     return render_template('warfare/warfare.html', username=username, city=city,
-                           garrison=garrison, recruiting_armies=recruiting_armies)
+                           garrison=garrison)
 
 # Metoda se poziva iz glavne mape kada se naredi napad na grad drugog igraca.
 # Metoda ocekuje formular sa poljima za ime igraca koji se napada i broju svakog jedinica koji se salje u napad
