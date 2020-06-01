@@ -77,8 +77,11 @@ def load_logged_in_user():
     user_id = session.get('user_id')
     if user_id is None:
         g.user = None
+        g.city = None
     else:
         g.user = User.query.filter_by(idUser=user_id).first()
+        if g.user.role == 'I':
+            g.city = City.query.filter_by(idOwner=user_id).first()
 
 
 @bp.route('/logout')
