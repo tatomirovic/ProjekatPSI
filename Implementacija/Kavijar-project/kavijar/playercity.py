@@ -187,14 +187,15 @@ def reassign_workers():
     return redirect(url_for('building.building_main', b_type='TH'))
 
 
-@bp.route('/recruit_unit/<u_type>/<int:quantity>', methods=('GET', 'POST'))
+@bp.route('/recruit_unit/', methods=('GET', 'POST'))
 @player_required
 @check_ban
 @updateWrappers.update_resources
-def recruit_unit(u_type, quantity):
+def recruit_unit(u_type):
     if request.method == 'POST':
         city = City.query.filter_by(idOwner=g.user.idUser).first()
-        barracks = Building.query.filter_by(idCity=city.idCity, type=gr.barracks_allocation[u_type]).first()
+        u_type = request.form['u_type']
+        barracks = Building.query.filter_by(idCity=city.idCity, type=gr.barracks_allocation[reques]).first()
         error = None
         if city is None:
             error = 'Grad ne postoji'
@@ -202,9 +203,12 @@ def recruit_unit(u_type, quantity):
             error = 'Nepostojeca baraka!'
         elif barracks.level == 0:
             error = 'Baraka jos nije sagradjena!'
-        elif quantity <= 0:
+        elif sanitycheck(request.form['quantity']) is False:
+            error = 'Morati regrutuvati pozitivan broj jedinica!'
+        elif int(request.form['quantity']) <= 0:
             error = 'Morati regrutuvati pozitivan broj jedinica!'
         else:
+            quantity = int(request.form['quantity'])
             cost = gr.recruit_cost(u_type, quantity)
             gold = cost['gold']
             wood = cost['wood']

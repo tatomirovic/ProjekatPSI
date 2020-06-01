@@ -30,11 +30,14 @@ def building_main(b_type):
     armies_sent = []
     garrison = None
     recruit_costs = []
+    income_dict = {}
     if building is None:
         error = 'Nemate tu gradjevinu!'
     if error is None:
         upgrade_level = min(building.level + 1, gr.building_max_level)
         upgrade_cost = gr.build_cost(b_type, upgrade_level)
+        for k in upgrade_cost.keys():
+            upgrade_cost[k] *= -1
         building_info = building.serialize()
         for k, v in gr.barracks_allocation:
             if k == b_type:
@@ -42,8 +45,11 @@ def building_main(b_type):
         if b_type == 'ZD':
             armies_sent = Army.query.filter_by(idCityFrom=city.idCity, status='A').all()
             garrison = Army.query.filter_by(idCityFrom=city.idCity, status='G').first()
+        income_dict = {'gold': city.civilians * gr.goldPerHour / gr.timescaler,
+                       'wood': city.woodworkers * gr.woodPerHour / gr.timescaler,
+                       'stone': city.stoneworkers * gr.stonePerHour / gr.timescaler}
     else:
         flash(error)
     return render_template(f'building/building{b_type}.html', building_info=building_info,
                            upgrade_cost=upgrade_cost, recruit_costs=recruit_costs,
-                           city=city, armies_sent=armies_sent, garrison=garrison)
+                           city=city, armies_sent=armies_sent, garrison=garrison, income_dict=income_dict)
