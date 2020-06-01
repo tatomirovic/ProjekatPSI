@@ -51,17 +51,28 @@
         {% endblock %}
 
                 {% if building_info.level==0 %}
-                <form action='/playercity/upgrade_building/{{building_info.type}}' method='POST'>
-                <input type='submit' value="Izgradi" class='def-button'>
-                <img class='cityimgsm' src='{{url_for("static", filename="img/gold.png") }}'> {{upgrade_cost.gold|int}}
-            <img class='cityimgsm' src='{{url_for("static", filename="img/wood.png") }}'> {{upgrade_cost.wood|int}}
-            <img class='cityimgsm' src='{{url_for("static", filename="img/stone.png") }}'> {{upgrade_cost.stone|int}}
+                    {% if building_info.status=='U' %}
+                    <form action='/playercity/halt_building/{{building_info.type}}' method='POST'>
+                        <input type='submit' value="Zaustavi konstrukciju" class='def-button'>
+                        {{ building_info.finishTime }}
+                    </form><br>
+                    {% else %}
+
+                        {% if building_info.level < 5 %}
+                        <form action='/playercity/upgrade_building/{{building_info.type}}' method='POST'>
+                            <input type='submit' value="Izgradi" class='def-button'><img class='cityimgsm' src='{{url_for("static", filename="img/gold.png") }}'> {{upgrade_cost.gold|int}}
+                            <img class='cityimgsm' src='{{url_for("static", filename="img/wood.png") }}'> {{upgrade_cost.wood|int}}
+                            <img class='cityimgsm' src='{{url_for("static", filename="img/stone.png") }}'> {{upgrade_cost.stone|int}}
+                        </form><br>
+                        {% endif %}
+                    {% endif %}
                 </form>
                 <br>
                 {% else %}
                     {% if building_info.status=='U' %}
                     <form action='/playercity/halt_building/{{building_info.type}}' method='POST'>
                         <input type='submit' value="Zaustavi konstrukciju" class='def-button'>
+                        {{ building_info.finishTime }}
                     </form><br>
                     {% else %}
 

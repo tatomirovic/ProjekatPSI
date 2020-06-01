@@ -104,6 +104,7 @@
 .citytable
 {
 	width:70%;
+	height:60%;
 	background:url('/static/img/citybg.png');
 	background-size: cover;
 }
