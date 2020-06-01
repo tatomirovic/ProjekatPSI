@@ -32,7 +32,7 @@ def check_notzeroes(form):
 def warfare_main():
     city = City.query.filter_by(idOwner=g.user.idUser).first()
     username = request.args.get('username')
-    garrison = Army.query.filter_by(idCityFrom=city.idCity, status='G')
+    garrison = Army.query.filter_by(idCityFrom=city.idCity, status='G').first()
     if username is None:
         username=''
     return render_template('warfare/warfare.html', username=username, city=city, garrison=garrison)
