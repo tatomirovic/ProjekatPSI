@@ -195,7 +195,7 @@ def recruit_unit():
     if request.method == 'POST':
         city = City.query.filter_by(idOwner=g.user.idUser).first()
         u_type = request.form['u_type']
-        barracks = Building.query.filter_by(idCity=city.idCity, type=gr.barracks_allocation[reques]).first()
+        barracks = Building.query.filter_by(idCity=city.idCity, type=gr.barracks_allocation[u_type]).first()
         error = None
         if city is None:
             error = 'Grad ne postoji'
