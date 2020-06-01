@@ -29,6 +29,7 @@ def building_main(b_type):
     upgrade_cost = None
     armies_sent = []
     garrison = None
+    max_cap = None
     recruit_costs = []
     income_dict = {}
     if building is None:
@@ -42,6 +43,8 @@ def building_main(b_type):
         for k, v in gr.barracks_allocation:
             if k == b_type:
                 recruit_costs.append(gr.recruit_cost(v, 1))
+        if b_type in ['PI', 'KL']:
+            max_cap = gr.resource_allocation_limit[building.level]
         armies_sent = Army.query.filter_by(idCityFrom=city.idCity, status='A').all()
         garrison = Army.query.filter_by(idCityFrom=city.idCity, status='G').first()
         income_dict = {'gold': city.civilians * gr.goldPerHour / gr.timescaler,
@@ -51,4 +54,5 @@ def building_main(b_type):
         flash(error)
     return render_template(f'building/building{b_type}.html', building_info=building_info,
                            upgrade_cost=upgrade_cost, recruit_costs=recruit_costs,
-                           city=city, armies_sent=armies_sent, garrison=garrison, income_dict=income_dict)
+                           city=city, armies_sent=armies_sent, garrison=garrison,
+                           income_dict=income_dict, max_cap=max_cap)
