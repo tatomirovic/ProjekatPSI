@@ -63,7 +63,7 @@ def attack():
         elif city_attack.idCity == city_defend.idCity:
             error = 'Ne možete napasti samog sebe!'
 
-        # Zabranjujemo slanje bilo kakvog broja jedinica koji nije pozitivan ceo broj
+        # Zabranjujemo slanje bilo kakvog broja jedinica koji nije pozitivan ceo broj barem u jednom polju
         for k in gr.unit_type_fields.keys():
             if not sanitycheck(request.form[k]):
                 error = 'Loš format broja jedinica u armiji!'

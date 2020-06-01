@@ -64,10 +64,10 @@ class recruitingEvent(cityEvent):
 
 
 # Attacker i defender - objekti tipa User
-# attacker_loss i defender_loss - diktovi sa gubicima na obe strane, gde se kljucevi LP, TP itd
+# attacker_loss i defender_loss - dictovi sa gubicima na obe strane, gde se kljucevi LP, TP itd
 # plunder - dict sa tri kljuca gold, wood i stone
-# building_damage - dikt sa spiskom svih zgrada koje su ostecene za jedan lvl, kljucevi su TH, BP itd
-def battlereport(attacker, defender, attacker_loss, defender_loss, plunder=None, building_damage=None):
+# building_damage - lista sa spiskom svih zgrada koje su ostecene za jedan lvl, vrednosti su TH, BP itd
+def battle_report(attacker, defender, attacker_loss, defender_loss, plunder=None, building_damage=None):
     body = f'Rezultat bitke izmedju napadača {attacker.name} i branioca {defender.name} je'
     for k in attacker_loss.keys():
         body += f'\n Igrač {attacker.name} je izgubio {attacker_loss[k]} jedinica tipa {gr.unit_types[k]}'
@@ -81,7 +81,7 @@ def battlereport(attacker, defender, attacker_loss, defender_loss, plunder=None,
         body += f'\n\n Igrač {attacker.name} je osvojio {gold_p} zlata, {wood_p} drva i {stone_p} kamena'
     if building_damage is not None:
         body += '\n\n'
-        for k in building_damage.keys():
+        for k in building_damage:
             body += f'Zgrada {gr.building_types[k]} igrača {defender.name} je oštećena'
     mail.send_msg_function(attacker, defender, body, datetime.datetime.now())
 
