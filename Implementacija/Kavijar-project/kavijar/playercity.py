@@ -99,7 +99,7 @@ def halt_building(b_type):
             existing_building.status = 'A'
             db.session.commit()
             flash(f"Uspešno ste obustavili rad na zgradi : {gr.building_types[b_type]}")
-            return redirect(url_for(f'building/building{b_type}.html'))
+            return redirect(url_for('building.building_main', b_type=b_type))
         else:
             flash(error)
 
