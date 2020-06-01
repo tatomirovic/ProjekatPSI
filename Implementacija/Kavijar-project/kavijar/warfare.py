@@ -82,7 +82,7 @@ def attack():
                 num_units = request.form[k]
                 setattr(new_army, gr.unit_type_fields[k], int(num_units))
                 setattr(garrison, gr.unit_type_fields[k], getattr(garrison, gr.unit_type_fields[k]) - int(num_units))
-            flash(f'Poslat je napad na {city_defend.user.username}')
+            #flash(f'Poslat je napad na {city_defend.user.username}')
             db.session.add(new_army)
             db.session.commit()
         else:

@@ -107,26 +107,26 @@ class battleEvent(cityEvent):
 
         APower = battleEvent.armyPower(attacker)
         DPower = battleEvent.armyPower(defender)
-
+        print(f'Power vals APOWER {APower} DPOWER {DPower}')
         ALoss = DPower / (APower + DPower)
         DLoss = 1 - ALoss
 
-        attacker.lakaPesadija *= ALoss;
-        attacker.teskaPesadija *= DLoss
-        attacker.lakaKonjica *= ALoss;
-        attacker.teskaKonjica *= DLoss
-        attacker.strelci *= ALoss;
-        attacker.samostrelci *= DLoss
-        attacker.katapult *= ALoss;
-        attacker.trebuset *= DLoss
+        attacker.lakaPesadija *= ALoss
+        attacker.teskaPesadija *= ALoss
+        attacker.lakaKonjica *= ALoss
+        attacker.teskaKonjica *= ALoss
+        attacker.strelci *= ALoss
+        attacker.samostrelci *= ALoss
+        attacker.katapult *= ALoss
+        attacker.trebuset *= ALoss
 
-        defender.lakaPesadija *= ALoss;
+        defender.lakaPesadija *= DLoss
         defender.teskaPesadija *= DLoss
-        defender.lakaKonjica *= ALoss;
+        defender.lakaKonjica *= DLoss
         defender.teskaKonjica *= DLoss
-        defender.strelci *= ALoss;
+        defender.strelci *= DLoss
         defender.samostrelci *= DLoss
-        defender.katapult *= ALoss;
+        defender.katapult *= DLoss
         defender.trebuset *= DLoss
 
         if DLoss > battleEvent.victoryRequirement:
