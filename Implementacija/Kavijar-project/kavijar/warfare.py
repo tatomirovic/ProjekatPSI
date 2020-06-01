@@ -68,7 +68,7 @@ def attack():
             if not sanitycheck(request.form[k]):
                 error = 'Loš format broja jedinica u armiji!'
                 break
-        if check_notzeroes(request.form):
+        if check_notzeroes(request.form) is False:
             error = 'Armija ne sme biti prazna!'
 
         garrison = Army.query.filter_by(idCityFrom=city_attack.idCity, status='G').first()
