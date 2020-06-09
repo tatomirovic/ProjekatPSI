@@ -127,19 +127,6 @@ class Building(Base):
 
     city = relationship(u'City')
 
-# RECRUITING NIJE U UPOTREBI
-class Recruiting(Base):
-    __tablename__ = 'recruiting'
-
-    idRecruiting = Column(INTEGER(11), primary_key=True)
-    idCity = Column(ForeignKey(u'city.idCity'), nullable=False, index=True)
-    type = Column(CHAR(1), nullable=False)
-    finishTime = Column(DateTime, nullable=False)
-    lowTier = Column(INTEGER(11))
-    highTier = Column(INTEGER(11))
-
-    city = relationship(u'City')
-
 
 class Trade(Base):
     __tablename__ = 'trade'

@@ -181,30 +181,6 @@ INSERT INTO `mailmsg` VALUES (3,4,2,'2020-06-01 19:09:37','Rezultat bitke izmedj
 /*!40000 ALTER TABLE `mailmsg` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
--- Table structure for table `recruiting`
---
-
-DROP TABLE IF EXISTS `recruiting`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `recruiting` (
-  `idRecruiting` int(11) NOT NULL AUTO_INCREMENT,
-  `idCity` int(11) NOT NULL,
-  `type` char(1) NOT NULL,
-  `finishTime` datetime NOT NULL,
-  `lowTier` int(11) DEFAULT NULL,
-  `highTier` int(11) DEFAULT NULL,
-  PRIMARY KEY (`idRecruiting`),
-  KEY `idCity_idx` (`idCity`),
-  CONSTRAINT `FK_FORCITY` FOREIGN KEY (`idCity`) REFERENCES `city` (`idCity`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `recruiting`
---
-
 LOCK TABLES `recruiting` WRITE;
 /*!40000 ALTER TABLE `recruiting` DISABLE KEYS */;
 /*!40000 ALTER TABLE `recruiting` ENABLE KEYS */;
