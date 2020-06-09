@@ -238,7 +238,7 @@ class battleEvent(cityEvent):
 
         APower = battleEvent.armyPower(attacker, defender)
         DPower = battleEvent.armyPower(defender, attacker) * defenceBonus[wallLvl]
-        print(f'Power vals APOWER {APower} DPOWER {DPower}')
+        #print(f'Power vals APOWER {APower} DPOWER {DPower}')
         ALoss = APower / (APower + DPower)
         DLoss = 1 - ALoss
 
@@ -393,8 +393,7 @@ def logEvents(player, upTo):
             totalUpkeep = 0
         for army in armies:
             totalUpkeep += armyUpkeepPH(army)
-        print(
-            f't0 is {t0} t1 is {t1} gr.goldPerHour is {gr.goldPerHour} city.civilians is {city.civilians} totalupkeep is {totalUpkeep} dt is {dt}')
+        #print(f't0 is {t0} t1 is {t1} gr.goldPerHour is {gr.goldPerHour} city.civilians is {city.civilians} totalupkeep is {totalUpkeep} dt is {dt}')
         gr.adjust_resources(player=g.user,
                             gold=(gr.goldPerHour * city.civilians / gr.timescaler - totalUpkeep) * dt,
                             wood=gr.woodPerHour * city.woodworkers / gr.timescaler * dt,
@@ -413,8 +412,7 @@ def logEvents(player, upTo):
     totalUpkeep = 0
     for army in armies:
         totalUpkeep += armyUpkeepPH(army)
-    print(
-        f't0 is {t0} t1 is {t1} gr.goldPerHour is {gr.goldPerHour} city.civilians is {city.civilians} totalupkeep is {totalUpkeep} dt is {dt}')
+    #print(f't0 is {t0} t1 is {t1} gr.goldPerHour is {gr.goldPerHour} city.civilians is {city.civilians} totalupkeep is {totalUpkeep} dt is {dt}')
     gr.adjust_resources(player=g.user,
                         gold=(gr.goldPerHour * city.civilians / gr.timescaler - totalUpkeep) * dt,
                         wood=gr.woodPerHour * city.woodworkers / gr.timescaler * dt,
