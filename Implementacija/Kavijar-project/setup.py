@@ -1,3 +1,4 @@
+#Autor: Petar Radicevic
 from setuptools import find_packages, setup
 
 setup(

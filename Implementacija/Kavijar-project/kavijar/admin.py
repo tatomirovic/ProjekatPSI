@@ -1,3 +1,5 @@
+#Autor: Nikola Tatomirovic
+
 # -*- coding: UTF-8 -*-
 import click
 from flask import (

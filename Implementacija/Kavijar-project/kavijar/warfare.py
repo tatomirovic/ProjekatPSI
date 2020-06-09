@@ -1,3 +1,5 @@
+#Autor: Konstantin Jaredic
+
 import datetime
 
 from flask import (

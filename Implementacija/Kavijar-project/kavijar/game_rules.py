@@ -1,3 +1,5 @@
+#Autor: Konstantin Jaredic
+
 import math, datetime, random
 
 from .models import City, Building, Army

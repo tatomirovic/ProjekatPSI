@@ -1,3 +1,5 @@
+#Autor: Nikola Tatomirovic i Petar Radicevic
+
 # -*- coding: UTF-8 -*-
 import functools
 import click

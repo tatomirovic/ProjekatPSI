@@ -1,3 +1,5 @@
+#Autor: Petar Radicevic
+
 # coding: utf-8
 from sqlalchemy import CHAR, Column, DateTime, ForeignKey, String
 from sqlalchemy.dialects.mysql import BIT, INTEGER

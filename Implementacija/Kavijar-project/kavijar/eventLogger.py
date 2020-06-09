@@ -1,3 +1,5 @@
+#Autor: Konstantin Jaredic i Petar Radicevic
+
 from flask import g
 
 import math, datetime, random

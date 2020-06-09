@@ -1,3 +1,5 @@
+#Autor: Konstantin Jaredic
+
 from flask import (
     g, redirect, url_for
 )

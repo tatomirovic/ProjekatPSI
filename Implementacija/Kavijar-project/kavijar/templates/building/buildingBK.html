@@ -23,16 +23,25 @@
             {{ garrison.teskaKonjica }}<img class='cityimgsm' src='{{url_for("static", filename="img/units/TK.png") }}'> 
             {{ garrison.katapult}}<img class='cityimgsm' src='{{url_for("static", filename="img/units/KT.png") }}'> 
             {{ garrison.trebuset }}<img class='cityimgsm' src='{{url_for("static", filename="img/units/TR.png") }}'> 
-
             <hr>
-            <form action='playercity/recruit_unit/LK' method='POST'>
+            Regrutuju se:
+            {{ waiting_for_recruitment['LP'] }}<img class='cityimgsm' src='{{url_for("static", filename="img/units/LP.png") }}'> 
+            {{ waiting_for_recruitment['TP'] }}<img class='cityimgsm' src='{{url_for("static", filename="img/units/TP.png") }}'> 
+            {{ waiting_for_recruitment['ST'] }}<img class='cityimgsm' src='{{url_for("static", filename="img/units/ST.png") }}'>
+            {{ waiting_for_recruitment['SS']}}<img class='cityimgsm' src='{{url_for("static", filename="img/units/SS.png") }}'> 
+            {{ waiting_for_recruitment['LK'] }}<img class='cityimgsm' src='{{url_for("static", filename="img/units/LK.png") }}'> 
+            {{waiting_for_recruitment['TK'] }}<img class='cityimgsm' src='{{url_for("static", filename="img/units/TK.png") }}'> 
+            {{ waiting_for_recruitment['KT']}}<img class='cityimgsm' src='{{url_for("static", filename="img/units/KT.png") }}'> 
+            {{ waiting_for_recruitment['TR'] }}<img class='cityimgsm' src='{{url_for("static", filename="img/units/TR.png") }}'> 
+            <hr>
+            <form action='/playercity/recruit_unit/LK' method='POST'>
                Laka konjica <img class='cityimgsm' src='{{url_for("static", filename="img/units/LK.png") }}'>
                 <input type='number' class='input inputnum' name='quantity'> x {{ g.unit_costs['LK']['population'] }} <img class='cityimgsm' src='{{url_for("static", filename="img/villager.png") }}'> {{ g.unit_costs['LK']['gold']}}  <img class='cityimgsm' src='{{url_for("static", filename="img/gold.png") }}'>
                  <input type='submit' class='def-button' value='Regrutuj'>
             </form>
             <hr>
                 {% if building_info.level>2 %}
-                <form action='playercity/recruit_unit/TK' method='POST'>
+                <form action='/playercity/recruit_unit/TK' method='POST'>
                     Teška konjica <img class='cityimgsm' src='{{url_for("static", filename="img/units/TK.png") }}'>
                      <input type='number' class='input inputnum' name='quantity'> x {{ g.unit_costs['TK']['population'] }} <img class='cityimgsm' src='{{url_for("static", filename="img/villager.png") }}'> 
                      {{ g.unit_costs['TK']['gold']}}  <img class='cityimgsm' src='{{url_for("static", filename="img/gold.png") }}'>

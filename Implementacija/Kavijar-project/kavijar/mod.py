@@ -1,3 +1,5 @@
+#Autor: Nikola Tatomirovic
+
 # -*- coding: UTF-8 -*-
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
