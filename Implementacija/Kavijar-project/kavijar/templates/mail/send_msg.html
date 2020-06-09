@@ -19,10 +19,5 @@
             </form>
          </div>
     </div>
-    <div class="row">
-        {% for message in get_flashed_messages() %}
-        <button class="error-msg" disabled>{{ message }}</button>
-        {% endfor %}
-    </div>
 
 {% endblock %}
