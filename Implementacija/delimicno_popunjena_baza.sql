@@ -181,11 +181,6 @@ INSERT INTO `mailmsg` VALUES (3,4,2,'2020-06-01 19:09:37','Rezultat bitke izmedj
 /*!40000 ALTER TABLE `mailmsg` ENABLE KEYS */;
 UNLOCK TABLES;
 
-LOCK TABLES `recruiting` WRITE;
-/*!40000 ALTER TABLE `recruiting` DISABLE KEYS */;
-/*!40000 ALTER TABLE `recruiting` ENABLE KEYS */;
-UNLOCK TABLES;
-
 --
 -- Table structure for table `trade`
 --
