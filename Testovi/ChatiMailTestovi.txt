@@ -1,0 +1,5 @@
+Rezultat testova - Nikola Tatomirovic
+Chat poruka:
+Testirano slanje poruke sa korisnickog naloga, admin naloga i moderatorskog naloga. Testirano neuspesnog slanja zbog restrikcije chat-a.
+Mail poruka:
+Testirano slanje poruke sa admin, mod i korisnickih naloga. Testirano neuspesno slanje zbog nepostojeceg korisnika.
