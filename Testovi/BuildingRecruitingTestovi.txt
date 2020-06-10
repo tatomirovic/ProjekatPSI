@@ -1,0 +1,13 @@
+Rezultat testova - Konstantin Jaredic
+
+Izgradnja i unapredjivanje gradjevina:
+
+Testirana je izgradnja svih gradjevina kao i unapredjivanje istih do najviseg nivoa.
+Zahtevi za ove akcije daju ocekivane odgovore u zavisnosti od dostupnih resursa i uslova izgradnje/unapredjenja.
+Akcije postuju predvidjeno vreme izvrsavanja.
+
+
+Regrutacija:
+
+Prilikom testiranja primeceno je da regrutacija jedinica ne umanjuje populaciju grada, problem je sada resen.
+Testirana je regrutacija svih tipova jedinica sa ocekivanim rezultatima.
