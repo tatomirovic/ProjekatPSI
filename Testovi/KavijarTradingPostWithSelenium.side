@@ -1,0 +1,93 @@
+{
+  "id": "0ed003bc-e411-42a2-9dfe-b3ec8137a523",
+  "version": "2.0",
+  "name": "Kavijar",
+  "url": "http://localhost:5000",
+  "tests": [{
+    "id": "0fe13fe1-3ac4-45f4-a6e8-c4d3569e1f60",
+    "name": "Trading_POST",
+    "commands": [{
+      "id": "8b21cde5-fba8-4511-9018-343f31c8a9d4",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "e5d5586e-ec67-4513-94e4-f561619c2acd",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1216x941",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "434e6bb4-7fd0-400b-ac7e-da98fb0b4aa0",
+      "comment": "",
+      "command": "click",
+      "target": "css=a:nth-child(5) > .def-button",
+      "targets": [
+        ["css=a:nth-child(5) > .def-button", "css:finder"],
+        ["xpath=(//button[@type='button'])[5]", "xpath:attributes"],
+        ["xpath=//body[@id='b']/div/div/div/h2/div/a[5]/button", "xpath:idRelative"],
+        ["xpath=//a[5]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'P2C')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "73ea607a-41a5-4568-8ce5-259def228513",
+      "comment": "",
+      "command": "click",
+      "target": "css=tr:nth-child(3) > .citytile:nth-child(2) .building",
+      "targets": [
+        ["css=tr:nth-child(3) > .citytile:nth-child(2) .building", "css:finder"],
+        ["xpath=//tr[3]/td[2]/a/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8fa69f1b-fab5-4ef4-b5e0-e4ef3f2a85f7",
+      "comment": "",
+      "command": "click",
+      "target": "css=a:nth-child(14) > .def-button",
+      "targets": [
+        ["css=a:nth-child(14) > .def-button", "css:finder"],
+        ["xpath=//div[2]/div/a/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Nova ponuda')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "b2a6d779-f06a-4b56-ae4c-74413876cca5",
+      "comment": "",
+      "command": "click",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.input:nth-child(1)", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c68dce14-4193-4214-9377-9d67c6b9b2b4",
+      "comment": "",
+      "command": "type",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.input:nth-child(1)", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "lukabot1"
+    }]
+  }],
+  "suites": [{
+    "id": "bdef110c-91b2-41cb-a438-6755b5db3762",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["0fe13fe1-3ac4-45f4-a6e8-c4d3569e1f60"]
+  }],
+  "urls": ["http://localhost:5000/"],
+  "plugins": []
+}
