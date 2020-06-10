@@ -1,0 +1,10 @@
+TESTOVI ZA AUTH, MOD I REDIRECT
+Testirano je:
+Login od Admina (username root pw root)
+Login od Moda (username mod pw mod)
+Kreiranje novog moda (username MODTEST pw MODTEST)
+Registrovanja novog igraca #1 (username Ptest pw Ptest)
+Registrovanja novog igraca #2 (username Ptestmute pw Ptestmute)
+Banovanje igraca (username Ptest)
+Mute-ovanje igraca (username Ptestmute)
+Rad redirekt stranice - u admin nalogu se prvo prodje kroz par podstranica, pa se onda redirekt stranicom vratimo na admin homepage
