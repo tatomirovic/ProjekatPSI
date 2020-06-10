@@ -210,6 +210,7 @@ def recruit_unit(u_type):
         else:
             quantity = int(request.form['quantity'])
             cost = gr.recruit_cost(u_type, quantity)
+            population = cost['population']
             gold = cost['gold']
             wood = cost['wood']
             stone = cost['stone']
@@ -224,7 +225,7 @@ def recruit_unit(u_type):
                                 strelci=0, samostrelci=0, katapult=0, trebuset=0)
                 setattr(new_army, gr.unit_type_fields[u_type], quantity)
                 gr.adjust_resources(player=g.user, gold=-gold, wood=-wood, stone=-stone, debug=True,
-                                    context='Recruit Unit')
+                                    context='Recruit Unit', pop=-population)
                 db.session.add(new_army)
                 db.session.commit()
                 flash(f"Pokrenuto regrutovanje {quantity} jedinica tipa {gr.unit_types[u_type]}")
